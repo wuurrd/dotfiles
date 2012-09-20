@@ -1,0 +1,1 @@
+(:el-get "installed" :csharp-mode "installed" :color-theme "installed" :color-theme-solarized "installed" :color-theme-almost-monokai "installed" :color-theme-emacs-revert-theme "installed" :google-weather "installed" :session "installed")
