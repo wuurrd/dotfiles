@@ -1,0 +1,7 @@
+#! /bin/bash
+alias py="ipython"
+alias screen="byobu"
+alias update="sudo apt-get update -o Acquire::http::No-Cache=true -o Acquire::http::Pipeline-Depth=0"
+alias ec="emacsclient -n"
+alias twisty="python -m twisted.conch.stdio"
+alias by="bpython"
