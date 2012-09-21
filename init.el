@@ -18,7 +18,7 @@
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d/auto-install"))
 (add-to-list 'load-path "~/dotfiles/.emacs.d/el-get/el-get")
 
-(load-file "~/dotfiles/global.el")
+(load-file "~/dotfiles/.emacs.d/global.el")
 (load-file "~/dotfiles/.emacs.d/color_settings.el")
 (load-file "~/dotfiles/.emacs.d/fullscreen.el")
 (load-file "~/dotfiles/.emacs.d/autocomplete_settings.el")
