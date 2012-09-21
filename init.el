@@ -29,5 +29,5 @@
 (load-file "~/dotfiles/.emacs.d/html.el")
 (load-file "~/dotfiles/.emacs.d/audio.el")
 
-; Needs to e initialised after rope.
+; Needs to be initialised after rope.
 (global-set-key "\C-xp" 'other-window-backward)
