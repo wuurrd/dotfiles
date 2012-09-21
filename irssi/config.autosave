@@ -249,10 +249,10 @@ statusbar = {
   };
 };
 settings = {
-  core = { 
+  core = {
     real_name = "David Buchmann";
-    user_name = "dbu";
-    nick = "dbu";
+    user_name = "davbuchm";
+    nick = "davbuchm";
   };
   "fe-text" = { actlist_sort = "refnum"; };
 
@@ -262,7 +262,7 @@ settings = {
     theme = "fear2";
     beep_msg_level = "NOTICE MSGS HILIGHT";
     bell_beeps = "no";
-    hilight_nick_matches = "no";
+    hilight_nick_matches = "yes";
     show_nickmode = "on";
     autolog_path = "~/.logs/irclogs/$tag/$0.log";
     autolog = "yes";

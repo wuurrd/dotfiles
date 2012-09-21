@@ -59,9 +59,7 @@ chatnets = {
   };
   SILC = { type = "SILC"; };
   Ubuntu = { type = "IRC"; };
-  freenode = {
-    type = "IRC";
-  };
+  freenode = { type = "IRC"; };
   irc = { type = "IRC"; };
 };
 
