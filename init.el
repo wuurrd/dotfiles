@@ -19,11 +19,15 @@
 (add-to-list 'load-path "~/dotfiles/.emacs.d/el-get/el-get")
 
 (load-file "~/dotfiles/global.el")
+(load-file "~/dotfiles/.emacs.d/color_settings.el")
+(load-file "~/dotfiles/.emacs.d/fullscreen.el")
+(load-file "~/dotfiles/.emacs.d/autocomplete_settings.el")
 (load-file "~/dotfiles/.emacs.d/python_settings.el")
 (load-file "~/dotfiles/.emacs.d/cpp.el")
 (load-file "~/dotfiles/.emacs.d/c_mode.el")
 (load-file "~/dotfiles/.emacs.d/irc_mode.el")
 (load-file "~/dotfiles/.emacs.d/html.el")
+(load-file "~/dotfiles/.emacs.d/audio.el")
 
 ; Needs to e initialised after rope.
 (global-set-key "\C-xp" 'other-window-backward)

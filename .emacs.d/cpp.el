@@ -27,3 +27,4 @@
   (auto-complete-mode 1)
 )
 (add-hook 'c++-mode-hook 'my-cpp-settings)
+;(require 'gccsense)

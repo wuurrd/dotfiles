@@ -42,4 +42,24 @@
 )
 (add-hook 'python-mode-hook 'my-python-settings)
 
+(defvar ac-source-rope
+  '((candidates
+     . (lambda ()
+         (prefix-list-elements (rope-completions) ac-target))))
+  "Source for Rope")
 
+;(add-hook 'python-mode-hook
+;          (lambda ()
+;
+;                 (set (make-local-variable 'ac-sources)
+;                      (append ac-sources '(ac-source-rope) '(ac-source-yasnippet)))
+;          )
+;)
+
+;(setq load-path (cons "/home/dbu/.emacs.d/twisted-dev.el" load-path))
+
+
+;(global-ede-mode 1)
+;(require 'semantic/sb)
+;(semantic-mode 1)
+;(ecb-minor-mode 1)
