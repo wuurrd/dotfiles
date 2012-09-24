@@ -1,0 +1,58 @@
+###########################################################
+# borderless and no scrollbar
+###########################################################
+URxvt*scrollBar_right:      false
+URxvt*scrollBar:            false
+URxvt*borderLess:           false
+
+urxvt*loginShell:           false
+urxvt*scrollBar:            false
+urxvt*secondaryScroll:      true
+urxvt*saveLines:            65535
+urxvt*cursorBlink:          false
+urxvt*urgentOnBell:         true
+
+urxvt*internalBorder:       0
+urxvt*externalBorder:       0
+
+URxvt*termName:             screen-256color
+URxvt*background:           grey10
+URxvt*foreground:           grey90
+
+###########################################################
+# font
+###########################################################
+URxvt*font:                 xft:Ubuntu Mono for Powerline:size=10
+URxvt*imFont:               xft:Ubuntu Mono for Powerline:regular:size=10
+URxvt*boldFont:             xft:Ubuntu Mono for Powerline:bold:size=10
+URxvt*italicFont:           xft:Ubuntu Mono for Powerline:italic:size=10
+URxvt*boldItalicFont:       xft:Ubuntu Mono for Powerline:bold:italic:size=10
+
+
+###########################################################
+# colors
+###########################################################
+! Black + DarkGrey
+*color0: #000000
+*color8: #555753
+!! DarkRed + Red
+*color1: #cc0000
+*color9: #ef2929
+! DarkGreen + Green
+color2: #4E9A06
+color10: #8AE234
+!! DarkYellow + Yellow
+*color3: #C4A000
+*color11: #FCE94F
+! DarkBlue + Blue
+*color4: #3465A4
+*color12: #729FCF
+!! DarkMangenta + Mangenta
+*color5: #75507B
+*color13: #75507B
+!!DarkCyan + Cyan
+*color6: #06989A
+*color14: #34E2E2
+!! LightGrey + White
+*color7: #D3D7CF
+*color15: #EEEEEC

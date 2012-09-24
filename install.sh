@@ -11,3 +11,4 @@ sudo ln -s `pwd`/inputrc ~/.inputrc
 sudo ln -s `pwd`/tmux.conf ~/.tmux.conf
 sudo ln -s `pwd`/xmodmap ~/.xmodmap
 sudo ln -s `pwd`/profile ~/.profile
+sudo ln -s `pwd`/Xdefaults ~/.Xdefaults
