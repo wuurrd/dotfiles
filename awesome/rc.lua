@@ -33,9 +33,12 @@ local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
 
-awful.util.spawn("sh -c 'if [ -z `pidof nm-applet` ]; then nm-applet; fi'")
 awful.util.spawn("xscreensaver -nosplash")
-awful.util.spawn("xset -display :0 +dpms")
+-- awful.util.spawn("xset -display :0 +dpms")
+awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
+awful.util.spawn_with_shell("xsetkbmap us")
+awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
+awful.util.spawn_with_shell("xfce4-power-manager")
 
 -- notifications:
 naughty.config.default_preset.timeout = 5

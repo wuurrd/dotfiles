@@ -224,3 +224,5 @@ export LESS=' -R '
 
 #[[ $- != *i* ]] && return
 #[[ $TERM != "screen" ]] && (tmux -q has-session && tmux attach-session) || tmux
+
+export PYTHONPATH="$PYTHONPATH:."
