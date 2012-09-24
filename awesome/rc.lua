@@ -33,12 +33,22 @@ local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
 
+local hostname = awful.util.pread('hostname -s'):gsub('\n', '')
+local host_config_file = awful.util.getdir('config') .. '/rc.' .. hostname .. '.lua'
+if awful.util.file_readable(host_config_file) then
+        local host_config_function, host_config_load_error
+        host_config_function, host_config_load_error = loadfile(host_config_file)
+        if not host_config_load_error then
+                host_config_function()
+        else
+                print(string.format('[awesome] Failed to load %s: %s', host_config_file, host_config_load_error))
+        end
+end
+
 awful.util.spawn("xscreensaver -nosplash")
--- awful.util.spawn("xset -display :0 +dpms")
 awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
 awful.util.spawn_with_shell("xsetkbmap us")
 awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
-awful.util.spawn_with_shell("xfce4-power-manager")
 
 -- notifications:
 naughty.config.default_preset.timeout = 5
