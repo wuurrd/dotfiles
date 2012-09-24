@@ -15,18 +15,18 @@ urxvt*urgentOnBell:         true
 urxvt*internalBorder:       0
 urxvt*externalBorder:       0
 
-URxvt*termName:             screen-256color
+URxvt*termName:             xterm
 URxvt*background:           grey10
 URxvt*foreground:           grey90
 
 ###########################################################
 # font
 ###########################################################
-URxvt*font:                 xft:Ubuntu Mono for Powerline:size=10
-URxvt*imFont:               xft:Ubuntu Mono for Powerline:regular:size=10
-URxvt*boldFont:             xft:Ubuntu Mono for Powerline:bold:size=10
-URxvt*italicFont:           xft:Ubuntu Mono for Powerline:italic:size=10
-URxvt*boldItalicFont:       xft:Ubuntu Mono for Powerline:bold:italic:size=10
+URxvt*font:                 xft:Ubuntu Mono for Powerline:size=11
+URxvt*imFont:               xft:Ubuntu Mono for Powerline:regular:size=11
+URxvt*boldFont:             xft:Ubuntu Mono for Powerline:bold:size=11
+URxvt*italicFont:           xft:Ubuntu Mono for Powerline:italic:size=11
+URxvt*boldItalicFont:       xft:Ubuntu Mono for Powerline:bold:italic:size=11
 
 
 ###########################################################
