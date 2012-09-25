@@ -6,6 +6,14 @@ import subprocess
 import sys
 import re
 
+class Colors:
+    class DEFAULT:
+        Background = 237
+        Foreground = 15
+    class SCM:
+        Green = 192
+        Red = 161
+
 class Powerline:
     symbols = {
         'compatible': {
@@ -80,21 +88,21 @@ def add_cwd_segment(powerline, cwd, maxdepth):
         names = names[:2] + [u'\u2026'] + names[2-maxdepth:]
 
     for n in names[:-1]:
-        powerline.append(Segment(powerline, ' %s ' % n, 250, 237, powerline.separator_thin, 244))
-    powerline.append(Segment(powerline, ' %s ' % names[-1], 254, 237))
+        powerline.append(Segment(powerline, ' %s ' % n, 250, Colors.DEFAULT.Background, powerline.separator_thin, 244))
+    powerline.append(Segment(powerline, ' %s ' % names[-1], 254, Colors.DEFAULT.Background))
 
 def is_hg_clean():
     output = os.popen("hg status 2> /dev/null | grep '^?' | tail -n1").read()
     return len(output) == 0
 
 def add_hg_segment(powerline, cwd):
-    green = 148
-    red = 161
+    green = Colors.SCM.Green
+    red = Colors.SCM.Red
     branch = os.popen('hg branch 2> /dev/null').read().rstrip()
     if len(branch) == 0:
         return False
     bg = red
-    fg = 15
+    fg = Colors.DEFAULT.Foreground
     if is_hg_clean():
         bg = green
         fg = 0
@@ -122,8 +130,8 @@ def get_git_status():
     return has_pending_commits, has_untracked_files, origin_position
 
 def add_git_segment(powerline, cwd):
-    green = 192
-    red = 161
+    green = Colors.SCM.Green
+    red = Colors.SCM.Red
     #cmd = "git branch 2> /dev/null | grep -e '\\*'"
     p1 = subprocess.Popen(['git', 'branch'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p2 = subprocess.Popen(['grep', '-e', '\\*'], stdin=p1.stdout, stdout=subprocess.PIPE)
@@ -139,7 +147,8 @@ def add_git_segment(powerline, cwd):
     fg = 0
     if has_pending_commits:
         bg = red
-        fg = 15
+        fg = Colors.DEFAULT.Foreground
+
     powerline.append(Segment(powerline, ' %s ' % branch, fg, bg))
     return True
 
@@ -168,7 +177,7 @@ def add_svn_segment(powerline, cwd):
         output = p2.communicate()[0].strip()
         if len(output) > 0 and int(output) > 0:
             changes = output.strip()
-            powerline.append(Segment(powerline, ' %s ' % changes, 22, 148))
+            powerline.append(Segment(powerline, ' %s ' % changes, Colors.SCM.Green, 148))
     except OSError:
         return False
     except subprocess.CalledProcessError:
@@ -196,10 +205,10 @@ def add_virtual_env_segment(powerline, cwd):
 
 
 def add_root_indicator(powerline, error):
-    bg = 236
-    fg = 15
+    bg = Colors.DEFAULT.Background
+    fg = Colors.DEFAULT.Foreground
     if int(error) != 0:
-        fg = 15
+        fg = Colors.DEFAULT.Foreground
         bg = 161
     powerline.append(Segment(powerline, ' \\$ ', fg, bg))
 
