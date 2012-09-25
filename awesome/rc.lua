@@ -474,7 +474,7 @@ end),
     --awful.key({ modkey            }, "Right",                 awful.tag.viewnext       ),
     awful.key({ modkey            }, "Escape",                awful.tag.history.restore),
     awful.key({ modkey, "Control" }, "r",                     awesome.restart          ),
-    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xlock") end),
+    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xscreensaver-command -lock") end),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen),
 
     awful.key({ winkey }, "g", function ()
@@ -538,6 +538,8 @@ end),
 
     awful.key({ modkey }, "s", function () scratch.pad.toggle() end),
     awful.key({ modkey }, "u", awful.client.urgent.jumpto),
+    awful.key({ modkey }, "F12", function () scratch.drop("urxvt", "bottom") end),
+
     awful.key({ modkey }, "j", function ()
         awful.client.focus.byidx(1)
         if client.focus then client.focus:raise() end
