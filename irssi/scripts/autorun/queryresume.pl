@@ -1,0 +1,1 @@
+/home/dbu/dotfiles/irssi/scripts/queryresume.pl
