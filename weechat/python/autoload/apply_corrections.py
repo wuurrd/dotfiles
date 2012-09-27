@@ -1,0 +1,1 @@
+/home/dbu/.weechat/python/apply_corrections.py

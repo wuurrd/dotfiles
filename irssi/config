@@ -278,10 +278,10 @@ settings = {
   };
 };
 ignores = (
-  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#acdc" ); },
-  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#buildbot" ); },
+  { level = "PARTS QUITS NICKS"; channels = ( "#acdc" ); },
+  { level = "PARTS QUITS NICKS"; channels = ( "#buildbot" ); },
   {
-    level = "JOINS PARTS QUITS MODES NICKS";
+    level = "PARTS QUITS MODES NICKS";
     channels = ( "#hackers_corner" );
   }
 );

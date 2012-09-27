@@ -1,0 +1,1 @@
+/home/dbu/.weechat/python/lnotify.py
