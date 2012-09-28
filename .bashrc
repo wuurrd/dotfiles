@@ -226,3 +226,27 @@ export LESS=' -R '
 #[[ $TERM != "screen" ]] && (tmux -q has-session && tmux attach-session) || tmux
 
 export PYTHONPATH="$PYTHONPATH:."
+
+
+tw()
+{
+    SESSION=`hostname`
+    CMD=$1
+    shift; ARG=$*
+    NAME=`echo $CMD | sed 's/-/ /' | awk '{ print $1 }'`
+
+    tmux has-session -t $SESSION 2>/dev/null
+    if [ $? -ne 0 ]; then
+        tmux set-option     -g base-index 1
+        tmux new-session    -s $SESSION -d $CMD $ARG
+        tmux rename-window  -t $SESSION $NAME
+        tmux attach-session -t $SESSION -d
+    else
+        tmux new-window     -t $SESSION -n $CMD
+        tmux send-keys      -t $SESSION $CMD $ARG
+        sleep 1
+        tmux rename-window  -t $SESSION $NAME
+    fi
+
+    return 0;
+}
