@@ -4,3 +4,4 @@ session*
 semanticdb
 \#*
 weechat/logs
+*.log
