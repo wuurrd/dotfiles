@@ -4,4 +4,5 @@ session*
 semanticdb
 \#*
 weechat/logs
+weechat/jabber.conf
 *.log
