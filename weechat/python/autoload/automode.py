@@ -1,0 +1,1 @@
+/home/dbu/dotfiles/weechat/python/automode.py
