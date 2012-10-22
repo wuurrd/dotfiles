@@ -250,3 +250,5 @@ tw()
 
     return 0;
 }
+
+source ~/dotfiles/acdc.completion

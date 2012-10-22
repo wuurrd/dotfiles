@@ -1,0 +1,31 @@
+_acdc() 
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--help --verbose --no-gui --keep-simroots -p -j --with-tag --test"
+    local names=$(for x in `ls -1 ~/src/main/product/acdc/scenarios/run/`; do echo ${x} ; done )
+    COMPREPLY=( $(compgen -W "${names}" -- test) )
+
+    case "${prev}" in
+    -p)
+        local running=$(for x in `build --list-products`; do echo ${x} ; done )
+        COMPREPLY=( $(compgen -W "${running}" -- ${cur}) )
+            return 0
+            ;;
+    --test)
+        local names=$(for x in `ls -1 ~/src/main/product/acdc/scenarios/run/`; do echo ${x} ; done )
+        COMPREPLY=( $(compgen -W "${names}" -- ${cur}) )
+            return 0
+            ;;
+        *)
+        ;;
+    esac
+
+    if [[ ${cur} == -* ]] ; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
+}
+complete -F _acdc acdc
