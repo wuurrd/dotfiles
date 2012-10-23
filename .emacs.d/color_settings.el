@@ -41,3 +41,5 @@
 
 (set-default-font "Ubuntu Mono 11")
 (setq-default tab-width 4 indent-tabs-mode nil)
+
+(require 'powerline)
