@@ -56,3 +56,10 @@ color10: #8AE234
 !! LightGrey + White
 *color7: #D3D7CF
 *color15: #EEEEEC
+
+############################################################
+# Key bindings
+############################################################
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.iso14755: False
+URxvt.perl-ext-common: default,clipboard

@@ -13,3 +13,4 @@ sudo ln -s `pwd`/xmodmap ~/.xmodmap
 sudo ln -s `pwd`/profile ~/.profile
 sudo ln -s `pwd`/Xdefaults ~/.Xdefaults
 sudo ln -s `pwd`/weechat ~/.weechat
+sudo ln -s `pwd`/clipboard.urxvt /usr/lib/urxvt/perl/clipboard
