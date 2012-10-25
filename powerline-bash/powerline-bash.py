@@ -170,7 +170,9 @@ def add_svn_segment(powerline, cwd):
     #TODO: Color segment based on above status codes
     try:
         #cmd = '"svn status | grep -c "^[ACDIMRX\\!\\~]"'
-        output = commands.getoutput('svn status | grep -c ^[ACDIMRX\\!\\~]')
+        status, output = commands.getstatusoutput('svn status | grep -c ^[ACDIMRX\\!\\~]')
+        if status != 0:
+            return
         if len(output) > 0 and int(output) > 0:
             changes = output.strip()
             powerline.append(Segment(powerline, ' %s ' % changes, Colors.SCM.Green, 148))
