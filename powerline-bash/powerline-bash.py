@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import subprocess
+import commands
 import sys
 import re
 
@@ -113,7 +113,7 @@ def get_git_status():
     has_pending_commits = True
     has_untracked_files = False
     origin_position = ""
-    output = subprocess.Popen(['git', 'status'], stdout=subprocess.PIPE).communicate()[0]
+    output = commands.getoutput('git status')
     for line in output.split('\n'):
         origin_status = re.findall("Your branch is (ahead|behind).*?(\d+) comm", line)
         if len(origin_status) > 0:
@@ -133,10 +133,8 @@ def add_git_segment(powerline, cwd):
     green = Colors.SCM.Green
     red = Colors.SCM.Red
     #cmd = "git branch 2> /dev/null | grep -e '\\*'"
-    p1 = subprocess.Popen(['git', 'branch'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p2 = subprocess.Popen(['grep', '-e', '\\*'], stdin=p1.stdout, stdout=subprocess.PIPE)
-    output = p2.communicate()[0].strip()
-    if len(output) == 0:
+    status, output = commands.getstatusoutput('git branch | grep \\*')
+    if status != 0:
         return False
     branch = output.rstrip()[2:]
     has_pending_commits, has_untracked_files, origin_position = get_git_status()
@@ -172,24 +170,19 @@ def add_svn_segment(powerline, cwd):
     #TODO: Color segment based on above status codes
     try:
         #cmd = '"svn status | grep -c "^[ACDIMRX\\!\\~]"'
-        p1 = subprocess.Popen(['svn', 'status'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p2 = subprocess.Popen(['grep', '-c', '^[ACDIMRX\\!\\~]'], stdin=p1.stdout, stdout=subprocess.PIPE)
-        output = p2.communicate()[0].strip()
+        output = commands.getoutput('svn status | grep -c ^[ACDIMRX\\!\\~]')
         if len(output) > 0 and int(output) > 0:
             changes = output.strip()
             powerline.append(Segment(powerline, ' %s ' % changes, Colors.SCM.Green, 148))
     except OSError:
         return False
-    except subprocess.CalledProcessError:
-        return False
     return True
 
 def add_repo_segment(powerline, cwd):
-    for add_repo_segment in [add_git_segment, add_svn_segment, add_hg_segment]:
+    for add_repo_segment in [add_git_segment, add_svn_segment]: #,
+        #add_hg_segment]:
         try:
             if add_repo_segment(p, cwd): return
-        except subprocess.CalledProcessError:
-            pass
         except OSError:
             pass
 
