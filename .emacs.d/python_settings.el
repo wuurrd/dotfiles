@@ -1,3 +1,4 @@
+(require 'fill-column-indicator)
 (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
 ; For our build system
 (add-to-list 'auto-mode-alist '("genmake\\.def\\'" . python-mode))
@@ -39,6 +40,7 @@
        (lambda ()
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
+  (fci-mode 1)
 )
 (add-hook 'python-mode-hook 'my-python-settings)
 
@@ -63,3 +65,4 @@
 ;(require 'semantic/sb)
 ;(semantic-mode 1)
 ;(ecb-minor-mode 1)
+
