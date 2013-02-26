@@ -41,6 +41,7 @@
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
   (fci-mode 1)
+  (setq fci-rule-column 80)
 )
 (add-hook 'python-mode-hook 'my-python-settings)
 

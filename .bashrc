@@ -251,4 +251,11 @@ tw()
     return 0;
 }
 
+sniff () {
+     ssh root@"$1" "/extra/sbin/tcpdump 'not port 22' -s 10000 -n -w -" | wireshark -S -k -i -;
+}
+
 source ~/dotfiles/acdc.completion
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*

@@ -24,4 +24,5 @@ fi
 PATH="/home/dbu/src/testTNG:/tandberg/system/bin/:$PATH"
 export PYTHONPATH="/home/dbu/src/testTNG/testTNG:/home/dbu/src/:/home/dbu/Desktop/pyfit/lib/:$PYTHONPATH"
 export PATH=$HOME/local/node/bin:$PATH
+export RSENSE_HOME="/home/dbu/src/rsense"
 xmodmap ~/.xmodmap 2>/dev/null
