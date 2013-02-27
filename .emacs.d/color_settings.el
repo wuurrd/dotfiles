@@ -39,7 +39,7 @@
 ;; Fontify any future frames
 (push 'fontify-frame after-make-frame-functions)
 
-(set-default-font "Ubuntu Mono 11")
+(set-default-font "Droid Sans Mono 10")
 (setq-default tab-width 4 indent-tabs-mode nil)
 
 (require 'powerline)

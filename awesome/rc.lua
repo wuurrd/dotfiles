@@ -56,7 +56,9 @@ naughty.config.default_preset.position = "bottom_right"
 naughty.config.default_preset.screen           = 2
 
 -- Beautiful theme
-beautiful.init(home .. "/.config/awesome/zenburn.lua")
+beautiful.init(home .. "/.config/awesome/zenburn.lua") 
+
+--zenburn.lua
 
 -- Window management layouts
 default_layout = awful.layout.suit.title
@@ -119,10 +121,10 @@ kbdcfg.widget = widget({ type = "textbox", align = "right" })
 kbdcfg.widget.text = "Keyboard: " .. kbdcfg.layout[kbdcfg.current] .. " "
 kbdcfg.switch = function ()
    kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
-   local t = "Keyboard: " .. kbdcfg.layout[kbdcfg.current] .. " "
-   kbdcfg.widget.text = t
-   os.execute( kbdcfg.cmd .. " " .. t )
-   os.execute("xmodmap ~/.xmodmap")
+   local t = kbdcfg.layout[kbdcfg.current]
+   kbdcfg.widget.text = "Keyboard: " .. t .. " "
+   awful.util.spawn_with_shell( kbdcfg.cmd .. " " .. t )
+   awful.util.spawn_with_shell("sleep 1 && xmodmap ~/.xmodmap")
 end
 
 -- Mouse bindings
@@ -198,12 +200,12 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0"
 -- }}}
 
 -- {{{ Battery state
-baticon = widget({ type = "imagebox" })
-baticon.image = image(beautiful.widget_bat)
+--baticon = widget({ type = "imagebox" })
+-- baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
-batwidget = widget({ type = "textbox" })
+--batwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+-- vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
 -- }}}
 
 -- {{{ Memory usage
@@ -409,7 +411,7 @@ for s = 1, scount do
         separator, datewidget, dateicon,
         separator, volumecfg.widget,
         separator, volwidget, volbar.widget, volicon,
-        separator, batwidget, baticon,
+        separator,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, kbdcfg.widget, separator, ["layout"] = awful.widget.layout.horizontal.rightleft
     }
@@ -475,6 +477,7 @@ end),
     awful.key({ modkey            }, "Escape",                awful.tag.history.restore),
     awful.key({ modkey, "Control" }, "r",                     awesome.restart          ),
     awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({                   }, "XF86HomePage",          function () awful.util.spawn("xscreensaver-command -lock") end),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen),
 
     awful.key({ winkey }, "g", function ()

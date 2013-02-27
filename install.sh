@@ -5,6 +5,7 @@ fc-cache -vf
 sudo ln -s `pwd`/irssi ~/.irssi
 sudo ln -s `pwd`/fluxbox ~/.fluxbox
 sudo ln -s `pwd`/awesome ~/.config/awesome
+sudo ln -s `pwd`/nitrogen ~/.config/nitrogen
 sudo ln -s `pwd`/vimrc ~/.vimrc
 sudo ln -s `pwd`/init.el ~/.emacs
 sudo ln -s `pwd`/inputrc ~/.inputrc
