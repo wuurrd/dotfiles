@@ -1,1 +1,0 @@
-/home/dbu/dotfiles/weechat/python/jabber.py

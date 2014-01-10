@@ -1,3 +1,6 @@
 [submodule ".emacs.d/el-get/el-get"]
 	path = .emacs.d/el-get/el-get
 	url = http://github.com/dimitri/el-get.git
+[submodule "ls++"]
+	path = ls++
+	url = https://github.com/trapd00r/ls--.git

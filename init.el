@@ -23,7 +23,7 @@
 (load-file "~/dotfiles/.emacs.d/fullscreen.el")
 (load-file "~/dotfiles/.emacs.d/autocomplete_settings.el")
 (load-file "~/dotfiles/.emacs.d/python_settings.el")
-(load-file "~/dotfiles/.emacs.d/ruby_settings.el")
+;(load-file "~/dotfiles/.emacs.d/ruby_settings.el")
 (load-file "~/dotfiles/.emacs.d/cpp.el")
 (load-file "~/dotfiles/.emacs.d/c_mode.el")
 (load-file "~/dotfiles/.emacs.d/irc_mode.el")
@@ -32,3 +32,4 @@
 
 ; Needs to be initialised after rope.
 (global-set-key "\C-xp" 'other-window-backward)
+(require 'helm-find-files-in-project)

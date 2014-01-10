@@ -1,1 +1,1 @@
-/home/dbu/dotfiles/weechat/python/automode.py
+/Users/davbuchm/.weechat/python/automode.py
