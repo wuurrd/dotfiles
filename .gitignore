@@ -5,4 +5,5 @@ semanticdb
 \#*
 weechat/logs
 weechat/jabber.conf
+weechat/script/
 *.log
