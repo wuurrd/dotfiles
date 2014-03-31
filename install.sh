@@ -1,4 +1,12 @@
 #! /bin/sh
+mkdir -p ~/src
+cd ~/src
+git clone git@github.com:zsh-users/zaw.git
+git clone git@github.com:zsh-users/zsh-history-substring-search.git
+
+cd ~
+git clone git://github.com/robbyrussell/oh-my-zsh.git
+
 #git clone https://github.com/pdf/ubuntu-mono-powerline-ttf.git ~/.fonts/ubuntu-mono-powerline-ttf
 #fc-cache -vf
 
@@ -9,9 +17,13 @@
 #sudo ln -s `pwd`/vimrc ~/.vimrc
 #sudo ln -s `pwd`/init.el ~/.emacs
 #sudo ln -s `pwd`/inputrc ~/.inputrc
-#sudo ln -s `pwd`/tmux.conf ~/.tmux.conf
+ln -s `pwd`/tmux.conf ~/.tmux.conf
 #sudo ln -s `pwd`/xmodmap ~/.xmodmap
 #sudo ln -s `pwd`/profile ~/.profile
 #sudo ln -s `pwd`/Xdefaults ~/.Xdefaults
 ln -s `pwd`/weechat ~/.weechat
+ln -s `pwd`/.zshrc ~/.zshrc
 #sudo ln -s `pwd`/clipboard.urxvt /usr/lib/urxvt/perl/clipboard
+
+
+curl -Lo- https://bit.ly/janus-bootstrap | bash

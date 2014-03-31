@@ -1,3 +1,6 @@
+# List with brew list -1 > brew.installed
+
+ack
 atk
 autoconf
 automake
@@ -9,6 +12,7 @@ freetype
 gdbm
 gdk-pixbuf
 gettext
+git
 glib
 gmp
 gnutls
@@ -30,9 +34,12 @@ libyaml
 mercurial
 mongodb
 nettle
+nmap
+node
 openssl
 pango
 pcre
+phantomjs
 pixman
 pkg-config
 python
