@@ -23,6 +23,7 @@ ln -s `pwd`/tmux.conf ~/.tmux.conf
 #sudo ln -s `pwd`/Xdefaults ~/.Xdefaults
 ln -s `pwd`/weechat ~/.weechat
 ln -s `pwd`/.zshrc ~/.zshrc
+ln -s `pwd`/.vimrc ~/.vimrc
 #sudo ln -s `pwd`/clipboard.urxvt /usr/lib/urxvt/perl/clipboard
 
 
