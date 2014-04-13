@@ -8,6 +8,7 @@ brew install -v git
 brew install -v gtk+  
 brew install -v htop-osx  
 brew install -v libyaml  
+brew install -v macvim  
 brew install -v mercurial  
 brew install -v mongodb  
 brew install -v nmap  
