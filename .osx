@@ -15,3 +15,4 @@ defaults write com.lightheadsw.Caffeine SuppressLaunchMessage 1
 
 brew tap phinze/cask
 brew install brew-cask
+sh brew.installed

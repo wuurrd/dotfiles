@@ -65,11 +65,11 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export HOMEBREW_GITHUB_API_TOKEN="cae72932a8b1d5f855a5e36a0559a6d412b776a3"
 
-export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/Users/davbuchm/perl5";
-export PERL_MB_OPT="--install_base /Users/davbuchm/perl5";
-export PERL_MM_OPT="INSTALL_BASE=/Users/davbuchm/perl5";
-export PERL5LIB="/Users/davbuchm/perl5/lib/perl5:$PERL5LIB";
-export PATH="/Users/davbuchm/perl5/bin:$PATH";
+export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/perl5";
+export PERL_MB_OPT="--install_base $HOME/perl5";
+export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5";
+export PERL5LIB="$HOME/perl5:$PERL5LIB";
+export PATH="$HOME/dotfiles/bin:$HOME/perl5/bin:$PATH";
 
 export NPM_CONFIG_REGISTRY="http://npm-mirror.rusclabs.cisco.com/"
 export NODE_NO_READLINE=1
