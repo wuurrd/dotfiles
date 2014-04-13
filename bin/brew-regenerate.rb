@@ -102,7 +102,7 @@ root_formulae.each do |f|
   if tab.used_options.empty?
     options = ""
   else
-    options = tab.used_options.to_a.join(' ')
+    options = tab.used_options.to_a.sort.join(' ')
   end
   puts "brew install -v #{name} #{flags} #{options}"
 end
