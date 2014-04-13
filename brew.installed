@@ -1,11 +1,13 @@
-# List with brew list -1 > brew.installed
-
 ack
 atk
 autoconf
+autojump
 automake
+binutils
+brew-cask
 cairo
 cmake
+ctags
 erlang
 fontconfig
 freetype
@@ -45,6 +47,7 @@ pkg-config
 python
 rabbitmq
 readline
+reattach-to-user-namespace
 sqlite
 tmux
 unixodbc
