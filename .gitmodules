@@ -3,4 +3,4 @@
 	url = http://github.com/dimitri/el-get.git
 [submodule "ls++"]
 	path = ls++
-	url = https://github.com/trapd00r/ls--.git
+	url = git@github.com:wuurrd/ls--.git
