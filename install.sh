@@ -4,6 +4,7 @@ mkdir -p ~/src
 cd ~/src
 git clone git@github.com:zsh-users/zaw.git
 git clone git@github.com:zsh-users/zsh-history-substring-search.git
+git clone git@github.com:alejandrogomez/shipit.git
 
 cd ~
 git clone git://github.com/robbyrussell/oh-my-zsh.git
@@ -36,6 +37,7 @@ ln -s `pwd`/.zshrc ~/.zshrc
 curl -Lo- https://bit.ly/janus-bootstrap | bash
 cd ~/.vim/janus/vim/tools
 git clone https://github.com/bling/vim-airline.git
+git clone git@github.com:tpope/vim-surround.git
 cd -
 ln -s `pwd`/.vimrc ~/.vimrc
 ##################
