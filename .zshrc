@@ -60,7 +60,7 @@ source $ZSH/oh-my-zsh.sh
 export LSCOLORS=Exfxcxdxbxegedabagacad
 source ~/.aliases
 
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/local/texlive/2012/bin/universal-darwin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/local/texlive/2012/bin/universal-darwin:/sbin/:$PATH"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export HOMEBREW_GITHUB_API_TOKEN="cae72932a8b1d5f855a5e36a0559a6d412b776a3"
