@@ -1,5 +1,1 @@
-set wildmenu
-set number
-set tabstop=4
-set expandtab
-syntax on
+/Users/davbuchm/.vim/janus/vim/vimrc

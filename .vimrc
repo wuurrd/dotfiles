@@ -1,1 +1,0 @@
-/Users/davbuchm/.vim/janus/vim/vimrc
