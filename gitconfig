@@ -32,9 +32,6 @@ rmdir = yes
 whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = /Users/davbuchm/.gitignore_global
 
-[sendemail]
-	smtpserver = smtp.rd.tandberg.com
-
 [push]
     default=current
 
