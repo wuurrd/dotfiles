@@ -1,3 +1,4 @@
+
 (setq inhibit-splash-screen t)
 (column-number-mode)
 (server-start)
@@ -50,10 +51,13 @@
 
 (global-set-key [f12] 'build_host)
 (blink-cursor-mode (- (*) (*) (*)))
-(toggle-show-tabs-show-ws)
+;(toggle-show-tabs-show-ws)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 (unless (require 'el-get nil t) 
   (with-current-buffer (url-retrieve-synchronously "https://raw.github.com/dimitri/el-get/master/el-get-install.el") 
     (goto-char (point-max)) 
     (eval-print-last-sexp)))
 (el-get 'sync)
+
+;(add-hook 'font-lock-mode-hook 'hc-highlight-tabs)
+;(add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)

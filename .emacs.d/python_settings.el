@@ -11,17 +11,12 @@
       (local-file (file-relative-name
                    temp-file
                    (file-name-directory buffer-file-name))))
-     (list "epylint" (list local-file))))
+     (list "/usr/local/bin/epylint" (list local-file))))
 
  (add-to-list 'flymake-allowed-file-name-masks
           '("\\.py\\'" flymake-pylint-init)))
 
 (require 'pymacs)
-(pymacs-load "ropemacs" "rope-")
-(setq ropemacs-confirm-saving nil
-      ropemacs-guess-project t
-      ropemacs-enable-autoimport t
-      )
 
 (require 'twisted-dev)
 
@@ -41,7 +36,11 @@
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
   (fci-mode 1)
+  (setq fci-rule-column 80)
+  (setq jedi:setup-keys t)
+  (setq jedi:key-goto-definition (kbd "C-c g"))
 )
+
 (add-hook 'python-mode-hook 'my-python-settings)
 
 (defvar ac-source-rope
@@ -66,3 +65,7 @@
 ;(semantic-mode 1)
 ;(ecb-minor-mode 1)
 
+(add-hook 'python-mode-hook 'jedi:setup)
+(package-initialize)
+(elpy-enable)
+(message "HEllOw WORLD")

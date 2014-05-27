@@ -1,0 +1,23 @@
+brew install -v ack  
+brew install -v autojump  
+brew install -v binutils  
+brew install -v brew-cask  
+brew install -v ctags  
+brew install -v erlang  
+brew install -v git  
+brew install -v gtk+  
+brew install -v htop-osx  
+brew install -v libyaml  
+brew install -v macvim  
+brew install -v mercurial  
+brew install -v mongodb  
+brew install -v nmap  
+brew install -v node  
+brew install -v phantomjs  
+brew install -v python  
+brew install -v rabbitmq  
+brew install -v reattach-to-user-namespace  
+brew install -v tmux  
+brew install -v vim  --override-system-vi --with-client-server
+brew install -v weechat  --with-perl --with-python --with-ruby
+brew install -v zsh  

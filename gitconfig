@@ -1,0 +1,37 @@
+[alias]
+st = status
+co = checkout
+ci = commit
+ic = commit
+lg = log --format='%Cgreen%h %Cred%cr %Creset%s %C(cyan)%cn'
+lg2 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+review = send-email --to patches@mailman.rd.tandberg.com --compose
+loglocal = log --abbrev-commit --format='%Cgreen* %C(yellow)%h %Cblue%aN %Cgreen%ar %Creset%s' FETCH_HEAD..
+logremote = "!f() { git fetch&&\
+                        git log --abbrev-commit --format='%Cred* %C(yellow)%h %Cblue%aN %Cgreen%ar %Creset%s' ..FETCH_HEAD;\
+                        }; f"
+changes = "!f() { echo 'YOUR CHANGES:\n-------------';\
+                      git loglocal;\
+                      echo 'REMOTE CHANGES:\n---------------';\
+                      git logremote;\
+                      }; f"
+
+
+[color]
+ui = auto
+
+[user]
+name = David Buchmann
+email = davbuchm@cisco.com
+
+[svn]
+authorsfile = /home/dbu/etc/svn-authors
+rmdir = yes
+
+[core]
+whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	excludesfile = /Users/davbuchm/.gitignore_global
+
+[push]
+    default=current
+

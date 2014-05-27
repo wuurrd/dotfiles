@@ -31,12 +31,12 @@ def get_notified(data, bufferp, uber_empty, tagsn, isdisplayed,
         buffer = (weechat.buffer_get_string(bufferp, "short_name") or
                 weechat.buffer_get_string(bufferp, "name"))
         if buffer == prefix:
-           subprocess.call(['/usr/bin/notify-send', 'In Private Message %s: %s' % (prefix, message)],shell=False)
+           subprocess.call(['/usr/local/bin/usernotification', '-title', 'IRC', '-subtitle', 'In Private Message %s: %s' % (prefix, message)],shell=False)
 
     elif (ishilight == "1" and 
             weechat.config_get_plugin('show_highlight') == "on"):
         buffer = (weechat.buffer_get_string(bufferp, "short_name") or
                 weechat.buffer_get_string(bufferp, "name"))
-        subprocess.call(['/usr/bin/notify-send', 'In %s %s: %s' % (buffer, prefix, message)],shell=False)
+        subprocess.call(['/usr/local/bin/usernotification', '-title', 'IRC', '-subtitle', 'In %s %s: %s' % (buffer, prefix, message)],shell=False)
 
     return weechat.WEECHAT_RC_OK

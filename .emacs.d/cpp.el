@@ -1,5 +1,5 @@
 (setq cscope-do-not-update-database t)
-(load-file "/usr/share/emacs/site-lisp/xcscope.el")
+;(load-file "/usr/share/emacs/site-lisp/xcscope.el")
 (require 'xcscope)
 (cscope-set-initial-directory "/home/dbu/src/main/product/apollo/charlie/host/complete/_build/charlie.host")
 (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
