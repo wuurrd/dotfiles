@@ -201,12 +201,12 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0"
 -- }}}
 
 -- {{{ Battery state
---baticon = widget({ type = "imagebox" })
--- baticon.image = image(beautiful.widget_bat)
+baticon = widget({ type = "imagebox" })
+baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
---batwidget = widget({ type = "textbox" })
+batwidget = widget({ type = "textbox" })
 -- Register widget
--- vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
 -- }}}
 
 -- {{{ Memory usage
@@ -222,49 +222,6 @@ membar:set_gradient_colors({ beautiful.fg_widget,
    beautiful.fg_center_widget, beautiful.fg_end_widget
 }) -- Register widget
 vicious.register(membar, vicious.widgets.mem, "$1", 13)
--- }}}
-
--- {{{ File system usage
-fsicon = widget({ type = "imagebox" })
-fsicon.image = image(beautiful.widget_fs)
--- Initialize widgets
-fs = {
-  b = awful.widget.progressbar(), r = awful.widget.progressbar(),
-  h = awful.widget.progressbar(), s = awful.widget.progressbar()
-}
--- Progressbar properties
-for _, w in pairs(fs) do
-  w:set_vertical(true):set_ticks(true)
-  w:set_height(14):set_width(5):set_ticks_size(2)
-  w:set_border_color(beautiful.border_widget)
-  w:set_background_color(beautiful.fg_off_widget)
-  w:set_gradient_colors({ beautiful.fg_widget,
-     beautiful.fg_center_widget, beautiful.fg_end_widget
-  }) -- Register buttons
-  w.widget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () exec("rox", false) end)
-  ))
-end -- Enable caching
-vicious.cache(vicious.widgets.fs)
--- Register widgets
-vicious.register(fs.b, vicious.widgets.fs, "${/boot used_p}", 599)
-vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",     599)
-vicious.register(fs.h, vicious.widgets.fs, "${/home used_p}", 599)
-vicious.register(fs.s, vicious.widgets.fs, "${/mnt/storage used_p}", 599)
--- }}}
-
--- {{{ Network usage
-dnicon = widget({ type = "imagebox" })
-upicon = widget({ type = "imagebox" })
-dnicon.image = image(beautiful.widget_net)
-upicon.image = image(beautiful.widget_netup)
--- Initialize widget
-netwidget = widget({ type = "textbox" })
--- Register widget
--- PWA: uncomment for network traffic display:
-vicious.register(netwidget, vicious.widgets.net, '<span color="'
-  .. beautiful.fg_netdn_widget ..'">${eth0 down_kb}</span> <span color="'
-  .. beautiful.fg_netup_widget ..'">${eth0 up_kb}</span>', 3)
 -- }}}
 
 
@@ -284,26 +241,6 @@ volbar:set_gradient_colors({ beautiful.fg_widget,
 vicious.cache(vicious.widgets.volume)
 -- Register widgets
 vicious.register(volbar, vicious.widgets.volume, "$1", 2, "Master")
--- pwa: replaced with volumecfg:
--- vicious.register(volwidget, vicious.widgets.volume, " $1%", 2, "Master")
-
--- Register buttons
--- volbar.widget:buttons(awful.util.table.join(
---     awful.button({ }, 1, function () 
---         -- volumecfg.mixercommand(" sset " .. volumecfg.channel .. " toggle")
---         exec("amixer -q set Master toggle") 
---     end),
---     awful.button({ }, 4, function () 
---         --volumecfg.mixercommand(" sset " .. volumecfg.channel .. " 1%+")
---         exec("amixer -c 0 sset Master 2%+", false) 
---     end),
---     awful.button({ }, 5, function () 
---        --volumecfg.mixercommand(" sset " .. volumecfg.channel .. " toggle")
---         exec("amixer -c 0 sset Master 2%-", false) 
---     end)
--- )) -- Register assigned buttons
--- volwidget:buttons(volbar.widget:buttons())
--- }}}
 
 -- {{{ Date and time
 dateicon = widget({ type = "imagebox" })
@@ -313,9 +250,6 @@ datewidget = widget({ type = "textbox" })
 -- Register widget
 vicious.register(datewidget, vicious.widgets.date, "%R", 61)
 -- Register buttons
-datewidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("pylendar.py") end)
-))
 -- }}}
 
 -- {{{ System tray
@@ -373,6 +307,7 @@ for s = 1, scount do
         separator, volumecfg.widget,
         separator, volwidget, volbar.widget, volicon,
         separator,
+        separator, batwidget, baticon,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, kbdcfg.widget, separator, ["layout"] = awful.widget.layout.horizontal.rightleft
     }

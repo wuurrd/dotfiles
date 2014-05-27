@@ -52,7 +52,7 @@ zstyle ':filter-select' extended-search yes # see below
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(gitfast osx brew pip fabric battery sublime)
+plugins=(gitfast pip fabric battery)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -63,20 +63,8 @@ source ~/.aliases
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/local/texlive/2012/bin/universal-darwin:/sbin/:$PATH"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export HOMEBREW_GITHUB_API_TOKEN="cae72932a8b1d5f855a5e36a0559a6d412b776a3"
 
-export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$HOME/perl5";
-export PERL_MB_OPT="--install_base $HOME/perl5";
-export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5";
-export PERL5LIB="$HOME/perl5:$PERL5LIB";
-export PATH="$HOME/dotfiles/bin:$HOME/perl5/bin:$PATH";
-
-export NPM_CONFIG_REGISTRY="http://npm-mirror.rusclabs.cisco.com/"
-export NODE_NO_READLINE=1
-export PHANTOMJS_BIN="/usr/local/bin/phantomjs"
-
-[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
-
+export PATH="$HOME/dotfiles/bin:$PATH";
 
 source ~/src/zaw/zaw.zsh
 source ~/src/zsh-history-substring-search/zsh-history-substring-search.zsh
