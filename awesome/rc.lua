@@ -206,7 +206,7 @@ baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
 batwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2%", 61, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$1$2% [$3]", 61, "BAT0")
 -- }}}
 
 -- {{{ Memory usage
@@ -304,9 +304,7 @@ for s = 1, scount do
         -- separator, fs.s.widget, fs.h.widget, fs.r.widget, fs.b.widget, fsicon,
         -- separator, membar.widget, memicon,
         separator, datewidget, dateicon,
-        separator, volumecfg.widget,
-        separator, volwidget, volbar.widget, volicon,
-        separator,
+        separator, volumecfg.widget, volwidget, volbar.widget, volicon,
         separator, batwidget, baticon,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, kbdcfg.widget, separator, ["layout"] = awful.widget.layout.horizontal.rightleft
