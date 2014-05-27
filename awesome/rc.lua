@@ -45,10 +45,11 @@ if awful.util.file_readable(host_config_file) then
         end
 end
 
-awful.util.spawn("xscreensaver -nosplash")
-awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
-awful.util.spawn_with_shell("xsetkbmap us")
-awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
+-- awful.util.spawn("xscreensaver -nosplash")
+-- awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
+-- awful.util.spawn_with_shell("if [ -z `pidof bluetooth-applet` ]; then bluetooth-applet; fi")
+-- awful.util.spawn_with_shell("xsetkbmap us")
+-- awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
 
 -- notifications:
 naughty.config.default_preset.timeout = 5
@@ -121,7 +122,7 @@ kbdcfg.switch = function ()
    kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
    local t = "Keyboard: " .. kbdcfg.layout[kbdcfg.current] .. " "
    kbdcfg.widget.text = t
-   os.execute( kbdcfg.cmd .. " " .. t )
+   os.execute(kbdcfg.cmd .. " " .. kbdcfg.layout[kbdcfg.current])
    os.execute("xmodmap ~/.xmodmap")
 end
 
@@ -264,46 +265,6 @@ vicious.register(netwidget, vicious.widgets.net, '<span color="'
   .. beautiful.fg_netup_widget ..'">${eth0 up_kb}</span>', 3)
 -- }}}
 
--- {{{ Mail subject
-mailicon = widget({ type = "imagebox" })
-mailicon.image = image(beautiful.widget_mail)
--- Initialize widget
-mailwidget = widget({ type = "textbox" })
--- Register widget
-vicious.register(mailwidget, vicious.widgets.mbox, "$1", 181, {home .. "/mail/Inbox", 15})
--- Register buttons
-mailwidget:buttons(awful.util.table.join(
-  --awful.button({ }, 1, function () exec("urxvt -T Alpine -e alpine.exp") end)
-  awful.button({ }, 1, function () exec("thunderbird") end)
-))
--- }}}
-
--- {{{ Org-mode agenda
-orgicon = widget({ type = "imagebox" })
-orgicon.image = image(beautiful.widget_org)
--- Initialize widget
-orgwidget = widget({ type = "textbox" })
--- Configure widget
-local orgmode = {
-  files = { home.."/.org/computers.org",
-    home.."/.org/index.org", home.."/.org/personal.org",
-  },
-  color = {
-    past   = '<span color="'..beautiful.fg_urgent..'">',
-    today  = '<span color="'..beautiful.fg_normal..'">',
-    soon   = '<span color="'..beautiful.fg_widget..'">',
-    future = '<span color="'..beautiful.fg_netup_widget..'">'
-}} -- Register widget
-vicious.register(orgwidget, vicious.widgets.org,
-  orgmode.color.past..'$1</span>-'..orgmode.color.today .. '$2</span>-' ..
-  orgmode.color.soon..'$3</span>-'..orgmode.color.future.. '$4</span>', 601,
-  orgmode.files
-) -- Register buttons
-orgwidget:buttons(awful.util.table.join(
-  awful.button({ }, 1, function () exec("emacsclient --eval '(org-agenda-list)'") end),
-  awful.button({ }, 3, function () exec("emacsclient --eval '(make-remember-frame)'") end)
-))
--- }}}
 
 -- {{{ Volume level
 volicon = widget({ type = "imagebox" })
@@ -444,25 +405,7 @@ globalkeys = awful.util.table.join(
 -- Run or raise applications with dmenu
 awful.key({ modkey }, "p",
 function ()
-    local f_reader = io.popen( "dmenu_path | dmenu -nb '".. beautiful.bg_normal .."' -nf '".. beautiful.fg_normal .."' -sb '#955'")
-    local command = assert(f_reader:read('*a'))
-    f_reader:close()
-    if command == "" then return end
-
-    -- Check throught the clients if the class match the command
-    local lower_command=string.lower(command)
-    for k, c in pairs(client.get()) do
-        local class=string.lower(c.class)
-        if string.match(class, lower_command) then
-            for i, v in ipairs(c:tags()) do
-                awful.tag.viewonly(v)
-                c:raise()
-                c.minimized = false
-                return
-            end
-        end
-    end
-    awful.util.spawn(command)
+    exec('dmenu_run')
 end),
 --    awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run" )   end),
     awful.key({ modkey            }, "c",                     function () awful.util.spawn("google-chrome --allow-outdated-plugins") end),
