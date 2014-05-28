@@ -14,20 +14,23 @@ theme.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
 
 
 -- {{{ Styles
-theme.font      = "Profont 8"
+theme.font      = "Ubuntu Mono 10"
 
 -- {{{ Colors
-theme.fg_normal = "#DCDCCC"
+--theme.fg_normal = "#DCDCCC"
+theme.fg_normal = "#e6e6e6"
 theme.fg_focus  = "#F0DFAF"
 theme.fg_urgent = "#CC9393"
-theme.bg_normal = "#3F3F3F"
+-- theme.bg_normal = "#3F3F3F"
+theme.bg_normal = "#111111"
 theme.bg_focus  = "#1E2320"
 theme.bg_urgent = theme.bg_normal
 -- }}}
 
 -- {{{ Borders
-theme.border_width  = 1
-theme.border_focus  = "#1F1F7F"
+theme.border_width  = 2
+--theme.border_focus  = "#1F1F7F"
+theme.border_focus  = "#ffaa00"
 theme.border_normal = theme.bg_normal
 theme.border_marked = theme.fg_urgent
 -- }}}
@@ -42,7 +45,7 @@ theme.titlebar_bg_normal = theme.bg_normal
 theme.fg_widget        = "#AECF96"
 theme.fg_center_widget = "#88A175"
 theme.fg_end_widget    = "#FF5656"
-theme.fg_off_widget    = "#494B4F"
+theme.fg_off_widget    = "#292B2F"
 theme.fg_netup_widget  = "#7F9F7F"
 theme.fg_netdn_widget  = theme.fg_urgent
 theme.bg_widget        = theme.bg_normal

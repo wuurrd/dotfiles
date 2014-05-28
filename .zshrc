@@ -52,7 +52,7 @@ zstyle ':filter-select' extended-search yes # see below
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(gitfast pip fabric battery)
+plugins=(gitfast pip fabric battery debian)
 
 source $ZSH/oh-my-zsh.sh
 

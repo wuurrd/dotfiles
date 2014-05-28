@@ -21,6 +21,27 @@ require("scratch")
 require("naughty")
 -- }}}
 
+if awesome.startup_errors then
+    naughty.notify({ preset = naughty.config.presets.critical,
+                     title = "Oops, there were errors during startup!",
+                     text = awesome.startup_errors })
+end
+
+-- Handle runtime errors after startup
+do
+    local in_error = false
+    awesome.add_signal("debug::error", function (err)
+        -- Make sure we don't go into an endless error loop
+        if in_error then return end
+        in_error = true
+
+        naughty.notify({ preset = naughty.config.presets.critical,
+                         title = "Oops, an error happened!",
+                         text = err })
+        in_error = false
+    end)
+end
+-- }}}
 
 -- {{{ Variable definitions
 local altkey = "Mod1"
@@ -54,7 +75,7 @@ end
 -- notifications:
 naughty.config.default_preset.timeout = 5
 naughty.config.default_preset.position = "bottom_right"
-naughty.config.default_preset.screen           = 2
+naughty.config.default_preset.screen           = 1
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua") 
@@ -133,6 +154,7 @@ kbdcfg.widget:buttons(awful.util.table.join(
     awful.button({ }, 1, function () kbdcfg.switch() end)
 ))
 
+
 -- Volume widget
 volumecfg = {}
 volumecfg.cardid  = 0
@@ -191,7 +213,7 @@ cpuicon.image = image(beautiful.widget_cpu)
 cpugraph  = awful.widget.graph()
 tzswidget = widget({ type = "textbox" })
 -- Graph properties
-cpugraph:set_width(40):set_height(14)
+cpugraph:set_width(40):set_height(20)
 cpugraph:set_background_color(beautiful.fg_off_widget)
 cpugraph:set_gradient_angle(0):set_gradient_colors({
    beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget
@@ -200,6 +222,16 @@ vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
 vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
 -- }}}
 
+-- {{{ Network state
+txwidget = widget({ type="textbox" })
+rxwidget = widget({ type="textbox" })
+vicious.register(txwidget, vicious.widgets.net,
+                 "tx: ${wlan0 up_kb}KB", 2)
+vicious.register(rxwidget, vicious.widgets.net,
+                 "rx: ${wlan0 down_kb}KB", 2)
+
+
+-- }}}
 -- {{{ Battery state
 baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
@@ -209,6 +241,30 @@ batwidget = widget({ type = "textbox" })
 vicious.register(batwidget, vicious.widgets.bat, "$1$2% [$3]", 61, "BAT0")
 -- }}}
 
+-- {{{ File system usage
+fsicon = widget({ type = "imagebox" })
+fsicon.image = image(beautiful.widget_fs)
+-- Initialize widgets
+fs = {
+  b = awful.widget.progressbar(), r = awful.widget.progressbar(),
+  h = awful.widget.progressbar(), s = awful.widget.progressbar()
+}
+-- Progressbar properties
+for _, w in pairs(fs) do
+  w:set_vertical(true):set_ticks(true)
+  w:set_height(20):set_width(5):set_ticks_size(2)
+  w:set_border_color(beautiful.border_widget)
+  w:set_background_color(beautiful.fg_off_widget)
+  w:set_gradient_colors({ beautiful.fg_widget,
+     beautiful.fg_center_widget, beautiful.fg_end_widget
+  }) -- Register buttons
+
+end -- Enable caching
+vicious.cache(vicious.widgets.fs)
+-- Register widgets
+vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",     599)
+-- }}}
+
 -- {{{ Memory usage
 memicon = widget({ type = "imagebox" })
 memicon.image = image(beautiful.widget_mem)
@@ -216,7 +272,7 @@ memicon.image = image(beautiful.widget_mem)
 membar = awful.widget.progressbar()
 -- Pogressbar properties
 membar:set_vertical(true):set_ticks(true)
-membar:set_height(12):set_width(8):set_ticks_size(2)
+membar:set_height(20):set_width(8):set_ticks_size(2)
 membar:set_background_color(beautiful.fg_off_widget)
 membar:set_gradient_colors({ beautiful.fg_widget,
    beautiful.fg_center_widget, beautiful.fg_end_widget
@@ -233,7 +289,7 @@ volbar    = awful.widget.progressbar()
 volwidget = widget({ type = "textbox" })
 -- Progressbar properties
 volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(12):set_width(8):set_ticks_size(2)
+volbar:set_height(20):set_width(8):set_ticks_size(2)
 volbar:set_background_color(beautiful.fg_off_widget)
 volbar:set_gradient_colors({ beautiful.fg_widget,
    beautiful.fg_center_widget, beautiful.fg_end_widget
@@ -287,13 +343,14 @@ for s = 1, scount do
     taglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, taglist.buttons)
     -- Create the wibox
     wibox[s] = awful.wibox({      screen = s,
-        fg = beautiful.fg_normal, height = 12,
-        bg = beautiful.bg_normal, position = "top",
-        border_color = beautiful.border_focus,
-        border_width = beautiful.border_width
+        fg = beautiful.fg_normal, height = 20,
+        bg = beautiful.bg_normal, position = "bottom",
+        border_color = beautiful.fg_normal,
+        border_width = 0
     })
     -- Add widgets to the wibox
     wibox[s].widgets = {
+        datewidget, dateicon,
         {   taglist[s], layoutbox[s], separator, promptbox[s],
             ["layout"] = awful.widget.layout.horizontal.leftright
         },
@@ -301,13 +358,14 @@ for s = 1, scount do
         -- separator, orgwidget,  orgicon,
         -- separator, mailwidget, mailicon,
         -- separator, upicon,     netwidget, dnicon,
-        -- separator, fs.s.widget, fs.h.widget, fs.r.widget, fs.b.widget, fsicon,
-        -- separator, membar.widget, memicon,
-        separator, datewidget, dateicon,
+        separator, fs.r.widget, fsicon,
+        separator, membar.widget, memicon,
         separator, volumecfg.widget, volwidget, volbar.widget, volicon,
         separator, batwidget, baticon,
         separator, tzswidget, cpugraph.widget, cpuicon,
-        separator, kbdcfg.widget, separator, ["layout"] = awful.widget.layout.horizontal.rightleft
+        separator, txwidget, separator, rxwidget,
+        separator, kbdcfg.widget,
+        ["layout"] = awful.widget.layout.horizontal.rightleft
     }
 end
 -- }}}
@@ -338,22 +396,12 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86AudioLowerVolume",  function () volumecfg.down()                  end),
     awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end),
 -- Run or raise applications with dmenu
-awful.key({ modkey }, "p",
-function ()
-    exec('dmenu_run')
-end),
---    awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run" )   end),
-    awful.key({ modkey            }, "c",                     function () awful.util.spawn("google-chrome --allow-outdated-plugins") end),
-    --awful.key({ modkey            }, "m",                     function () awful.util.spawn("thunderbird")   end),
+    awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run -b -p 'Run command:'" )   end),
     awful.key({ modkey            }, "t",                     function () awful.util.spawn("urxvt")   end),
-    --awful.key({ modkey            }, "Return",                function () exec("terminator")                end),
-    --awful.key({ modkey            }, "r",                     function () promptbox[mouse.screen]:run()     end),
-    --awful.key({ modkey            }, "Left",                  awful.tag.viewprev       ),
-    --awful.key({ modkey            }, "Right",                 awful.tag.viewnext       ),
     awful.key({ modkey            }, "Escape",                awful.tag.history.restore),
     awful.key({ modkey, "Control" }, "r",                     awesome.restart          ),
-    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xscreensaver-command -lock") end),
-    awful.key({                   }, "XF86HomePage",          function () awful.util.spawn("xscreensaver-command -lock") end),
+    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xlock -mode blank") end),
+    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("xlock -mode blank") end),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen),
 
     awful.key({ winkey }, "g", function ()
@@ -364,30 +412,6 @@ end),
             end)
     end),
  
-    -- {{{ Multimedia keys
-    awful.key({}, "XF86AudioMute",              function () exec("pvol.py -m") end),
-    awful.key({}, "XF86AudioLowerVolume",       function () exec("pvol.py -p -c -2") end),
-    awful.key({}, "XF86AudioRaiseVolume",       function () exec("pvol.py -p -c  2") end),
-    -- }}}
-
---    -- {{{ Prompt menus
---    awful.key({ altkey }, "F2", function ()
---        awful.prompt.run({ prompt = "Run: " }, promptbox[mouse.screen].widget,
---            function (...) promptbox[mouse.screen].text = exec(unpack(arg), false) end,
---            awful.completion.shell, awful.util.getdir("cache") .. "/history")
---    end),
---    awful.key({ altkey }, "F3", function ()
---        awful.prompt.run({ prompt = "Dictionary: " }, promptbox[mouse.screen].widget,
---            function (words)
---                sexec("crodict "..words.." | ".."xmessage -timeout 10 -file -")
---            end)
---    end),
---   awful.key({ altkey }, "F5", function ()
---        awful.prompt.run({ prompt = "Lua: " }, promptbox[mouse.screen].widget,
---        awful.util.eval, nil, awful.util.getdir("cache") .. "/history_eval")
---    end),
---    -- }}}
-
     -- {{{ Awesome controls
     awful.key({ modkey, "Shift" }, "q", awesome.quit),
     awful.key({ modkey, "Shift" }, "r", function ()
@@ -396,8 +420,8 @@ end),
     -- }}}
 
     -- {{{ Tag browsing
-    awful.key({ altkey }, "n",   awful.tag.viewnext),
-    --awful.key({ altkey }, "p",   awful.tag.viewprev),
+    awful.key({ altkey, "Control" }, "n",   awful.tag.viewnext),
+    awful.key({ altkey, "Control" }, "p",   awful.tag.viewprev),
     awful.key({ altkey, "Control" }, "Right",   awful.tag.viewnext),
     awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev),
     -- }}}
@@ -423,14 +447,14 @@ end),
         awful.client.focus.byidx(1)
         if client.focus then client.focus:raise() end
     end),
+    awful.key({ modkey }, "Tab", function ()
+        awful.client.focus.byidx(1)
+        if client.focus then client.focus:raise() end
+    end),
     awful.key({ modkey }, "k", function ()
         awful.client.focus.byidx(-1)
         if client.focus then client.focus:raise() end
     end),
---    awful.key({ modkey }, "Tab", function ()
---        awful.client.focus.byidx(1)
---        if client.focus then client.focus:raise() end
---    end),
     awful.key({ altkey }, "Escape", function ()
         awful.menu.menu_keys.down = { "Down", "Alt_L" }
         local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} })
@@ -443,10 +467,10 @@ end),
 
 -- {{{ Client manipulation
 clientkeys = awful.util.table.join(
---    awful.key({ modkey              }, "c", function (c) c:kill() end),
+    awful.key({ modkey              }, "c", function (c) c:kill() end),
 --    awful.key({ modkey              }, "d", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
 --    awful.key({ modkey              }, "f", function (c) c.fullscreen = not c.fullscreen end),
-    awful.key({ modkey              }, "m", function (c)
+    awful.key({ modkey, "Control"     }, "m", function (c)
         c.maximized_horizontal = not c.maximized_horizontal
         c.maximized_vertical   = not c.maximized_vertical
     end),
@@ -457,29 +481,10 @@ clientkeys = awful.util.table.join(
     awful.key({ winkey              }, "Up",    function () awful.client.moveresize(  0, -20,   0,   0) end),
     awful.key({ winkey              }, "Left",  function () awful.client.moveresize(-20,   0,   0,   0) end),
     awful.key({ winkey              }, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end),
-    awful.key({ modkey, "Control"   }, "r", function (c) c:redraw() end),
-    awful.key({ modkey, "Shift"     }, "0", function (c) c.sticky = not c.sticky end),
-    awful.key({ modkey, "Shift"     }, "m", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey, "Shift"     }, "c", function (c) exec("kill -CONT " .. c.pid) end),
-    awful.key({ modkey, "Shift"     }, "s", function (c) exec("kill -STOP " .. c.pid) end),
     awful.key({ modkey, "Shift"     }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
         else awful.titlebar.add(c, { modkey = modkey }) end
-    end),
-    awful.key({ modkey, "Shift"     }, "f", function (c) if awful.client.floating.get(c)
-        then awful.client.floating.delete(c);    awful.titlebar.remove(c)
-        else awful.client.floating.set(c, true); awful.titlebar.add(c) end
-    end),
--- {{{ screen switching
-    awful.key({ altkey              }, "F1",    function () awful.tag.viewonly(tags[mouse.screen][1]) end),
-    awful.key({ altkey              }, "F2",    function () awful.tag.viewonly(tags[mouse.screen][2]) end),
-    awful.key({ altkey              }, "F3",    function () awful.tag.viewonly(tags[mouse.screen][3]) end),
-    awful.key({ altkey              }, "F4",    function () awful.tag.viewonly(tags[mouse.screen][4]) end),
-    awful.key({ altkey              }, "F5",    function () awful.tag.viewonly(tags[mouse.screen][5]) end),
-    awful.key({ altkey              }, "F6",    function () awful.tag.viewonly(tags[mouse.screen][6]) end),
-    awful.key({ altkey              }, "F7",    function () awful.tag.viewonly(tags[mouse.screen][7]) end),
-    awful.key({ altkey              }, "F8",    function () awful.tag.viewonly(tags[mouse.screen][8]) end)
--- }}}
+    end)
 )
 -- }}}
 
@@ -525,35 +530,14 @@ awful.rules.rules = {
     },
 
 -- all tags: ---------------------------------------------------------------------------------------
-    { rule = { class = "MintUpdate.py", instance="_Remember_" },
-      properties = { floating = true } },
-
-    { rule = { class = "Kate", instance="_Remember_" },
-      properties = { floating = true } },
-
-    { rule = { class = "Gedit", instance="_Remember_" },
-      properties = { floating = true } },
-
     { rule = { class = "Gimp", instance="_Remember_" },
       properties = { floating = true } },
 
     { rule = { class = "Evince" },
       properties = { floating = true, instance="_Remember_" } },
 
-    { rule = { class = "Bless" },
-      properties = { floating = true, instance="_Remember_" } },
-
-    { rule = { class = "Ghex2" },
-      properties = { floating = true, instance="_Remember_" } },
-
     { rule = { class = "Deluge" },
       properties = { floating = true, instance="_Remember_" } },
-
-    { rule = { class = "Kcalc" },
-      properties = { floating = true } },
-
---    { rule = { class = "Meld" },
---      properties = { floating = true, maximized_horizontal = true } },
 
    { rule = { class = "Vlc" },
       properties = { floating = true, maximized_horizontal = true, maximized_vertical = true } },
