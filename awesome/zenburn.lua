@@ -16,6 +16,7 @@ theme.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
 -- {{{ Styles
 theme.font      = "Ubuntu Mono 10"
 
+
 -- {{{ Colors
 --theme.fg_normal = "#DCDCCC"
 theme.fg_normal = "#e6e6e6"
@@ -81,7 +82,7 @@ theme.taglist_squares_unsel = theme.confdir .. "/icons/taglist/unsel.png"
 -- }}}
 
 -- {{{ Misc icons
---theme.awesome_icon           = theme.confdir .. "/icons/awesome.png"
+theme.awesome_icon           = theme.confdir .. "/icons/awesome.png"
 --theme.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
 --theme.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
 -- }}}

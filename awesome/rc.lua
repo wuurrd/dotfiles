@@ -76,6 +76,7 @@ end
 naughty.config.default_preset.timeout = 5
 naughty.config.default_preset.position = "bottom_right"
 naughty.config.default_preset.screen           = 1
+naughty.config.default_preset.font = 'Ubuntu Mono 10' 
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua") 
@@ -199,6 +200,28 @@ volumecfg.widget:buttons({
 })
 volumecfg.update()
  
+terminal = "x-terminal-emulator"
+editor = os.getenv("EDITOR") or "vim"
+editor_cmd = terminal .. " -e " .. editor
+
+myawesomemenu = {
+   { "manual", terminal .. " -e man awesome" },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "restart", awesome.restart },
+   { "quit", awesome.quit },
+   { "logout", function ()  awful.util.spawn("gnome-session-quit") end }
+}
+
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "Network", 'nm-applet'},
+                                    { "Power manager", 'xfce4-power-manager'},
+                                    { "Screensaver", "xscreensaver -nosplash" },
+                                    { "Terminal", terminal }
+                                  }
+                        })
+mylauncher = awful.widget.launcher({ image = image(beautiful.widget_date),
+                                     menu = mymainmenu })
+
 -- //////////////////////////////////////////////////////////////////////////////
 --
 -- {{{ Reusable separator
@@ -238,7 +261,7 @@ baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
 batwidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$1$2% [$3]", 61, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "$2% [$3]", 61, "BAT0")
 -- }}}
 
 -- {{{ File system usage
@@ -300,7 +323,6 @@ vicious.register(volbar, vicious.widgets.volume, "$1", 2, "Master")
 
 -- {{{ Date and time
 dateicon = widget({ type = "imagebox" })
-dateicon.image = image(beautiful.widget_date)
 -- Initialize widget
 datewidget = widget({ type = "textbox" })
 -- Register widget
@@ -350,7 +372,7 @@ for s = 1, scount do
     })
     -- Add widgets to the wibox
     wibox[s].widgets = {
-        datewidget, dateicon,
+        mylauncher, datewidget, dateicon,
         {   taglist[s], layoutbox[s], separator, promptbox[s],
             ["layout"] = awful.widget.layout.horizontal.leftright
         },
@@ -397,7 +419,7 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end),
 -- Run or raise applications with dmenu
     awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run -b -p 'Run command:'" )   end),
-    awful.key({ modkey            }, "t",                     function () awful.util.spawn("urxvt")   end),
+    awful.key({ modkey            }, "t",                     function () awful.util.spawn(terminal)   end),
     awful.key({ modkey            }, "Escape",                awful.tag.history.restore),
     awful.key({ modkey, "Control" }, "r",                     awesome.restart          ),
     awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xlock -mode blank") end),
