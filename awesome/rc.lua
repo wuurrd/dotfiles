@@ -204,19 +204,14 @@ terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
-myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit },
-   { "logout", function ()  awful.util.spawn("gnome-session-quit") end }
-}
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+mymainmenu = awful.menu({ items = { { "Quit", awesome.quit },
+                                    { "Restart", awesome.restart },
+                                    { "Logout", function ()  awful.util.spawn("gnome-session-quit") end },
+                                    { "Suspend", "gksudo pm-suspend" },
+                                    { "Edit config", editor_cmd .. " " .. awesome.conffile },
+                                    { "Spotify", 'spotify'},
                                     { "Network", 'nm-applet'},
-                                    { "Power manager", 'xfce4-power-manager'},
-                                    { "Screensaver", "xscreensaver -nosplash" },
-                                    { "Terminal", terminal }
                                   }
                         })
 mylauncher = awful.widget.launcher({ image = image(beautiful.widget_date),
@@ -326,7 +321,7 @@ dateicon = widget({ type = "imagebox" })
 -- Initialize widget
 datewidget = widget({ type = "textbox" })
 -- Register widget
-vicious.register(datewidget, vicious.widgets.date, "%R", 61)
+vicious.register(datewidget, vicious.widgets.date, " %e/%m, %R", 61)
 -- Register buttons
 -- }}}
 
