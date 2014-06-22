@@ -255,6 +255,35 @@ vicious.register(rxwidget, vicious.widgets.net,
 
 -- }}}
 -- {{{ Battery state
+function batteryCheck(adapter)
+     spacer = " "
+     local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")
+     local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full")
+     local fsta = io.open("/sys/class/power_supply/"..adapter.."/status")
+     local cur = fcur:read()
+     local cap = fcap:read()
+     local sta = fsta:read()
+     local battery = math.floor(cur * 100 / cap)
+     if sta:match("Discharging") then
+         if tonumber(battery) < 10 then
+             naughty.notify({ title      = "Battery Warning"
+                            , text       = "Battery low!"..spacer..battery.."%"..spacer.."left!"
+                            , timeout    = 5
+                            , position   = "top_right"
+                            , fg         = beautiful.fg_focus
+                            , bg         = beautiful.bg_focus
+                            })
+         end
+     end
+     fcur:close()
+     fcap:close()
+     fsta:close()
+ end
+
+battery_timer = timer({timeout = 60})
+battery_timer:add_signal("timeout", function()  batteryCheck("BAT0") end)
+battery_timer:start()
+
 baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
 -- Initialize widget
@@ -479,21 +508,17 @@ globalkeys = awful.util.table.join(
         local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} })
     end, "List windows"),
     awful.key({ modkey, "Shift" }, "j", function () awful.client.swap.byidx(1)  end, "Swap window right"),
-    awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx(-1) end, "Swap window left")
+    awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx(-1) end, "Swap window left"),
     -- }}}
-)
--- }}}
-
--- {{{ Client manipulation
-clientkeys = awful.util.table.join(
-    awful.key({ modkey              }, "c", function (c) c:kill() end),
+    keydoc.group("Window manipulation"),
+    awful.key({ modkey              }, "c", function (c) c:kill() end, "Kill window"),
 --    awful.key({ modkey              }, "d", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
-    awful.key({ winkey              }, "f", function (c) c.fullscreen = not c.fullscreen end),
+    awful.key({ winkey              }, "f", function (c) c.fullscreen = not c.fullscreen end, "Fullscreen"),
     awful.key({ modkey, "Control"     }, "m", function (c)
         c.maximized_horizontal = not c.maximized_horizontal
         c.maximized_vertical   = not c.maximized_vertical
-    end),
-    awful.key({ modkey              }, "o",     awful.client.movetoscreen),
+    end, "Maximize window"),
+    awful.key({ modkey              }, "o",     awful.client.movetoscreen, "Move window to next screen"),
     awful.key({ winkey              }, "Next",  function () awful.client.moveresize( 20,  20, -40, -40) end),
     awful.key({ winkey              }, "Prior", function () awful.client.moveresize(-20, -20,  40,  40) end),
     awful.key({ winkey              }, "Down",  function () awful.client.moveresize(  0,  20,   0,   0) end),
@@ -503,7 +528,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"     }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
         else awful.titlebar.add(c, { modkey = modkey }) end
-    end)
+    end, "Toggle titlebars")
 )
 -- }}}
 

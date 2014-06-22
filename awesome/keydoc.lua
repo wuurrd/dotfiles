@@ -51,8 +51,8 @@ local function key2str(key)
    if not key.modifiers or #key.modifiers == 0 then return sym end
    local result = ""
    local translate = {
-      [modkey] = "⊞",
-      Shift    = "⇧",
+      [modkey] = "Windows",
+      Shift    = "Shift",
       Control  = "Ctrl",
    }
    for _, mod in pairs(key.modifiers) do
@@ -92,9 +92,9 @@ local function markup(keys)
    local help, group = doc[key].help, doc[key].group
    local skey = key2str(key)
    result[group] = (result[group] or "") ..
-      '<span font="DejaVu Sans Mono 10" color="' .. beautiful.fg_widget .. '"> ' ..
+      '<span color="' .. beautiful.fg_focus .. '"> ' ..
       string.format("%" .. (longest - unilen(skey)) .. "s  ", "") .. skey ..
-      '</span>  <span color="' .. "#E0E0D1" .. '">' .. -- if
+      '</span>  <span color="' .. beautiful.fg_normal .. '">' .. -- if
    -- beautiful.fg_widget_value is not specified in your theme.lua, try changing it to "#E0E0D1"
    -- and include the quotes, because it is a string.
       help .. '</span>\n'
@@ -115,11 +115,11 @@ function display()
    for group, res in pairs(strings) do
       if #result > 0 then result = result .. "\n" end
       result = result ..
-   '<span weight="bold" color="' .. beautiful.fg_widget .. '">' ..
+   '<span weight="bold" color="' .. beautiful.fg_urgent .. '">' ..
    group .. "</span>\n" .. res
    end
    nid = naughty.notify({ text = result,
         replaces_id = nid,
         hover_timeout = 0.1,
-        timeout = 30 }).id
+        timeout = 60 }).id
 end
