@@ -17,9 +17,12 @@ require("awful.autofocus")
 -- User libraries
 require("vicious")
 require("scratch")
+require("debian.menu")
 -- notifications:
 require("naughty")
 -- }}}
+
+local keydoc = require("keydoc")
 
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
@@ -76,10 +79,10 @@ end
 naughty.config.default_preset.timeout = 5
 naughty.config.default_preset.position = "bottom_right"
 naughty.config.default_preset.screen           = 1
-naughty.config.default_preset.font = 'Ubuntu Mono 10' 
+naughty.config.default_preset.font = 'Ubuntu Mono 10'
 
 -- Beautiful theme
-beautiful.init(home .. "/.config/awesome/zenburn.lua") 
+beautiful.init(home .. "/.config/awesome/zenburn.lua")
 
 --zenburn.lua
 
@@ -123,7 +126,7 @@ function run_once(prg,arg_string,pname,screen)
        pname = prg
     end
 
-    if not arg_string then 
+    if not arg_string then
         awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")",screen)
     else
         awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. " " .. arg_string .. ")",screen)
@@ -161,16 +164,16 @@ volumecfg = {}
 volumecfg.cardid  = 0
 volumecfg.channel = "Master"
 volumecfg.widget = widget({ type = "textbox", name = "volumecfg.widget", align = "right" })
- 
+
 volumecfg_t = awful.tooltip({ objects = { volumecfg.widget },})
 volumecfg_t:set_text("Volume")
- 
+
 -- command must start with a space!
 volumecfg.mixercommand = function (command)
        local fd = io.popen("amixer -c " .. volumecfg.cardid .. command)
        local status = fd:read("*all")
        fd:close()
- 
+
        local volume = string.match(status, "(%d?%d?%d)%%")
        volume = string.format("% 3d", volume)
        status = string.match(status, "%[(o[^%]]*)%]")
@@ -199,7 +202,7 @@ volumecfg.widget:buttons({
        -- button({ }, 1, function () volumecfg.toggle() end)
 })
 volumecfg.update()
- 
+
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
@@ -208,10 +211,11 @@ editor_cmd = terminal .. " -e " .. editor
 mymainmenu = awful.menu({ items = { { "Quit", awesome.quit },
                                     { "Restart", awesome.restart },
                                     { "Logout", function ()  awful.util.spawn("gnome-session-quit") end },
-                                    { "Suspend", "gksudo pm-suspend" },
+                                    { "Suspend", "dbus-send --system --type=method_call --dest=org.freedesktop.UPower --print-reply /org/freedesktop/UPower org.freedesktop.UPower.Suspend" },
                                     { "Edit config", editor_cmd .. " " .. awesome.conffile },
                                     { "Spotify", 'spotify'},
                                     { "Network", 'nm-applet'},
+                                    { "Debian", debian.menu.Debian_menu.Debian },
                                   }
                         })
 mylauncher = awful.widget.launcher({ image = image(beautiful.widget_date),
@@ -303,18 +307,10 @@ vicious.register(membar, vicious.widgets.mem, "$1", 13)
 volicon = widget({ type = "imagebox" })
 volicon.image = image(beautiful.widget_vol)
 -- Initialize widgets
-volbar    = awful.widget.progressbar()
 volwidget = widget({ type = "textbox" })
 -- Progressbar properties
-volbar:set_vertical(true):set_ticks(true)
-volbar:set_height(20):set_width(8):set_ticks_size(2)
-volbar:set_background_color(beautiful.fg_off_widget)
-volbar:set_gradient_colors({ beautiful.fg_widget,
-   beautiful.fg_center_widget, beautiful.fg_end_widget
-}) -- Enable caching
 vicious.cache(vicious.widgets.volume)
 -- Register widgets
-vicious.register(volbar, vicious.widgets.volume, "$1", 2, "Master")
 
 -- {{{ Date and time
 dateicon = widget({ type = "imagebox" })
@@ -377,7 +373,7 @@ for s = 1, scount do
         -- separator, upicon,     netwidget, dnicon,
         separator, fs.r.widget, fsicon,
         separator, membar.widget, memicon,
-        separator, volumecfg.widget, volwidget, volbar.widget, volicon,
+        separator, volumecfg.widget, volwidget, volicon,
         separator, batwidget, baticon,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, txwidget, separator, rxwidget,
@@ -391,6 +387,7 @@ end
 
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
+    awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
@@ -409,75 +406,80 @@ clientbuttons = awful.util.table.join(
 -- {{{ Global keys
 globalkeys = awful.util.table.join(
     -- {{{ Applications
-    awful.key({                   }, "XF86AudioMute",         function () volumecfg.toggle()                end),
-    awful.key({                   }, "XF86AudioLowerVolume",  function () volumecfg.down()                  end),
-    awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end),
+    keydoc.group("Volume"),
+    awful.key({                   }, "XF86AudioMute",         function () volumecfg.toggle()                end, "Mute Volume"),
+    awful.key({                   }, "XF86AudioLowerVolume",  function () volumecfg.down()                  end, "Lower Volume"),
+    awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end, "Raise Volume"),
 -- Run or raise applications with dmenu
-    awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run -b -p 'Run command:'" )   end),
-    awful.key({ modkey            }, "t",                     function () awful.util.spawn(terminal)   end),
-    awful.key({ modkey            }, "Escape",                awful.tag.history.restore),
-    awful.key({ modkey, "Control" }, "r",                     awesome.restart          ),
-    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xlock -mode blank") end),
-    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("xlock -mode blank") end),
-    awful.key({ modkey            }, "o",                     awful.client.movetoscreen),
-
+    keydoc.group("Launch applications"),
+    awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run -b -p 'Run command:'" )   end, "Launch application"),
+    awful.key({ modkey            }, "t",                     function () awful.util.spawn(terminal)   end, "Spawn terminal"),
     awful.key({ winkey }, "g", function ()
         awful.prompt.run({ prompt = "Web: " }, promptbox[mouse.screen].widget,
             function (command)
                 sexec("google-chrome 'http://google.com/search?q="..command.."'")
 --                awful.tag.viewonly(tags[scount][8])
             end)
-    end),
- 
+    end, "Search google"),
+    keydoc.group("Awesome commands"),
+    awful.key({ modkey            }, "Escape",                awful.tag.history.restore, "Restore window history"),
+    awful.key({ modkey, "Control" }, "r",                     awesome.restart, "Restart awesome"),
+    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xlock -mode blank") end, "Lock screen"),
+    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("xlock -mode blank") end, "Lock Screen"),
+    awful.key({ modkey            }, "o",                     awful.client.movetoscreen, "Move window to next screen"),
+    awful.key({ modkey, "Shift" }, "F1", keydoc.display),
+
+
+
     -- {{{ Awesome controls
-    awful.key({ modkey, "Shift" }, "q", awesome.quit),
+    awful.key({ modkey, "Shift" }, "q", awesome.quit, "Quit awesome"),
     awful.key({ modkey, "Shift" }, "r", function ()
         promptbox[mouse.screen].text = awful.util.escape(awful.util.restart())
-    end),
+    end, "Restart Awesome"),
     -- }}}
 
     -- {{{ Tag browsing
-    awful.key({ altkey, "Control" }, "n",   awful.tag.viewnext),
-    awful.key({ altkey, "Control" }, "p",   awful.tag.viewprev),
-    awful.key({ altkey, "Control" }, "Right",   awful.tag.viewnext),
-    awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev),
+    awful.key({ altkey, "Control" }, "n",   awful.tag.viewnext, "Move to next tag"),
+    awful.key({ altkey, "Control" }, "p",   awful.tag.viewprev, "Move to previous tag"),
+    awful.key({ altkey, "Control" }, "Right",   awful.tag.viewnext, "Move to next tag"),
+    awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev, "Move to previous tag"),
     -- }}}
 
     -- {{{ Layout manipulation
-    awful.key({ modkey }, "l",          function () awful.tag.incmwfact( 0.05) end),
-    awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end),
+    awful.key({ modkey }, "l",          function () awful.tag.incmwfact( 0.05) end, "Expand window right"),
+    awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end, "Expand window left"),
     awful.key({ modkey, "Shift" }, "l", function () awful.client.incwfact(-0.05) end),
     awful.key({ modkey, "Shift" }, "h", function () awful.client.incwfact( 0.05) end),
-    awful.key({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey },          "space", function () awful.layout.inc(layouts,  1) end),
+    awful.key({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end, "Change window layout backwards"),
+    awful.key({ modkey },          "space", function () awful.layout.inc(layouts,  1) end, "Change window layout"),
     -- }}}
 
     -- switch between monitors:
 --    awful.key({ modkey, "Control" }, "l", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end),
+    awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end, "Move focus to next monitor"),
 
-    awful.key({ modkey }, "s", function () scratch.pad.toggle() end),
+    awful.key({ modkey }, "s", function () scratch.pad.toggle() end, "Toggle scratchpad"),
     awful.key({ modkey }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey }, "F12", function () scratch.drop("urxvt", "bottom") end),
+    awful.key({ modkey }, "F12", function () scratch.drop("urxvt", "bottom") end, "Console at bottom"),
 
     awful.key({ modkey }, "j", function ()
         awful.client.focus.byidx(1)
         if client.focus then client.focus:raise() end
-    end),
+    end, "Tab between windows"),
     awful.key({ modkey }, "Tab", function ()
         awful.client.focus.byidx(1)
         if client.focus then client.focus:raise() end
-    end),
+    end, "Tab between windows"),
     awful.key({ modkey }, "k", function ()
         awful.client.focus.byidx(-1)
         if client.focus then client.focus:raise() end
-    end),
+    end, "Tab backwards between windows"),
     awful.key({ altkey }, "Escape", function ()
         awful.menu.menu_keys.down = { "Down", "Alt_L" }
         local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} })
-    end),
-    awful.key({ modkey, "Shift" }, "j", function () awful.client.swap.byidx(1)  end),
-    awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx(-1) end)
+    end, "List windows"),
+    awful.key({ modkey, "Shift" }, "j", function () awful.client.swap.byidx(1)  end, "Swap window right"),
+    awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx(-1) end, "Swap window left")
     -- }}}
 )
 -- }}}
@@ -486,7 +488,7 @@ globalkeys = awful.util.table.join(
 clientkeys = awful.util.table.join(
     awful.key({ modkey              }, "c", function (c) c:kill() end),
 --    awful.key({ modkey              }, "d", function (c) scratch.pad.set(c, 0.60, 0.60, true) end),
---    awful.key({ modkey              }, "f", function (c) c.fullscreen = not c.fullscreen end),
+    awful.key({ winkey              }, "f", function (c) c.fullscreen = not c.fullscreen end),
     awful.key({ modkey, "Control"     }, "m", function (c)
         c.maximized_horizontal = not c.maximized_horizontal
         c.maximized_vertical   = not c.maximized_vertical
