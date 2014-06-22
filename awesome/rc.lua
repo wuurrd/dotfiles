@@ -70,7 +70,8 @@ if awful.util.file_readable(host_config_file) then
 end
 
 -- awful.util.spawn("xscreensaver -nosplash")
--- awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
+awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
+awful.util.spawn_with_shell("if [ -z `pidof xcompmgr` ]; then xcompmgr; fi")
 -- awful.util.spawn_with_shell("if [ -z `pidof bluetooth-applet` ]; then bluetooth-applet; fi")
 -- awful.util.spawn_with_shell("xsetkbmap us")
 -- awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
@@ -265,7 +266,7 @@ function batteryCheck(adapter)
      local sta = fsta:read()
      local battery = math.floor(cur * 100 / cap)
      if sta:match("Discharging") then
-         if tonumber(battery) < 10 then
+         if tonumber(battery) < 2 then
              naughty.notify({ title      = "Battery Warning"
                             , text       = "Battery low!"..spacer..battery.."%"..spacer.."left!"
                             , timeout    = 20
@@ -653,8 +654,14 @@ end)
 -- }}}
 
 -- {{{ Focus signal handlers
-client.add_signal("focus",   function (c) c.border_color = beautiful.border_focus  end)
-client.add_signal("unfocus", function (c) c.border_color = beautiful.border_normal end)
+client.add_signal("focus",   function (c)
+  c.border_color = beautiful.border_focus
+  c.opacity = 1
+end)
+client.add_signal("unfocus", function (c)
+  c.border_color = beautiful.border_normal
+  c.opacity = 0.8
+end)
 -- }}}
 
 -- {{{ Arrange signal handler
