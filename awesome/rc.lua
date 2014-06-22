@@ -268,10 +268,8 @@ function batteryCheck(adapter)
          if tonumber(battery) < 10 then
              naughty.notify({ title      = "Battery Warning"
                             , text       = "Battery low!"..spacer..battery.."%"..spacer.."left!"
-                            , timeout    = 5
-                            , position   = "top_right"
-                            , fg         = beautiful.fg_focus
-                            , bg         = beautiful.bg_focus
+                            , timeout    = 20
+                            , preset     = naughty.config.presets.critical
                             })
          end
      end
