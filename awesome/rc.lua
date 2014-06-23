@@ -71,7 +71,7 @@ end
 
 -- awful.util.spawn("xscreensaver -nosplash")
 awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
-awful.util.spawn_with_shell("if [ -z `pidof xcompmgr` ]; then xcompmgr; fi")
+awful.util.spawn_with_shell("if [ -z `pidof compton` ]; then compton; fi")
 -- awful.util.spawn_with_shell("if [ -z `pidof bluetooth-applet` ]; then bluetooth-applet; fi")
 -- awful.util.spawn_with_shell("xsetkbmap us")
 -- awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
