@@ -387,7 +387,8 @@ for s = 1, scount do
         fg = beautiful.fg_normal, height = 20,
         bg = beautiful.bg_normal, position = "bottom",
         border_color = beautiful.fg_normal,
-        border_width = 0
+        border_width = 0,
+        opacity = 0.8
     })
     -- Add widgets to the wibox
     wibox[s].widgets = {
