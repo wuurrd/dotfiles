@@ -470,10 +470,12 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Control" }, "n",   awful.tag.viewnext, "Move to next tag"),
     awful.key({ altkey, "Control" }, "p",   awful.tag.viewprev, "Move to previous tag"),
     awful.key({ altkey, "Control" }, "Right",   awful.tag.viewnext, "Move to next tag"),
-    awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev, "Move to previous tag"),
+    awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev, "Move to previous tag")
+)
     -- }}}
 
     -- {{{ Layout manipulation
+clientkeys = awful.util.table.join(
     awful.key({ modkey }, "l",          function () awful.tag.incmwfact( 0.05) end, "Expand window right"),
     awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end, "Expand window left"),
     awful.key({ modkey, "Shift" }, "l", function () awful.client.incwfact(-0.05) end),
