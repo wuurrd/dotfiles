@@ -24,10 +24,6 @@ ui = auto
 name = David Buchmann
 email = david.buchmann@gmail.com
 
-[svn]
-authorsfile = /home/dbu/etc/svn-authors
-rmdir = yes
-
 [core]
 whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = /Users/davbuchm/.gitignore_global
