@@ -281,7 +281,7 @@ function batteryCheck(adapter)
 
 battery_timer = timer({timeout = 60})
 battery_timer:add_signal("timeout", function()  batteryCheck("BAT0") end)
-battery_timer:start()
+--battery_timer:start()
 
 baticon = widget({ type = "imagebox" })
 baticon.image = image(beautiful.widget_bat)
