@@ -6,10 +6,10 @@ no_buffers yes
 imlib_cache_size 10
 
 # Window specifications #
-alignment top_right
+alignment middle_middle
 gap_x 0
 gap_y 0
-minimum_size 400 900
+minimum_size 400 600
 maximum_width 400
 own_window yes
 own_window_type override # all options are: override/normal/desktop/panel/dock
