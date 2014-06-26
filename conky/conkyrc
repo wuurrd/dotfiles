@@ -63,9 +63,9 @@ ${texeci 10 python ~/dotfiles/conky/unread-gmail.py >> ~/.cache/unreadmail}\
 ${execi 3600 cat "" > ~/.cache/unreadmail}\
 ##############
 # Separators #
-############## 
+##############
 ${image ~/dotfiles/conky/separator-h.png -p 10, 55  -s 380x1 } # above music
-${image ~/dotfiles/conky/separator-h.png -p 10, 75  -s 380x1 } # below music
+#${image ~/dotfiles/conky/separator-h.png -p 10, 75  -s 380x1 } # below music
 ${image ~/dotfiles/conky/separator-v.png -p 175,85  -s 1x80  } # between current weather and forecast
 ${image ~/dotfiles/conky/separator-v.png -p 250,85  -s 1x80  } # between forecast 1 and 2
 ${image ~/dotfiles/conky/separator-v.png -p 325,85  -s 1x80  } # between forecast 2 and 3
@@ -73,17 +73,17 @@ ${image ~/dotfiles/conky/separator-h.png -p 10,175  -s 380x1 } # under all weath
 ${image ~/dotfiles/conky/separator-v.png -p 127,185 -s 1x85  } # between cpu and summary
 ${image ~/dotfiles/conky/separator-v.png -p 233,185 -s 1x85  } # between summary and mem
 ${image ~/dotfiles/conky/separator-h.png -p 10,280  -s 380x1 } # under processes
-${image ~/dotfiles/conky/separator-v.png -p 270,290 -s 1x90  } # between networks and graphs
-${image ~/dotfiles/conky/separator-h.png -p 10,390  -s 380x1 } # under networks
-${image ~/dotfiles/conky/separator-h.png -p 10,500  -s 380x1 } # under whatpulse
-${image ~/dotfiles/conky/separator-h.png -p 10,585  -s 380x1 } # under whatpulse
+${image ~/dotfiles/conky/separator-v.png -p 270,290 -s 1x110  } # between networks and graphs
+${image ~/dotfiles/conky/separator-h.png -p 10,410  -s 410x1 } # under networks
+#${image ~/dotfiles/conky/separator-h.png -p 10,500  -s 380x1 } # under whatpulse
+#${image ~/dotfiles/conky/separator-h.png -p 10,585  -s 380x1 } # under whatpulse
 ################
 # Other images #
 ################
 # small current condition icons
-${image ~/dotfiles/conky/pressure.png -p 155,96  -s 16x16}\
-${image ~/dotfiles/conky/humidity.png -p 155,112 -s 16x16}\
-${image ~/dotfiles/conky/wind-2.png   -p 155,128 -s 16x16}\
+#${image ~/dotfiles/conky/pressure.png -p 155,96  -s 16x16}\
+#${image ~/dotfiles/conky/humidity.png -p 155,112 -s 16x16}\
+#${image ~/dotfiles/conky/wind-2.png   -p 155,128 -s 16x16}\
 # large forecast pictures
 ${image ~/.cache/weather-1.png -p 200,107 -s 32x32}\
 ${image ~/.cache/weather-2.png -p 275,107 -s 32x32}\
@@ -115,6 +115,7 @@ ${voffset 50}\
 ###################
 # Process section #
 ###################
+
 ${voffset 11}\
 ${font Droid Sans :size=9}\
 ${goto 20}Process${tab 40}  CPU%${tab 120}Process${tab 150} Mem%${alignr 10}Mem
@@ -137,6 +138,8 @@ ${font}
 ###################
 # Network section #
 ###################
+
+
 ${voffset -4}${goto 20}Interface${tab 40}Current${tab 90}Session
 ${voffset 8}\
 ${if_existing /proc/net/route eth0}\
@@ -154,6 +157,13 @@ ${endif}
     ${goto 300}${downspeedgraph eth0 26,90 777777 FFFFFF}
     ${goto 300}Up     ${upspeed eth0}
     ${goto 300}${upspeedgraph   eth0 26,90 777777 FFFFFF}
+  ${font}${endif}
+  ${if_existing /proc/net/route wlan0}${font Droid Sans Mono :size=8}\
+    ${voffset -114}\
+    ${goto 300}Down   ${downspeed wlan0}
+    ${goto 300}${downspeedgraph wlan0 26,90 777777 FFFFFF}
+    ${goto 300}Up     ${upspeed wlan0}
+    ${goto 300}${upspeedgraph   wlan0 26,90 777777 FFFFFF}
   ${font}${endif}
 ###################
 # Storage section #
