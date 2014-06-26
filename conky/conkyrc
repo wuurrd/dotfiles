@@ -59,7 +59,7 @@ TEXT
 ${execi 300 ~/dotfiles/conky/updateWeather.sh ~/.cache/weather.xml}\
 ${execi 300 ~/dotfiles/conky/reload-forecast-pics.sh}\
 # email
-${texeci 10 python ~/dotfiles/conky/unread-gmail.py >> ~/.cache/unreadmail}\
+${texeci 10 python ~/.conky/unread-gmail.py >> ~/.cache/unreadmail}\
 ${execi 3600 cat "" > ~/.cache/unreadmail}\
 ##############
 # Separators #
