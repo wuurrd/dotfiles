@@ -67,5 +67,3 @@
 
 (add-hook 'python-mode-hook 'jedi:setup)
 (package-initialize)
-(elpy-enable)
-(message "HEllOw WORLD")

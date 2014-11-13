@@ -33,3 +33,8 @@
 ; Needs to be initialised after rope.
 (global-set-key "\C-xp" 'other-window-backward)
 (require 'helm-find-files-in-project)
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(setq projectile-enable-caching t)
+(global-set-key (kbd "C-x C-p") 'helm-projectile)
+(setq ring-bell-function 'ignore)
