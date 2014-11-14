@@ -1,7 +1,4 @@
-(setq cscope-do-not-update-database t)
-;(load-file "/usr/share/emacs/site-lisp/xcscope.el")
 (require 'xcscope)
-(cscope-set-initial-directory "/home/dbu/src/main/product/apollo/charlie/host/complete/_build/charlie.host")
 (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
 
@@ -27,4 +24,3 @@
   (auto-complete-mode 1)
 )
 (add-hook 'c++-mode-hook 'my-cpp-settings)
-;(require 'gccsense)
