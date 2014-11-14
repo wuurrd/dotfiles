@@ -1,9 +1,11 @@
+(require 'pymacs)
+(require 'twisted-dev)
 (require 'fill-column-indicator)
-(add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
-; For our build system
-(add-to-list 'auto-mode-alist '("genmake\\.def\\'" . python-mode))
 
-;Python settings.
+(add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
+
+;Flymake settings.
+(setq pylint "epylint")
 (when (load "flymake" t)
  (defun flymake-pylint-init ()
    (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -16,13 +18,9 @@
  (add-to-list 'flymake-allowed-file-name-masks
           '("\\.py\\'" flymake-pylint-init)))
 
-(require 'pymacs)
 
-(require 'twisted-dev)
-
-(defun my-python-settings ()
+(defun dbu-python-settings ()
   (twisted-dev-mode 1)
-;  (ropemacs-mode "on")
   (setq show-trailing-whitespace t)
   (setq tab-width 4
         py-indent-offset 4
@@ -31,39 +29,18 @@
   (auto-complete-mode 1)
   (subword-mode 1)
   (auto-fill-mode 1)
+  ; do not breakline on comments
   (set (make-local-variable 'fill-nobreak-predicate)
        (lambda ()
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
-  (fci-mode 1)
   (setq fci-rule-column 80)
+  (fci-mode 1)
+  (flymake-mode 1)
   (setq jedi:setup-keys t)
-  (setq jedi:key-goto-definition (kbd "C-c g"))
+  (jedi:setup)
 )
 
-(add-hook 'python-mode-hook 'my-python-settings)
+(add-hook 'python-mode-hook 'dbu-python-settings)
 
-(defvar ac-source-rope
-  '((candidates
-     . (lambda ()
-         (prefix-list-elements (rope-completions) ac-target))))
-  "Source for Rope")
-
-;(add-hook 'python-mode-hook
-;          (lambda ()
-;
-;                 (set (make-local-variable 'ac-sources)
-;                      (append ac-sources '(ac-source-rope) '(ac-source-yasnippet)))
-;          )
-;)
-
-;(setq load-path (cons "/home/dbu/.emacs.d/twisted-dev.el" load-path))
-
-
-;(global-ede-mode 1)
-;(require 'semantic/sb)
-;(semantic-mode 1)
-;(ecb-minor-mode 1)
-
-(add-hook 'python-mode-hook 'jedi:setup)
 (package-initialize)
