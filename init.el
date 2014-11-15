@@ -30,3 +30,5 @@
 (load-file "~/dotfiles/.emacs.d/irc_mode.el")
 (load-file "~/dotfiles/.emacs.d/html.el")
 (load-file "~/dotfiles/.emacs.d/audio.el")
+
+(load-file "~/dotfiles/.emacs.d/packages.el")
