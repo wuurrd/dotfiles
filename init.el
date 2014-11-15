@@ -16,6 +16,7 @@
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d/yasnippet"))
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d/auto-install"))
+
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (load-file "~/dotfiles/.emacs.d/global.el")
@@ -29,31 +30,3 @@
 (load-file "~/dotfiles/.emacs.d/irc_mode.el")
 (load-file "~/dotfiles/.emacs.d/html.el")
 (load-file "~/dotfiles/.emacs.d/audio.el")
-
-; Needs to be initialised after rope.
-(global-set-key "\C-xp" 'other-window-backward)
-(require 'helm-find-files-in-project)
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(setq projectile-enable-caching t)
-(global-set-key (kbd "C-x C-p") 'helm-projectile)
-(setq ring-bell-function 'ignore)
-
-(defun duplicate-line()
-  (interactive)
-  (move-beginning-of-line 1)
-  (kill-line)
-  (yank)
-  (open-line 1)
-  (next-line 1)
-  (yank)
-)
-(global-set-key (kbd "C-S-d") 'duplicate-line)
-
-(global-set-key (kbd "C-S-g") 'magit-status)
-(global-set-key [M-S-down] 'move-text-down)
-(global-set-key [M-S-up] 'move-text-up)
-(electric-pair-mode)
-(require 'helm-config)
-(helm-mode 1)
-(global-set-key [M-S-space] 'expand-region)

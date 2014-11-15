@@ -44,12 +44,6 @@
                                 (sequence "OPEN(O!)" "|" "CLOSED(C!)"))))
 
 
-(defun build_host (target)
-  "Nonce function"
-
-  (compile (format "ionice -c3 nice build -t %s -j8 --no-tar --nocolor" target)))
-
-(global-set-key [f12] 'build_host)
 (blink-cursor-mode (- (*) (*) (*)))
 ;(toggle-show-tabs-show-ws)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
@@ -61,3 +55,36 @@
 
 ;(add-hook 'font-lock-mode-hook 'hc-highlight-tabs)
 ;(add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
+
+; Needs to be initialised after rope.
+(global-set-key "\C-xp" 'other-window-backward)
+
+(require 'helm-find-files-in-project)
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(setq projectile-enable-caching t)
+(global-set-key (kbd "C-x C-p") 'helm-projectile)
+(setq ring-bell-function 'ignore)
+(setq helm-buffers-fuzzy-matching t)
+
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+)
+(global-set-key (kbd "C-S-d") 'duplicate-line)
+
+(global-set-key (kbd "C-S-g") 'magit-status)
+(global-set-key [M-S-down] 'move-text-down)
+(global-set-key [M-S-up] 'move-text-up)
+(electric-pair-mode)
+(require 'helm-config)
+(helm-mode 1)
+(global-set-key [M-S-space] 'expand-region)
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
