@@ -84,7 +84,7 @@
 (electric-pair-mode)
 (require 'helm-config)
 (helm-mode 1)
-(global-set-key [M-S-space] 'expand-region)
+(global-set-key (kbd "M-SPC") 'er/expand-region)
 (require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
