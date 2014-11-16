@@ -108,3 +108,5 @@
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 (global-set-key (kbd "C-z") 'undo)
+
+(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
