@@ -110,3 +110,5 @@
 (global-set-key (kbd "C-z") 'undo)
 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+(setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
+(global-set-key [F12] 'recompile)

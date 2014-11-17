@@ -60,7 +60,7 @@ source $ZSH/oh-my-zsh.sh
 export LSCOLORS=Exfxcxdxbxegedabagacad
 source ~/.aliases
 
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/local/texlive/2012/bin/universal-darwin:/sbin/:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/local/texlive/2012/bin/universal-darwin:/sbin/:$HOME/bin:$PATH"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -114,3 +114,18 @@ bindkey '^Z' fancy-ctrl-z
 if [[ -s '/etc/zsh_command_not_found' ]]; then
   source '/etc/zsh_command_not_found'
 fi
+export TERM="xterm-256color"
+export EDITOR="vim"
+export PEXDEV_FILESERVER=nofs1.rd.pexip.com
+export PEX_CONFERENCING_CONFIG_DB="$HOME/src/mcu/resources/cfg/mcu/pexcfg.db"
+
+check_stream () {
+  ./gst-launch-0.10 rtmpsrc location="$1 live=1" ! flvdemux name=demux demux.video ! h264parse ! pexh264dec ! ffmpegcolorspace ! fakesink async=0 demux.audio ! fakesink async=0 -v
+}
+
+export MCUDIR=/home/dbu/src/mcu
+export PYTHONPATH=$MCUDIR:$MCUDIR/.build/__autotools__/linux-x86_64/lib/python2.7/site-packages/:$MCUDIR/.build/__autotools__/linux-x86_64/lib/python2.7/site-packages/gst-0.10/:$PYTHONPATH
+export LD_LIBRARY_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib:$MCUDIR/.build/__autotools__/linux-x86_64/lib/gstreamer-0.10/
+export GST_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/gstreamer-0.10/
+export GST_PLUGIN_SCANNER=$MCUDIR/.build/__autotools__/linux-x86_64/libexec/gstreamer-0.10/gst-plugin-scanner
+export FS_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/farstream-0.1/

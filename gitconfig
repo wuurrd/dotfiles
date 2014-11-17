@@ -10,12 +10,7 @@ loglocal = log --abbrev-commit --format='%Cgreen* %C(yellow)%h %Cblue%aN %Cgreen
 logremote = "!f() { git fetch&&\
                         git log --abbrev-commit --format='%Cred* %C(yellow)%h %Cblue%aN %Cgreen%ar %Creset%s' ..FETCH_HEAD;\
                         }; f"
-changes = "!f() { echo 'YOUR CHANGES:\n-------------';\
-                      git loglocal;\
-                      echo 'REMOTE CHANGES:\n---------------';\
-                      git logremote;\
-                      }; f"
-
+changes = "!git-changes"
 
 [color]
 ui = auto
@@ -26,7 +21,7 @@ email = david.buchmann@gmail.com
 
 [core]
 whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = /Users/davbuchm/.gitignore_global
+excludesfile = ~/.gitignore_global
 
 [push]
     default=current
