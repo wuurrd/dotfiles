@@ -103,11 +103,12 @@
 (electric-pair-mode)
 (require 'helm-config)
 (helm-mode 1)
-(global-set-key (kbd "M-SPC") 'er/expand-region)
+(global-set-key (kbd "M-S-SPC") 'er/expand-region)
 (require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 (global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "s-/") 'comment-dwim)
 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
