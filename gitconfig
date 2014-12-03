@@ -12,6 +12,8 @@ logremote = "!f() { git fetch&&\
                         }; f"
 changes = "!git-changes"
 
+[diff]
+  algorithm = patience
 [color]
 ui = auto
 
