@@ -111,5 +111,7 @@
 (global-set-key (kbd "s-/") 'comment-dwim)
 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+(global-set-key (kbd "M-?") 'mc/mark-all-like-this-dwim)
+
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
 (global-set-key [F12] 'recompile)

@@ -39,6 +39,7 @@
   (flymake-mode 1)
   (setq jedi:setup-keys t)
   (jedi:setup)
+  (push 'ac-source-yasnippet ac-sources)
 )
 
 (add-hook 'python-mode-hook 'dbu-python-settings)
