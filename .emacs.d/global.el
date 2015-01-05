@@ -115,3 +115,10 @@
 
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
 (global-set-key [F12] 'recompile)
+;; make zap-to-char act like zap-up-to-char
+
+(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
+  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
+  The CHAR is replaced and the point is put before CHAR."
+  (insert char)
+  (forward-char -1))

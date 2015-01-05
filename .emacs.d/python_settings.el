@@ -1,4 +1,4 @@
-(require 'pymacs)
+;; (require 'pymacs)
 (require 'twisted-dev)
 (require 'fill-column-indicator)
 

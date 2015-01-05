@@ -12,9 +12,9 @@
  '(flymake-errline ((((class color)) (:underline "red"))))
  '(flymake-warnline ((((class color)) (:underline "yellow")))))
 
-(require 'highlight-current-line)
-(highlight-current-line-on t)
-(set-face-background 'highlight-current-line-face "#303030")
+;; (require 'highlight-current-line)
+;; (highlight-current-line-on t)
+;; (set-face-background 'highlight-current-line-face "#303030")
 
 (setq org-todo-keyword-faces
       (quote (("TODO"      :foreground "red"          :weight bold)
