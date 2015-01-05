@@ -100,7 +100,7 @@
 (global-set-key (kbd "C-S-g") 'magit-status)
 (global-set-key [M-S-down] 'move-text-down)
 (global-set-key [M-S-up] 'move-text-up)
-(electric-pair-mode)
+;(electric-pair-mode)
 (require 'helm-config)
 (helm-mode 1)
 (global-set-key (kbd "M-S-SPC") 'er/expand-region)
@@ -112,7 +112,9 @@
 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 (global-set-key (kbd "M-?") 'mc/mark-all-like-this-dwim)
-
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(delete-selection-mode 1)
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
 (global-set-key [F12] 'recompile)
 ;; make zap-to-char act like zap-up-to-char
