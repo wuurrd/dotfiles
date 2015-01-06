@@ -57,13 +57,11 @@
 ;(add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
 
 ; Needs to be initialised after rope.
-(global-set-key "\C-xp" 'other-window-backward)
 
 (require 'helm-find-files-in-project)
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching t)
-(global-set-key (kbd "C-x C-p") 'helm-projectile)
 (setq ring-bell-function 'ignore)
 (setq helm-buffers-fuzzy-matching t)
 
@@ -95,28 +93,35 @@
   (next-line 1)
   (yank)
 )
-(global-set-key (kbd "C-S-d") 'duplicate-line-or-region)
-
-(global-set-key (kbd "C-S-g") 'magit-status)
-(global-set-key [M-S-down] 'move-text-down)
-(global-set-key [M-S-up] 'move-text-up)
-;(electric-pair-mode)
 (require 'helm-config)
 (helm-mode 1)
-(global-set-key (kbd "M-S-SPC") 'er/expand-region)
+
 (require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
+
+(delete-selection-mode 1)
+(setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
+
+(global-set-key [F12] 'recompile)
+(global-set-key (kbd "C-S-d") 'duplicate-line-or-region)
+(global-set-key "\C-xp" 'other-window-backward)
+(global-set-key (kbd "C-S-g") 'magit-status)
+(global-set-key [M-S-down] 'move-text-down)
+(global-set-key [M-S-up] 'move-text-up)
+
+(global-set-key (kbd "M-S-SPC") 'er/expand-region)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "s-/") 'comment-dwim)
 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 (global-set-key (kbd "M-?") 'mc/mark-all-like-this-dwim)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x C-p") 'helm-projectile)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-(delete-selection-mode 1)
-(setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
-(global-set-key [F12] 'recompile)
+
 ;; make zap-to-char act like zap-up-to-char
 
 (defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
@@ -124,3 +129,4 @@
   The CHAR is replaced and the point is put before CHAR."
   (insert char)
   (forward-char -1))
+
