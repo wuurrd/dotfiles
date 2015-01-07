@@ -95,7 +95,7 @@
 )
 (require 'helm-config)
 (helm-mode 1)
-
+(setq helm-ag-command-option "--smart-case")
 (require 'keyfreq)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)

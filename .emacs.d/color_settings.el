@@ -39,7 +39,7 @@
 ;; Fontify any future frames
 (push 'fontify-frame after-make-frame-functions)
 
-(set-default-font "Droid Sans Mono 12")
+(set-default-font "Monospace 14")
 (setq-default tab-width 4 indent-tabs-mode nil)
 
 (require 'powerline)

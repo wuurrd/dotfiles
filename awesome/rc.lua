@@ -57,25 +57,25 @@ local exec   = awful.util.spawn
 local sexec  = awful.util.spawn_with_shell
 local scount = screen.count()
 
-local hostname = awful.util.pread('hostname -s'):gsub('\n', '')
-local host_config_file = awful.util.getdir('config') .. '/rc.' .. hostname .. '.lua'
-if awful.util.file_readable(host_config_file) then
-        local host_config_function, host_config_load_error
-        host_config_function, host_config_load_error = loadfile(host_config_file)
-        if not host_config_load_error then
-                host_config_function()
-        else
-                print(string.format('[awesome] Failed to load %s: %s', host_config_file, host_config_load_error))
-        end
-end
+--local hostname = awful.util.pread('hostname -s'):gsub('\n', '')
+--if awful.util.file_readable(host_config_file) then
+        --local host_config_function, host_config_load_error
+        --host_config_function, host_config_load_error = loadfile(host_config_file)
+        --if not host_config_load_error then
+                --host_config_function()
+        --else
+                --print(string.format('[awesome] Failed to load %s: %s', host_config_file, host_config_load_error))
+        --end
+--end
 
--- awful.util.spawn("xscreensaver -nosplash")
-awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
-awful.util.spawn_with_shell("if [ -z `pidof compton` ]; then compton; fi")
-awful.util.spawn_with_shell("if [ -z `pidof conky` ]; then conky -c ~/dotfiles/conky/conkyrc; fi")
--- awful.util.spawn_with_shell("if [ -z `pidof bluetooth-applet` ]; then bluetooth-applet; fi")
--- awful.util.spawn_with_shell("xsetkbmap us")
--- awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
+--awful.util.spawn("xscreensaver -nosplash")
+--awful.util.spawn_with_shell("if [ -z `pidof nm-applet` ]; then nm-applet; fi")
+--awful.util.spawn_with_shell("if [ -z `pidof compton` ]; then compton; fi")
+--awful.util.spawn_with_shell("if [ -z `pidof conky` ]; then conky -c ~/dotfiles/conky/conkyrc; fi")
+--awful.util.spawn_with_shell("if [ -z `pidof conky` ]; then conky -c ~/dotfiles/conky/calendar.conkyrc; fi")
+--awful.util.spawn_with_shell("if [ -z `pidof bluetooth-applet` ]; then bluetooth-applet; fi")
+--awful.util.spawn_with_shell("xsetkbmap us")
+--awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
 
 -- notifications:
 naughty.config.default_preset.timeout = 5
@@ -250,47 +250,11 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0"
 txwidget = widget({ type="textbox" })
 rxwidget = widget({ type="textbox" })
 vicious.register(txwidget, vicious.widgets.net,
-                 "tx: ${wlan0 up_kb}KB", 2)
+                 "tx: ${eth0 up_kb}KB", 2)
 vicious.register(rxwidget, vicious.widgets.net,
-                 "rx: ${wlan0 down_kb}KB", 2)
+                 "rx: ${eth0 down_kb}KB", 2)
 
 
--- }}}
--- {{{ Battery state
-function batteryCheck(adapter)
-     spacer = " "
-     local fcur = io.open("/sys/class/power_supply/"..adapter.."/charge_now")
-     local fcap = io.open("/sys/class/power_supply/"..adapter.."/charge_full")
-     local fsta = io.open("/sys/class/power_supply/"..adapter.."/status")
-     local cur = fcur:read()
-     local cap = fcap:read()
-     local sta = fsta:read()
-     local battery = math.floor(cur * 100 / cap)
-     if sta:match("Discharging") then
-         if tonumber(battery) < 2 then
-             naughty.notify({ title      = "Battery Warning"
-                            , text       = "Battery low!"..spacer..battery.."%"..spacer.."left!"
-                            , timeout    = 20
-                            , preset     = naughty.config.presets.critical
-                            })
-         end
-     end
-     fcur:close()
-     fcap:close()
-     fsta:close()
- end
-
-battery_timer = timer({timeout = 60})
-battery_timer:add_signal("timeout", function()  batteryCheck("BAT0") end)
---battery_timer:start()
-
-baticon = widget({ type = "imagebox" })
-baticon.image = image(beautiful.widget_bat)
--- Initialize widget
-batwidget = widget({ type = "textbox" })
--- Register widget
-vicious.register(batwidget, vicious.widgets.bat, "$2% [$3]", 61, "BAT0")
--- }}}
 
 -- {{{ File system usage
 fsicon = widget({ type = "imagebox" })
@@ -404,7 +368,6 @@ for s = 1, scount do
         separator, fs.r.widget, fsicon,
         separator, membar.widget, memicon,
         separator, volumecfg.widget, volwidget, volicon,
-        separator, batwidget, baticon,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, txwidget, separator, rxwidget,
         separator, kbdcfg.widget,
@@ -454,8 +417,8 @@ globalkeys = awful.util.table.join(
     keydoc.group("Awesome commands"),
     awful.key({ modkey            }, "Escape",                awful.tag.history.restore, "Restore window history"),
     awful.key({ modkey, "Control" }, "r",                     awesome.restart, "Restart awesome"),
-    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("xlock -mode blank") end, "Lock screen"),
-    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("xlock -mode blank") end, "Lock Screen"),
+    awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("gnome-screensaver-command -l") end, "Lock screen"),
+    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("gnome-screensave-command -l") end, "Lock Screen"),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen, "Move window to next screen"),
     awful.key({ modkey, "Shift" }, "F1", keydoc.display),
 
