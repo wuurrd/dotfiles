@@ -193,7 +193,9 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   (js2-imenu-extras-mode)
   (setq mode-name "JS2")
   (ac-js2-mode)
+  (electric-indent-mode 0)
   (local-set-key (kbd "C-c .") 'ac-js2-jump-to-definition)
+  (local-set-key (kbd "RET") 'newline-and-indent)
 )
 
 (autoload 'js2-mode "js2-mode" nil t)
