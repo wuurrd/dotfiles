@@ -192,6 +192,8 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
 (defun my-js2-mode-setup()
   (js2-imenu-extras-mode)
   (setq mode-name "JS2")
+  (ac-js2-mode)
+  (local-set-key (kbd "C-c .") 'ac-js2-jump-to-definition)
 )
 
 (autoload 'js2-mode "js2-mode" nil t)
@@ -213,7 +215,9 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
                       (split-string
                        (if (string-match "/\\* *global *\\(.*?\\) *\\*/" btext) (match-string-no-properties 1 btext) "")
                        " *, *" t))
-                ))))
+                ))
+            )
+          )
 
 
 (provide 'javascript)
