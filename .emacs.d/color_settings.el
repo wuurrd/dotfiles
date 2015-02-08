@@ -40,6 +40,8 @@
 (push 'fontify-frame after-make-frame-functions)
 
 (set-default-font "Monospace 14")
+(if (eq system-type 'darwin)
+    (set-default-font "Monaco 12")
 (setq-default tab-width 4 indent-tabs-mode nil)
 
 (require 'powerline)
