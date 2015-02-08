@@ -136,3 +136,4 @@
             (lambda ()
                   (interactive)
                   (join-line -1)))
+(require 'javascript)
