@@ -130,3 +130,9 @@
   (insert char)
   (forward-char -1))
 
+(load-theme 'manoj-dark)
+
+(global-set-key (kbd "M-j")
+            (lambda ()
+                  (interactive)
+                  (join-line -1)))
