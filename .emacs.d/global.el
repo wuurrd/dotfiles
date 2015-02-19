@@ -121,6 +121,7 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-x C-p") 'helm-projectile)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-c p q") 'helm-do-ag)
 
 ;; make zap-to-char act like zap-up-to-char
 
