@@ -159,3 +159,4 @@
 (if (eq system-type 'darwin)
     (global-set-key (kbd "s-M") 'toggle-max-frame)
 )
+(setq scss-compile-at-save nil)

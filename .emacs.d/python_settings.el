@@ -34,8 +34,6 @@
        (lambda ()
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
-  (setq fci-rule-column 80)
-  (fci-mode 1)
   (flymake-mode 1)
   (setq jedi:setup-keys t)
   (jedi:setup)
@@ -43,5 +41,6 @@
 )
 
 (add-hook 'python-mode-hook 'dbu-python-settings)
+(add-to-list 'auto-mode-alist '("\\.mxml\\'" . actionscript-mode))
 
 (package-initialize)

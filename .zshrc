@@ -129,3 +129,4 @@ export LD_LIBRARY_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib:$MCUDIR/.bu
 export GST_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/gstreamer-0.10/
 export GST_PLUGIN_SCANNER=$MCUDIR/.build/__autotools__/linux-x86_64/libexec/gstreamer-0.10/gst-plugin-scanner
 export FS_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/farstream-0.1/
+export DONT_RESTART_NM=1
