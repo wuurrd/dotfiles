@@ -119,7 +119,7 @@
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-p") 'helm-projectile)
+(global-set-key (kbd "C-x C-p") 'projectile-find-file-in-known-projects)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c p q") 'helm-do-ag)
 
@@ -160,3 +160,7 @@
     (global-set-key (kbd "s-M") 'toggle-max-frame)
 )
 (setq scss-compile-at-save nil)
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
