@@ -164,3 +164,4 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
+(setq bookmark-save-flag 1)
