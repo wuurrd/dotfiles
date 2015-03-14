@@ -1,16 +1,9 @@
 (require 'color-theme)
-(color-theme-initialize)
-(color-theme-pok-wob)
+;(color-theme-initialize)
+;(color-theme-pok-wob)
 ;(require 'color-theme-almost-monokai)
 ;(color-theme-almost-monokai)
-
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(flymake-errline ((((class color)) (:underline "red"))))
- '(flymake-warnline ((((class color)) (:underline "yellow")))))
+(load-theme 'zenburn t)
 
 ;; (require 'highlight-current-line)
 ;; (highlight-current-line-on t)
@@ -41,7 +34,7 @@
 
 (set-default-font "Monospace 14")
 (if (eq system-type 'darwin)
-    (set-default-font "Monaco 12")
+    (set-default-font "Sauce Code Pro for Powerline 13")
 )
 (setq-default tab-width 4 indent-tabs-mode nil)
 
@@ -49,3 +42,12 @@
 
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
+(setq-default cursor-type 'bar)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(mode-line ((t (:background "#7F7F7F" :foreground "#8FB28F" :box nil)))) 
+ '(flymake-errline ((((class color)) (:underline "red"))))
+ '(flymake-warnline ((((class color)) (:underline "yellow")))))
