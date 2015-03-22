@@ -175,3 +175,4 @@
 (setq ac-auto-start t)
 (setq ac-show-menu-immediately-on-auto-complete t)
 (show-paren-mode 1)
+(global-auto-revert-mode 1)
