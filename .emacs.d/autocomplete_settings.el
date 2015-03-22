@@ -13,10 +13,10 @@
 ;Autocompletion
 (require 'yasnippet)
 (setq yas/trigger-key (kbd "C-c C-e"))
-;(yas-global-mode 1)
+(yas-global-mode 1)
 ;(setq yas/snippet-dirs "~/dotfiles/.emacs.d/yasnippet/snippets")
 ;(setq yas-snippet-dirs "~/.emacs/snippets")
-(yas/load-directory "~/dotfiles/.emacs.d/yasnippet/snippets")
+(yas-load-directory "~/dotfiles/.emacs.d/yasnippet/snippets")
 
 (require 'auto-complete)
 (require 'auto-complete-config)
