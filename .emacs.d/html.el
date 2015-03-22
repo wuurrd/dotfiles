@@ -6,7 +6,13 @@
 ;; (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "phtml" "php4" "php5" "template"))
 ;; (multi-web-global-mode 1)
 
-;For flask / django templates
+                                        ;For flask / django templates
+(defun dbu-html-settings ()
+  (local-set-key "\M-M" 'mc/mark-sgml-tag-pair)
+)
+
+(add-hook 'html-mode-hook 'dbu-html-settings)
+
 (add-to-list 'auto-mode-alist '("\\.template$" . html-mode))
 
 ;Use js2 mode

@@ -18,7 +18,7 @@
  (add-to-list 'flymake-allowed-file-name-masks
           '("\\.py\\'" flymake-pylint-init)))
 
-
+(setq python-shell-interpreter "ipython")
 (defun dbu-python-settings ()
   (twisted-dev-mode 1)
   (setq show-trailing-whitespace t)

@@ -188,6 +188,8 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
      (require 'js2-refactor)
      (js2r-add-keybindings-with-prefix "C-c C-m")))
 ;; }}
+(eval-after-load "js2-mode"
+  '(define-key js2-mode-map (kbd "M-j") nil))
 
 (defun my-js2-mode-setup()
   (js2-imenu-extras-mode)
