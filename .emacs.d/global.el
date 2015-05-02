@@ -176,3 +176,62 @@
 (setq ac-show-menu-immediately-on-auto-complete t)
 (show-paren-mode 1)
 (global-auto-revert-mode 1)
+
+;; Write backup files to own directory
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name
+                 (concat user-emacs-directory "backups")))))
+
+;; Make backups of files, even when they're in version control
+(setq vc-make-backup-files t)
+
+;; Save point position between sessions
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name ".places" user-emacs-directory))
+
+(defun runtest-pex ()
+  (interactive)
+  (let ((bnds  (bounds-of-thing-at-point 'line)))
+    (shell-command-on-region (car bnds) (cdr bnds) "sh ~/bin/runtest.sh &")
+  )
+)
+;(global-set-key (kbd "C-\\") 'runtest-pex)
+(global-set-key (kbd "C-c p .") 'projectile-test-gstreamer)
+
+(defun get-gstreamer-test-name ()
+  "Find the gstreamer test name near point"
+  (save-excursion
+    (beginning-of-defun)
+    (let (res)
+      (save-match-data
+	(re-search-forward "GST_START_TEST *\(\\(.\+\\)\)")
+	(setq res (match-string 1)))
+      res)))
+
+(defun get-gstreamer-test-command ()
+  "Find the gstreamer command to run test near point"
+  (let ((test-name (get-gstreamer-test-name))
+	(test-program)
+	(test-command))
+    (when (not (equal "" test-name))
+      ;;; Assume that test-name starts with the name of the test-program (not always true)
+      ; (string-match "\\(.\+?\\)_" test-name)
+      ; (setq test-program (match-string 1 test-name))
+      ;; Assume that filename has the same name as the test-program (not always true)
+      (setq test-program (file-name-base (buffer-file-name)))
+      (setq test-command (concat
+			  "GST_CHECKS=" test-name
+			  " make -C .build/__root__$PWD/media/gst-plugins-pex/tests " ;; FIXME
+			  test-program ".check")))
+    test-command))
+
+(defun projectile-test-gstreamer ()
+  "Will prefill the command to run the current gstreamer test and
+   call projectile-test-project"
+  (interactive)
+  (let ((test-command (get-gstreamer-test-command)))
+    (puthash (projectile-project-root) test-command  projectile-test-cmd-map)
+    (call-interactively 'projectile-test-project))
+)
+(smartparens-global-mode 1)

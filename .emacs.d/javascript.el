@@ -9,6 +9,8 @@
       js2-indent-on-enter-key t
       js2-skip-preprocessor-directives t
       js2-auto-indent-p t
+      js2-global-externs '("module" "require" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "console" "JSON")
+      js2-additional-externs '("angular" "expect" "it" "inject" "beforeEach" "describe")
       js2-bounce-indent-p t)
 
 (setq javascript-common-imenu-regex-list
@@ -51,7 +53,8 @@
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.js\\'" flymake-jshint-init)
                '("\\.json\\'" flymake-jshint-init))
-  (flymake-mode 1))
+  (flymake-mode 1)
+)
 
 (add-hook 'js-mode-hook 'mo-js-mode-hook)
 
@@ -198,6 +201,8 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   (electric-indent-mode 0)
   (local-set-key (kbd "C-c .") 'ac-js2-jump-to-definition)
   (local-set-key (kbd "RET") 'newline-and-indent)
+  (tern-mode 1)
+  (tern-ac-setup)
 )
 
 (autoload 'js2-mode "js2-mode" nil t)
