@@ -150,20 +150,11 @@ spaces for the rest (the aligment)."
   (setq c-label-minimum-indentation 0)
 
   ;; Set compile command
-  (setq compile-command "make -k")
   (setq compilation-ask-about-save nil)
   (setq compilation-read-command t)
   (setq compilation-scroll-output t)
   ;; (setq compilation-window-height 10)
 
-  (setq semantic-decoration-mode t)
-  (setq semantic-highlight-func-mode t)
-  (setq semantic-show-unmatched-syntax-mode t)
-  (setq semantic-mru-bookmark-mode t) ;; C-x B, then M-n or M-p to cycle through
-  (semantic-mode t) ;; needs to be loaded after the global config, it seems like
-
-  (setq company-backend 'company-semantic)
-  (company-mode t)
   )
 (add-hook 'c++-mode-hook 'stianse-c-mode-hook)
 (add-hook 'c-mode-hook 'stianse-c-mode-hook)

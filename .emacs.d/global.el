@@ -152,6 +152,13 @@
   (kill-buffer)
   (jump-to-register :magit-fullscreen))
 
+(defun dbu-rebase ()
+  (interactive)
+  (smartscan-mode 0)
+)
+(add-hook 'git-rebase-mode-hook 'dbu-rebase)
+
+
 (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
 (if (eq system-type 'darwin)
