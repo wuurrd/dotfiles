@@ -46,4 +46,11 @@
 (add-hook 'python-mode-hook 'dbu-python-settings)
 (add-to-list 'auto-mode-alist '("\\.mxml\\'" . actionscript-mode))
 
+(defun json-format ()
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (mark) (point) "python -m json.tool" (buffer-name) t)
+  )
+)
+
 (package-initialize)

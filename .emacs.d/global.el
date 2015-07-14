@@ -116,6 +116,7 @@
 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 (global-set-key (kbd "M-?") 'mc/mark-all-like-this-dwim)
+(global-set-key (kbd "C-M-SPC") 'set-rectangular-region-anchor)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -124,17 +125,28 @@
 (global-set-key (kbd "C-c p q") 'helm-do-ag)
 
 ;; make zap-to-char act like zap-up-to-char
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR.
+  \(fn arg char)"
+    'interactive)
 
-(defadvice zap-to-char (after my-zap-to-char-advice (arg char) activate)
-  "Kill up to the ARG'th occurence of CHAR, and leave CHAR.
-  The CHAR is replaced and the point is put before CHAR."
-  (insert char)
-  (forward-char -1))
+(defun zap-to-char-save (arg char)
+  "Zap to a character, but save instead of kill."
+  (interactive "p\ncZap to char: ")
+  (save-excursion
+    (zap-up-to-char arg char)
+    (yank)))
 
-(global-set-key (kbd "M-j")
-            (lambda ()
-                  (interactive)
-                  (join-line -1)))
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+(global-set-key (kbd "M-Z") 'zap-to-char-save)
+
+; Make join line not leave a space.
+(defun join-previous-line ()
+  (interactive)
+  (join-line -1)
+  (delete-char 1)
+)
+(global-set-key (kbd "M-j") 'join-previous-line)
 (require 'javascript)
 (global-set-key (kbd "M-i") 'change-inner)
 (global-set-key (kbd "M-o") 'change-outer)

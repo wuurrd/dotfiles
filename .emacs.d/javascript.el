@@ -229,4 +229,6 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
           )
 
 
+(setq tern-command '("/Users/david/.emacs.d/el-get/tern/bin/tern" "--no-port-file"))
+
 (provide 'javascript)
