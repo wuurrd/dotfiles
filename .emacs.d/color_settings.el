@@ -33,6 +33,11 @@
 (push 'fontify-frame after-make-frame-functions)
 
 (set-default-font "Monospace 14")
+
+(if (string= system-name "checkers")
+    (set-default-font "Monospace 11")
+)
+
 (if (eq system-type 'darwin)
     (set-default-font "Sauce Code Pro for Powerline 12")
 )

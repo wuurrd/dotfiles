@@ -1,5 +1,4 @@
--- {{{ License
---
+-- {{{ License --
 -- Awesome configuration, using awesome 3.4.10 on Arch GNU/Linux
 --   * Adrian C. <anrxc@sysphere.org>
 
@@ -142,17 +141,15 @@ end
 -- {{{ Widgets configuration
 -- //////////////////////////////////////////////////////////////////////////////
 kbdcfg = {}
-kbdcfg.cmd = "setxkbmap"
-kbdcfg.layout = { "us", "no"}
+kbdcfg.layout = { "Disabled", "Enabled"}
 kbdcfg.current = 1  -- us is our default layout
 kbdcfg.widget = widget({ type = "textbox", align = "right" })
-kbdcfg.widget.text = "Keyboard: " .. kbdcfg.layout[kbdcfg.current] .. " "
+kbdcfg.widget.text = "VPN: " .. kbdcfg.layout[kbdcfg.current] .. " "
 kbdcfg.switch = function ()
    kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
-   local t = "Keyboard: " .. kbdcfg.layout[kbdcfg.current] .. " "
+   local t = "VPN: " .. kbdcfg.layout[kbdcfg.current] .. " "
    kbdcfg.widget.text = t
-   os.execute(kbdcfg.cmd .. " " .. kbdcfg.layout[kbdcfg.current])
-   os.execute("xmodmap ~/.xmodmap")
+   os.execute("/home/dbu/dotfiles/toggle-vpn.sh")
 end
 
 -- Mouse bindings
@@ -250,9 +247,9 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0"
 txwidget = widget({ type="textbox" })
 rxwidget = widget({ type="textbox" })
 vicious.register(txwidget, vicious.widgets.net,
-                 "tx: ${eth0 up_kb}KB", 2)
+                 "tx: ${wlan0 up_kb}KB", 2)
 vicious.register(rxwidget, vicious.widgets.net,
-                 "rx: ${eth0 down_kb}KB", 2)
+                 "rx: ${wlan0 down_kb}KB", 2)
 
 
 
@@ -410,7 +407,7 @@ globalkeys = awful.util.table.join(
     awful.key({ winkey }, "g", function ()
         awful.prompt.run({ prompt = "Web: " }, promptbox[mouse.screen].widget,
             function (command)
-                sexec("google-chrome 'http://google.com/search?q="..command.."'")
+                sexec("chromium-browser 'http://google.com/search?q="..command.."'")
 --                awful.tag.viewonly(tags[scount][8])
             end)
     end, "Search google"),
