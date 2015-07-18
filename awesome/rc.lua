@@ -453,7 +453,7 @@ clientkeys = awful.util.table.join(
 
     awful.key({ modkey }, "s", function () scratch.pad.toggle() end, "Toggle scratchpad"),
     awful.key({ modkey }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey }, "F12", function () scratch.drop("urxvt", "bottom") end, "Console at bottom"),
+    awful.key({ modkey }, "F12", function () scratch.drop("gnome-terminal", "bottom") end, "Console at bottom"),
 
     awful.key({ modkey }, "j", function ()
         awful.client.focus.byidx(1)
@@ -496,7 +496,7 @@ clientkeys = awful.util.table.join(
           end
           awful.client.movetotag(tags[client.focus.screen][newtag])
           awful.tag.viewnext()
-    end),
+    end, "Move focused window to next tag"),
     awful.key({ modkey, "Control", "Shift" }, "Left", function ()
           local newtag = tonumber(awful.tag.selected(1).name) - 1
           if newtag == 0 then
@@ -504,7 +504,7 @@ clientkeys = awful.util.table.join(
           end
           awful.client.movetotag(tags[client.focus.screen][newtag])
           awful.tag.viewprev()
-    end),
+    end, "Move focused window to previous tag"),
     awful.key({ modkey, "Shift"     }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
         else awful.titlebar.add(c, { modkey = modkey }) end
