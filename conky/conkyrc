@@ -85,9 +85,9 @@ ${image ~/dotfiles/conky/separator-h.png -p 10,410  -s 410x1 } # under networks
 #${image ~/dotfiles/conky/humidity.png -p 155,112 -s 16x16}\
 #${image ~/dotfiles/conky/wind-2.png   -p 155,128 -s 16x16}\
 # large forecast pictures
-${image ~/.cache/weather-1.png -p 200,107 -s 32x32}\
-${image ~/.cache/weather-2.png -p 275,107 -s 32x32}\
-${image ~/.cache/weather-3.png -p 350,107 -s 32x32}\
+${image ~/.cache/weather-1.png -p 200,90 -s 32x32}\
+${image ~/.cache/weather-2.png -p 275,90 -s 32x32}\
+${image ~/.cache/weather-3.png -p 350,90 -s 32x32}\
 ###########################################
 # Clock, canlendar, bitcoin, music, email #
 ###########################################
