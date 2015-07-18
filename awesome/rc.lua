@@ -330,6 +330,19 @@ taglist.buttons = awful.util.table.join(
     awful.button({ },        5, awful.tag.viewprev
 ))
 
+-- Create an ACPI widget
+batterywidget = widget({ type = "textbox" })
+batterywidget.text = ""
+batterywidgettimer = timer({ timeout = 5 })
+batterywidgettimer:add_signal("timeout",
+  function()
+    fh = assert(io.popen("acpi | cut -d, -f 2,3 -", "r"))
+    batterywidget.text = fh:read("*l")
+    fh:close()
+  end
+)
+batterywidgettimer:start()
+
 for s = 1, scount do
     -- Create a promptbox
     promptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
@@ -362,6 +375,7 @@ for s = 1, scount do
         -- separator, orgwidget,  orgicon,
         -- separator, mailwidget, mailicon,
         -- separator, upicon,     netwidget, dnicon,
+        separator, batterywidget,
         separator, fs.r.widget, fsicon,
         separator, membar.widget, memicon,
         separator, volumecfg.widget, volwidget, volicon,
