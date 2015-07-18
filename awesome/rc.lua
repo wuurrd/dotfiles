@@ -136,6 +136,9 @@ end
 
 -- run_once("/usr/bin/pidgin",nil,nil,1)
 
+terminal = "x-terminal-emulator"
+editor = os.getenv("EDITOR") or "vim"
+editor_cmd = terminal .. " -e " .. editor
 -- {{{ Wibox
 --
 -- {{{ Widgets configuration
@@ -161,11 +164,40 @@ kbdcfg.widget:buttons(awful.util.table.join(
 -- Volume widget
 volumecfg = {}
 volumecfg.cardid  = 0
+volumecfg._volume  = 0
+volumecfg._notify = nil
 volumecfg.channel = "Master"
 volumecfg.widget = widget({ type = "textbox", name = "volumecfg.widget", align = "right" })
 
 volumecfg_t = awful.tooltip({ objects = { volumecfg.widget },})
 volumecfg_t:set_text("Volume")
+
+local alsawidget =
+{
+	channel = "Master",
+	step = "5%",
+	colors =
+	{
+		unmute = "#AECF96",
+		mute = "#FF5656"
+	},
+	mixer = terminal .. " -e alsamixer", -- or whatever your preferred sound mixer is
+	notifications =
+	{
+		icons =
+		{
+			-- the first item is the 'muted' icon
+			"/usr/share/icons/ubuntu-mono-light/status/24/audio-volume-muted.svg",
+			-- the rest of the items correspond to intermediate volume levels - you can have as many as you want (but must be >= 1)
+			"/usr/share/icons/ubuntu-mono-light/status/24/audio-volume-low.svg",
+			"/usr/share/icons/ubuntu-mono-light/status/24/audio-volume-medium.svg",
+			"/usr/share/icons/ubuntu-mono-light/status/24/audio-volume-high.svg"
+		},
+		font = "Monospace 11", -- must be a monospace font for the bar to be sized consistently
+		icon_size = 48,
+		bar_size = 20 -- adjust to fit your font if the bar doesn't fit
+	}
+}
 
 -- command must start with a space!
 volumecfg.mixercommand = function (command)
@@ -174,15 +206,76 @@ volumecfg.mixercommand = function (command)
        fd:close()
 
        local volume = string.match(status, "(%d?%d?%d)%%")
+       alsawidget._current_level = tonumber(volume)
        volume = string.format("% 3d", volume)
        status = string.match(status, "%[(o[^%]]*)%]")
        if string.find(status, "on", 1, true) then
                volume = volume .. "%"
+               alsawidget._muted = nil
        else
+               alsawidget._muted = t
                volume = volume .. "M"
        end
        volumecfg.widget.text = volume
+       volumecfg.notify()
 end
+
+volumecfg.notify = function ()
+	local preset =
+	{
+		height = 30,
+		width = 150,
+		font = "Monospace 11"
+	}
+	local i = 1;
+	while alsawidget.notifications.icons[i + 1] ~= nil
+	do
+		i = i + 1
+	end
+	if i >= 2
+	then
+		preset.icon_size = alsawidget.notifications.icon_size
+		if alsawidget._muted or alsawidget._current_level == 0
+		then
+			preset.icon = alsawidget.notifications.icons[1]
+		elseif alsawidget._current_level == 100
+		then
+			preset.icon = alsawidget.notifications.icons[i]
+		else
+			local int = math.modf (alsawidget._current_level / 100 * (i - 1))
+			preset.icon = alsawidget.notifications.icons[int + 2]
+		end
+	end
+	if alsawidget._muted
+	then
+		preset.title = alsawidget.channel .. " - Muted"
+	elseif alsawidget._current_level == 0
+	then
+		preset.title = alsawidget.channel .. " - 0% (muted)"
+		preset.text = "[" .. string.rep (" ", alsawidget.notifications.bar_size) .. "]"
+	elseif alsawidget._current_level == 100
+	then
+		preset.title = alsawidget.channel .. " - 100% (max)"
+		preset.text = "[" .. string.rep ("|", alsawidget.notifications.bar_size) .. "]"
+	else
+		local int = math.modf (alsawidget._current_level / 100 * alsawidget.notifications.bar_size)
+		preset.title = alsawidget.channel .. " - " .. alsawidget._current_level .. "%"
+		preset.text = "[" .. string.rep ("|", int) .. string.rep (" ", alsawidget.notifications.bar_size - int) .. "]"
+	end
+   if volumecfg._notify ~= nil
+	then
+		
+		volumecfg._notify = naughty.notify (
+		{
+			replaces_id = volumecfg._notify.id,
+			preset = preset,
+            timeout = 1
+		})
+	else
+		volumecfg._notify = naughty.notify ({ preset = preset, timeout = 1 })
+	end   
+end
+
 volumecfg.update = function ()
        volumecfg.mixercommand(" sget " .. volumecfg.channel)
 end
@@ -204,9 +297,6 @@ volumecfg.widget:buttons({
 })
 volumecfg.update()
 
-terminal = "x-terminal-emulator"
-editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
 
 
 mymainmenu = awful.menu({ items = { { "Quit", awesome.quit },
