@@ -93,7 +93,7 @@ ${image ~/.cache/weather-3.png -p 350,107 -s 32x32}\
 ###########################################
 ${goto 20}${font Droid Sans Mono :size=22}${time %H:%M}${font}${alignr 10}${execi 1 tail -1 ~/.cache/unreadmail} unread email${if_match ${exec tail -1 ~/.cache/unreadmail} != 1}s${endif}
 ${goto 20}${font Droid Sans      :size=10}${time %A, %B %d, %Y}${font}\
-${font Droid Sans :size=14}${alignr 10}Coinbase: $$${curl mineoas.us/bitcoin/current/simple/coinbase 1}${font}
+${font Droid Sans :size=14}${alignr 10}${font}
 ###################
 # Current weather #
 ###################
