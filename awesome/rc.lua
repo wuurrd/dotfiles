@@ -453,7 +453,7 @@ clientkeys = awful.util.table.join(
 
     awful.key({ modkey }, "s", function () scratch.pad.toggle() end, "Toggle scratchpad"),
     awful.key({ modkey }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey }, "F12", function () scratch.drop("gnome-terminal", "bottom") end, "Console at bottom"),
+    awful.key({ modkey }, "F12", function () scratch.drop("x-terminal-emulator", "bottom") end, "Console at bottom"),
 
     awful.key({ modkey }, "j", function ()
         awful.client.focus.byidx(1)
