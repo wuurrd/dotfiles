@@ -194,6 +194,8 @@ volumecfg.down = function ()
 end
 volumecfg.toggle = function ()
        volumecfg.mixercommand(" sset " .. volumecfg.channel .. " toggle")
+       awful.util.spawn("amixer sset " .. "Speaker" .. " unmute")
+       awful.util.spawn("amixer sset " .. "Headphone" .. " unmute")
 end
 volumecfg.widget:buttons({
        -- button({ }, 4, function () volumecfg.up() end),
