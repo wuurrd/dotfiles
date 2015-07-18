@@ -488,6 +488,22 @@ clientkeys = awful.util.table.join(
     awful.key({ winkey              }, "Up",    function () awful.client.moveresize(  0, -20,   0,   0) end),
     awful.key({ winkey              }, "Left",  function () awful.client.moveresize(-20,   0,   0,   0) end),
     awful.key({ winkey              }, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end),
+    awful.key({ modkey, "Control", "Shift" }, "Right", function ()
+          local newtag = tonumber(awful.tag.selected(1).name) + 1
+          if newtag == 9 then
+             newtag = 1
+          end
+          awful.client.movetotag(tags[client.focus.screen][newtag])
+          awful.tag.viewnext()
+    end),
+    awful.key({ modkey, "Control", "Shift" }, "Left", function ()
+          local newtag = tonumber(awful.tag.selected(1).name) - 1
+          if newtag == 0 then
+             newtag = 8
+          end
+          awful.client.movetotag(tags[client.focus.screen][newtag])
+          awful.tag.viewprev()
+    end),
     awful.key({ modkey, "Shift"     }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
         else awful.titlebar.add(c, { modkey = modkey }) end
