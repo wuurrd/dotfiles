@@ -522,7 +522,7 @@ globalkeys = awful.util.table.join(
 --    awful.key({ modkey            }, "Escape",                awful.tag.history.restore, "Restore window history"),
     awful.key({ modkey, "Control" }, "r",                     awesome.restart, "Restart awesome"),
     awful.key({ modkey, "Control" }, "l",                     function () awful.util.spawn("gnome-screensaver-command -l") end, "Lock screen"),
-    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("gnome-screensave-command -l") end, "Lock Screen"),
+    awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("gnome-screensaver-command -l") end, "Lock Screen"),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen, "Move window to next screen"),
     awful.key({ modkey, "Shift" }, "F1", keydoc.display),
 

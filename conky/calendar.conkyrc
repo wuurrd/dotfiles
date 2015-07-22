@@ -1,38 +1,58 @@
-alignment top_right
-maximum_width 630
-minimum_size 330 10
-gap_x 25
-gap_y 50
-
-own_window yes
-own_window_type override
-own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-own_window_transparent yes
-own_window_argb_visual yes
-own_window_argb_value 0
-
-update_interval 300
-background no
-
-border_width 1
-default_color cornflowerblue
-default_outline_color white
-default_shade_color white
+# Conky settings #
+background yes
+update_interval 5
 double_buffer yes
+no_buffers yes
+imlib_cache_size 10
+
+# Window specifications #
+alignment top_left
+gap_x 0
+gap_y 0
+minimum_size 900 500
+maximum_width 900
+own_window yes
+own_window_type override # all options are: override/normal/desktop/panel/dock
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+border_inner_margin 10
+border_outer_margin 0
+
+# Graphics settings #
+draw_shades no
+default_shade_color AAAAAA
+draw_outline no
+default_outline_color AAAAAA
 draw_borders no
 draw_graph_borders no
-draw_outline no
-draw_shades no
-max_port_monitor_connections 64
-max_specials 512
-max_user_text 32768
-text_buffer_size 8096
-no_buffers yes
-out_to_console no
-uppercase no
-use_xft yes
-xftfont Bitstream Vera Sans Mono:size=10
+show_graph_scale no
+show_graph_range no
 
+# Text settings #
+use_xft yes
+xftalpha 0
+xftfont Monospace:size=13
+text_buffer_size 8096
+override_utf8_locale yes
+
+# Useful shortenings #
+short_units yes
+pad_percents 2
+top_name_width 7
+
+# Color scheme #
+default_color FFFFFF
+color1 FFFFFF
+color2 DDDDDD
+color3 BBBBBB
+color4 999999
+color5 777777
+color6 555555
+color7 333333
+color8 111111
+ 
 TEXT
-*** Google Calendar Agenda ***
-${execpi 300 ~/src/gcalcli/gcalc/bin/python ~/src/gcalcli/gcalcli --conky calw 4}
+# uncomment the below line for a 2 week Calendar
+${execpi 300 gcalcli --conky --nolineart --mon --color_border black --color_date white --color_now_marker red  --color_owner green calw 2}
+# uncomment the below line for a 2 day Agenda
+${execpi 300 gcalcli --conky --nolineart --color_date white --color_owner green --detail_description agenda}
