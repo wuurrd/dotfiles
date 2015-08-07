@@ -195,14 +195,16 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   '(define-key js2-mode-map (kbd "M-j") nil))
 
 (defun my-js2-mode-setup()
-  (js2-imenu-extras-mode)
   (setq mode-name "JS2")
-  (ac-js2-mode)
   (electric-indent-mode 0)
   (local-set-key (kbd "C-c .") 'ac-js2-jump-to-definition)
   (local-set-key (kbd "RET") 'newline-and-indent)
   (tern-mode 1)
   (tern-ac-setup)
+  (js2-imenu-extras-mode)
+  (electric-indent-mode 0)
+  (ac-js2-mode)
+  (electric-indent-mode 0)
 )
 
 (autoload 'js2-mode "js2-mode" nil t)

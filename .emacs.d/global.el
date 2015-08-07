@@ -110,7 +110,7 @@
 (global-set-key [M-S-down] 'move-text-down)
 (global-set-key [M-S-up] 'move-text-up)
 
-(global-set-key (kbd "M-S-SPC") 'er/expand-region)
+(global-set-key (kbd "M-s-SPC") 'er/expand-region)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "s-/") 'comment-dwim)
 
@@ -157,6 +157,8 @@
   (window-configuration-to-register :magit-fullscreen)
   ad-do-it
   (delete-other-windows))
+
+(setq git-commit-summary-max-length 100)
 
 (defun magit-quit-session ()
   "Restores the previous window configuration and kills the magit buffer"
@@ -253,4 +255,6 @@
     (puthash (projectile-project-root) test-command  projectile-test-cmd-map)
     (call-interactively 'projectile-test-project))
 )
-(smartparens-global-mode 1)
+(require 'avy)
+(global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
+(global-set-key (kbd "M-g f") 'avy-goto-line)
