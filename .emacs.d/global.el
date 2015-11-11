@@ -243,7 +243,7 @@
       (setq test-program (file-name-base (buffer-file-name)))
       (setq test-command (concat
 			  "GST_CHECKS=" test-name
-			  " make -C .build/__root__$PWD/media/gst-plugins-pex/tests " ;; FIXME
+			  " make -C .build/linux-x86_64/__root__/$PWD/media/gst-plugins-pex/tests " ;; FIXME
 			  test-program ".check")))
     test-command))
 
@@ -258,3 +258,7 @@
 (require 'avy)
 (global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
 (global-set-key (kbd "M-g f") 'avy-goto-line)
+(require 'ace-isearch)
+(global-ace-isearch-mode +1)
+(setq ace-isearch-function-from-isearch 'helm-occur-from-isearch)
+(define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)

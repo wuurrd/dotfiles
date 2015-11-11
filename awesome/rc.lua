@@ -80,7 +80,7 @@ local scount = screen.count()
 naughty.config.default_preset.timeout = 5
 naughty.config.default_preset.position = "bottom_right"
 naughty.config.default_preset.screen           = 1
-naughty.config.default_preset.font = 'Ubuntu Mono 10'
+naughty.config.default_preset.font = 'Ubuntu Mono 14'
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
@@ -195,7 +195,7 @@ local alsawidget =
 		},
 		font = "Monospace 11", -- must be a monospace font for the bar to be sized consistently
 		icon_size = 48,
-		bar_size = 20 -- adjust to fit your font if the bar doesn't fit
+		bar_size = 40 -- adjust to fit your font if the bar doesn't fit
 	}
 }
 
@@ -289,12 +289,16 @@ volumecfg.toggle = function ()
        volumecfg.mixercommand(" sset " .. volumecfg.channel .. " toggle")
        awful.util.spawn("amixer sset " .. "Speaker" .. " unmute")
        awful.util.spawn("amixer sset " .. "Headphone" .. " unmute")
+       awful.util.spawn("amixer sset " .. "Front" .. " unmute")
+       awful.util.spawn("amixer sset " .. "Center" .. " unmute")
+       awful.util.spawn("amixer sset " .. "Surround" .. " unmute")
+       awful.util.spawn("amixer sset " .. "LFE" .. " unmute")
 end
-volumecfg.widget:buttons({
-       -- button({ }, 4, function () volumecfg.up() end),
-       -- button({ }, 5, function () volumecfg.down() end),
-       -- button({ }, 1, function () volumecfg.toggle() end)
-})
+volumecfg.widget:buttons(awful.util.table.join(
+        awful.button({ }, 4, function () volumecfg.up() end),
+        awful.button({ }, 5, function () volumecfg.down() end),
+        awful.button({ }, 1, function () volumecfg.toggle() end)
+))
 volumecfg.update()
 
 
@@ -326,7 +330,7 @@ cpuicon.image = image(beautiful.widget_cpu)
 cpugraph  = awful.widget.graph()
 tzswidget = widget({ type = "textbox" })
 -- Graph properties
-cpugraph:set_width(40):set_height(20)
+cpugraph:set_width(40):set_height(40)
 cpugraph:set_background_color(beautiful.fg_off_widget)
 cpugraph:set_gradient_angle(0):set_gradient_colors({
    beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget
@@ -339,9 +343,9 @@ vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0"
 txwidget = widget({ type="textbox" })
 rxwidget = widget({ type="textbox" })
 vicious.register(txwidget, vicious.widgets.net,
-                 "tx: ${wlan0 up_kb}KB", 2)
+                 "tx: ${eth0 up_kb}KB", 2)
 vicious.register(rxwidget, vicious.widgets.net,
-                 "rx: ${wlan0 down_kb}KB", 2)
+                 "rx: ${eth0 down_kb}KB", 2)
 
 
 
@@ -356,7 +360,7 @@ fs = {
 -- Progressbar properties
 for _, w in pairs(fs) do
   w:set_vertical(true):set_ticks(true)
-  w:set_height(20):set_width(5):set_ticks_size(2)
+  w:set_height(40):set_width(5):set_ticks_size(2)
   w:set_border_color(beautiful.border_widget)
   w:set_background_color(beautiful.fg_off_widget)
   w:set_gradient_colors({ beautiful.fg_widget,
@@ -376,7 +380,7 @@ memicon.image = image(beautiful.widget_mem)
 membar = awful.widget.progressbar()
 -- Pogressbar properties
 membar:set_vertical(true):set_ticks(true)
-membar:set_height(20):set_width(8):set_ticks_size(2)
+membar:set_height(40):set_width(8):set_ticks_size(2)
 membar:set_background_color(beautiful.fg_off_widget)
 membar:set_gradient_colors({ beautiful.fg_widget,
    beautiful.fg_center_widget, beautiful.fg_end_widget
@@ -451,7 +455,7 @@ for s = 1, scount do
     taglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, taglist.buttons)
     -- Create the wibox
     wibox[s] = awful.wibox({      screen = s,
-        fg = beautiful.fg_normal, height = 20,
+        fg = beautiful.fg_normal, height = 40,
         bg = beautiful.bg_normal, position = "bottom",
         border_color = beautiful.fg_normal,
         border_width = 0,
@@ -493,6 +497,7 @@ root.buttons(awful.util.table.join(
 clientbuttons = awful.util.table.join(
     awful.button({ },        1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
+    awful.button({ winkey }, 1, awful.mouse.client.resize),
     awful.button({ modkey }, 3, awful.mouse.client.resize)
 )
 -- }}}
@@ -509,12 +514,12 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end, "Raise Volume"),
 -- Run or raise applications with dmenu
     keydoc.group("Launch applications"),
-    awful.key({ modkey            }, "p",                     function () awful.util.spawn( "dmenu_run -b -p 'Run command:'" )   end, "Launch application"),
+    awful.key({ modkey, "Shift" }, "p",                     function () awful.util.spawn( "dmenu_run -b -p 'Run command:'" )   end, "Launch application"),
     awful.key({ modkey            }, "t",                     function () awful.util.spawn(terminal)   end, "Spawn terminal"),
     awful.key({ winkey }, "g", function ()
         awful.prompt.run({ prompt = "Web: " }, promptbox[mouse.screen].widget,
             function (command)
-                sexec("chromium-browser 'http://google.com/search?q="..command.."'")
+                sexec("google-chrome-stable 'http://google.com/search?q="..command.."'")
 --                awful.tag.viewonly(tags[scount][8])
             end)
     end, "Search google"),
@@ -525,6 +530,7 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("gnome-screensaver-command -l") end, "Lock Screen"),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen, "Move window to next screen"),
     awful.key({ modkey, "Shift" }, "F1", keydoc.display),
+    awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end, "Move focus to next monitor"),
 
 
 
@@ -549,13 +555,12 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end, "Expand window left"),
     awful.key({ modkey, "Shift" }, "l", function () awful.client.incwfact(-0.05) end),
     awful.key({ modkey, "Shift" }, "h", function () awful.client.incwfact( 0.05) end),
-    awful.key({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end, "Change window layout backwards"),
+--    awful.key({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end, "Change window layout backwards"),
     awful.key({ modkey },          "space", function () awful.layout.inc(layouts,  1) end, "Change window layout"),
     -- }}}
 
     -- switch between monitors:
 --    awful.key({ modkey, "Control" }, "l", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end, "Move focus to next monitor"),
 
     awful.key({ modkey }, "s", function () scratch.pad.toggle() end, "Toggle scratchpad"),
     awful.key({ modkey }, "u", awful.client.urgent.jumpto),

@@ -14,7 +14,7 @@ theme.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
 
 
 -- {{{ Styles
-theme.font      = "Ubuntu Mono 10"
+theme.font      = "Ubuntu Mono 12"
 
 
 -- {{{ Colors

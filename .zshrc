@@ -131,3 +131,5 @@ export MCUDIR=/home/dbu/src/mcu
 #export GST_PLUGIN_SCANNER=$MCUDIR/.build/__autotools__/linux-x86_64/libexec/gstreamer-0.10/gst-plugin-scanner
 #export FS_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/farstream-0.1/
 [ -f ~/dotfiles/zsh/`hostname`.sh ] && source ~/dotfiles/zsh/`hostname`.sh
+export DONT_RESTART_NM=1
+export PATH="/home/dbu/Android/Sdk/build-tools/22.0.1/:$PATH"
