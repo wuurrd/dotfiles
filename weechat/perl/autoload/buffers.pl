@@ -1,1 +1,1 @@
-/home/dbu/dotfiles/weechat/perl/buffers.pl
+/Users/david/.weechat/perl/buffers.pl

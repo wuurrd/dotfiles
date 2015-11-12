@@ -37,6 +37,7 @@
   (yas-minor-mode-on)
   (set (make-local-variable 'ac-sources)
        (append ac-sources '(ac-source-yasnippet)))
+  (flymake-mode 1)
   ;(push 'ac-source-yasnippet ac-sources)
   (flymake-mode 1)
 )

@@ -1,4 +1,3 @@
-
 (setq inhibit-splash-screen t)
 (column-number-mode)
 (server-start)
@@ -103,7 +102,6 @@
 (delete-selection-mode 1)
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
 
-
 ;; make zap-to-char act like zap-up-to-char
 (autoload 'zap-up-to-char "misc"
   "Kill up to, but not including ARGth occurrence of CHAR.
@@ -126,29 +124,9 @@
 )
 (require 'javascript)
 
-;; full screen magit-status
-(require 'magit)
-(defadvice magit-status (around magit-fullscreen activate)
-  (window-configuration-to-register :magit-fullscreen)
-  ad-do-it
-  (delete-other-windows))
-
-(setq git-commit-summary-max-length 100)
-
-(defun magit-quit-session ()
-  "Restores the previous window configuration and kills the magit buffer"
-  (interactive)
-  (kill-buffer)
-  (jump-to-register :magit-fullscreen))
-
-(defun dbu-rebase ()
-  (interactive)
-  (smartscan-mode 0)
+(if (eq system-type 'darwin)
+    (global-set-key (kbd "s-M") 'toggle-max-frame)
 )
-(add-hook 'git-rebase-mode-hook 'dbu-rebase)
-
-
-
 (setq scss-compile-at-save nil)
 
 (require 'package)
@@ -159,7 +137,6 @@
 (global-smartscan-mode 1)
 
 (require 'auto-complete)
-
 (setq ac-auto-show-menu    0.2)
 (setq ac-delay             0.2)
 (setq ac-fuzzy-enable      t)
@@ -222,3 +199,7 @@
 
 (require 'keybindings)
 (require 'dbu-diminish)
+(define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
+(smartparens-global-mode 1)
+(package-initialize)
+(require 'magit_settings)

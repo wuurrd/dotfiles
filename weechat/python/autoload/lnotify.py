@@ -1,1 +1,1 @@
-/home/dbu/dotfiles/weechat/python/autoload/../lnotify.py
+/Users/david/.weechat/python/lnotify.py

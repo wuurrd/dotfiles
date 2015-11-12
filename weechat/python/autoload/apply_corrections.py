@@ -1,1 +1,1 @@
-/home/dbu/dotfiles/weechat/python/autoload/../apply_corrections.py
+/Users/david/.weechat/python/apply_corrections.py

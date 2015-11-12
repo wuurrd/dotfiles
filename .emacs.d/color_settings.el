@@ -25,7 +25,6 @@
               ("CLOSED"    :foreground "forest green" :weight bold))))
 
 (defun fontify-frame (frame)
-  (set-frame-parameter frame 'font "Ubuntu Mono 11")
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -36,6 +35,10 @@
    '(js2-external-variable ((((class color)) (:underline "red"))))
    '(flymake-errline ((((class color)) (:underline "red"))))
    '(flymake-warnline ((((class color)) (:underline "yellow")))))
+  (if (eq system-type 'darwin)
+      (set-frame-parameter frame 'font '"Source Code Pro for Powerline 14")
+    (set-frame-parameter frame 'font "Ubuntu Mono 11"))
+  )
 )
 
 ;; Fontify current frame
@@ -50,7 +53,7 @@
 )
 
 (if (eq system-type 'darwin)
-    (set-default-font "Sauce Code Pro for Powerline 12")
+    (set-default-font "Source Code Pro for Powerline 14")
 )
 (setq-default tab-width 4 indent-tabs-mode nil)
 
