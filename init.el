@@ -40,3 +40,26 @@
 (load-file "~/dotfiles/.emacs.d/audio.el")
 
 (load-file "~/dotfiles/.emacs.d/packages.el")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ace-isearch-input-length 12)
+ '(ecb-options-version "2.40")
+ '(ecb-source-path (quote ("~/src")))
+ '(ecb-tip-of-the-day nil)
+ '(ecb-windows-width 0.15)
+ '(enable-local-variables :all)
+ '(magit-pull-arguments (quote ("--rebase")))
+ '(revert-without-query (quote (".*\\.pdf"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(flymake-errline ((((class color)) (:underline "red"))))
+ '(flymake-warnline ((((class color)) (:underline "yellow"))))
+ '(js2-error ((((class color)) (:underline "red"))))
+ '(js2-external-variable ((((class color)) (:underline "red"))))
+ '(mode-line ((t (:background "#7F7F7F" :foreground "#8FB28F" :box nil)))))

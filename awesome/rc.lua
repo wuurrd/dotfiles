@@ -79,7 +79,7 @@ local scount = screen.count()
 -- notifications:
 naughty.config.default_preset.timeout = 5
 naughty.config.default_preset.position = "bottom_right"
-naughty.config.default_preset.screen           = 1
+naughty.config.default_preset.screen           = 2
 naughty.config.default_preset.font = 'Ubuntu Mono 14'
 
 -- Beautiful theme
@@ -103,10 +103,10 @@ layouts = {
 
 -- {{{ Tags
 tags = {
-  names  = {"1",        "2",        "3",        "4",        "5",        "6",        "7",        "8",        "9" },
+   names  = {"terminal",        "emacs",        "www",        "spotify",        "misc",  "gst-1.0"},
   --         1           2           3           4           5           6           7           8           9
-  layout = { layouts[1], layouts[1], layouts[1], layouts[3], layouts[2], layouts[2], layouts[2], layouts[2], layouts[2]
-}}
+   layout = { layouts[1], layouts[1], layouts[1], layouts[3], layouts[2], layouts[2], layouts[1]}
+}
 
 for s = 1, scount do
   tags[s] = awful.tag(tags.names, s, tags.layout)
@@ -143,22 +143,6 @@ editor_cmd = terminal .. " -e " .. editor
 --
 -- {{{ Widgets configuration
 -- //////////////////////////////////////////////////////////////////////////////
-kbdcfg = {}
-kbdcfg.layout = { "Disabled", "Enabled"}
-kbdcfg.current = 1  -- us is our default layout
-kbdcfg.widget = widget({ type = "textbox", align = "right" })
-kbdcfg.widget.text = "VPN: " .. kbdcfg.layout[kbdcfg.current] .. " "
-kbdcfg.switch = function ()
-   kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
-   local t = "VPN: " .. kbdcfg.layout[kbdcfg.current] .. " "
-   kbdcfg.widget.text = t
-   os.execute("/home/dbu/dotfiles/toggle-vpn.sh")
-end
-
--- Mouse bindings
-kbdcfg.widget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () kbdcfg.switch() end)
-))
 
 
 -- Volume widget
@@ -225,7 +209,9 @@ volumecfg.notify = function ()
 	{
 		height = 30,
 		width = 150,
-		font = "Monospace 11"
+		font = "Monospace 11",
+        position = "bottom_right",
+        screen = 2
 	}
 	local i = 1;
 	while alsawidget.notifications.icons[i + 1] ~= nil
@@ -267,6 +253,7 @@ volumecfg.notify = function ()
 		
 		volumecfg._notify = naughty.notify (
 		{
+            icon = preset.icon,
 			replaces_id = volumecfg._notify.id,
 			preset = preset,
             timeout = 1
@@ -427,17 +414,6 @@ taglist.buttons = awful.util.table.join(
 ))
 
 -- Create an ACPI widget
-batterywidget = widget({ type = "textbox" })
-batterywidget.text = ""
-batterywidgettimer = timer({ timeout = 5 })
-batterywidgettimer:add_signal("timeout",
-  function()
-    fh = assert(io.popen("acpi | cut -d, -f 2,3 -", "r"))
-    batterywidget.text = fh:read("*l")
-    fh:close()
-  end
-)
-batterywidgettimer:start()
 
 for s = 1, scount do
     -- Create a promptbox
@@ -471,13 +447,11 @@ for s = 1, scount do
         -- separator, orgwidget,  orgicon,
         -- separator, mailwidget, mailicon,
         -- separator, upicon,     netwidget, dnicon,
-        separator, batterywidget,
         separator, fs.r.widget, fsicon,
         separator, membar.widget, memicon,
         separator, volumecfg.widget, volwidget, volicon,
         separator, tzswidget, cpugraph.widget, cpuicon,
         separator, txwidget, separator, rxwidget,
-        separator, kbdcfg.widget,
         ["layout"] = awful.widget.layout.horizontal.rightleft
     }
 end
@@ -488,9 +462,7 @@ end
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
     awful.button({ }, 1, function () mymainmenu:hide() end),
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+    awful.button({ }, 3, function () mymainmenu:toggle() end)
 ))
 
 -- Client bindings
@@ -530,6 +502,7 @@ globalkeys = awful.util.table.join(
     awful.key({                   }, "XF86Launch1",          function () awful.util.spawn("gnome-screensaver-command -l") end, "Lock Screen"),
     awful.key({ modkey            }, "o",                     awful.client.movetoscreen, "Move window to next screen"),
     awful.key({ modkey, "Shift" }, "F1", keydoc.display),
+    awful.key({ modkey, "Shift" }, "XF86AudioPlay", keydoc.display),
     awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end, "Move focus to next monitor"),
 
 
@@ -545,16 +518,18 @@ globalkeys = awful.util.table.join(
     awful.key({ altkey, "Control" }, "n",   awful.tag.viewnext, "Move to next tag"),
     awful.key({ altkey, "Control" }, "p",   awful.tag.viewprev, "Move to previous tag"),
     awful.key({ altkey, "Control" }, "Right",   awful.tag.viewnext, "Move to next tag"),
-    awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev, "Move to previous tag")
+    awful.key({ altkey, "Control" }, "Left",   awful.tag.viewprev, "Move to previous tag"),
+    awful.key({ altkey }, "Escape", function ()
+        awful.menu.menu_keys.down = { "Down", "Alt_L" }
+        local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} })
+    end, "List windows")
 )
     -- }}}
 
     -- {{{ Layout manipulation
 clientkeys = awful.util.table.join(
-    awful.key({ modkey }, "l",          function () awful.tag.incmwfact( 0.05) end, "Expand window right"),
-    awful.key({ modkey }, "h",          function () awful.tag.incmwfact(-0.05) end, "Expand window left"),
-    awful.key({ modkey, "Shift" }, "l", function () awful.client.incwfact(-0.05) end),
-    awful.key({ modkey, "Shift" }, "h", function () awful.client.incwfact( 0.05) end),
+    awful.key({ modkey, "Shift" }, "l", function () awful.tag.incmwfact(0.05) end),
+    awful.key({ modkey, "Shift" }, "h", function () awful.tag.incmwfact(-0.05) end),
 --    awful.key({ modkey, "Shift" }, "space", function () awful.layout.inc(layouts, -1) end, "Change window layout backwards"),
     awful.key({ modkey },          "space", function () awful.layout.inc(layouts,  1) end, "Change window layout"),
     -- }}}
@@ -563,7 +538,7 @@ clientkeys = awful.util.table.join(
 --    awful.key({ modkey, "Control" }, "l", function () awful.screen.focus_relative( 1) end),
 
     awful.key({ modkey }, "s", function () scratch.pad.toggle() end, "Toggle scratchpad"),
-    awful.key({ modkey }, "u", awful.client.urgent.jumpto),
+--    awful.key({ modkey }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey }, "F12", function () scratch.drop("x-terminal-emulator", "bottom") end, "Console at bottom"),
 
     awful.key({ modkey }, "j", function ()
@@ -578,10 +553,6 @@ clientkeys = awful.util.table.join(
         awful.client.focus.byidx(-1)
         if client.focus then client.focus:raise() end
     end, "Tab backwards between windows"),
-    awful.key({ altkey }, "Escape", function ()
-        awful.menu.menu_keys.down = { "Down", "Alt_L" }
-        local cmenu = awful.menu.clients({width=230}, { keygrabber=true, coords={x=525, y=330} })
-    end, "List windows"),
     awful.key({ modkey, "Shift" }, "j", function () awful.client.swap.byidx(1)  end, "Swap window right"),
     awful.key({ modkey, "Shift" }, "k", function () awful.client.swap.byidx(-1) end, "Swap window left"),
     -- }}}
@@ -600,22 +571,42 @@ clientkeys = awful.util.table.join(
     awful.key({ winkey              }, "Up",    function () awful.client.moveresize(  0, -20,   0,   0) end),
     awful.key({ winkey              }, "Left",  function () awful.client.moveresize(-20,   0,   0,   0) end),
     awful.key({ winkey              }, "Right", function () awful.client.moveresize( 20,   0,   0,   0) end),
-    awful.key({ modkey, "Control", "Shift" }, "Right", function ()
-          local newtag = tonumber(awful.tag.selected(1).name) + 1
-          if newtag == 9 then
-             newtag = 1
+    awful.key({ modkey, "Control", "Shift"   }, "Left",
+       function (c)
+          local curidx = awful.tag.getidx(c:tags()[1])
+          if curidx == 1 then
+             c:tags({screen[mouse.screen]:tags()[6]})
+          else
+             c:tags({screen[mouse.screen]:tags()[curidx - 1]})
           end
-          awful.client.movetotag(tags[client.focus.screen][newtag])
-          awful.tag.viewnext()
-    end, "Move focused window to next tag"),
-    awful.key({ modkey, "Control", "Shift" }, "Left", function ()
-          local newtag = tonumber(awful.tag.selected(1).name) - 1
-          if newtag == 0 then
-             newtag = 8
-          end
-          awful.client.movetotag(tags[client.focus.screen][newtag])
           awful.tag.viewprev()
+    end, "Move focused window to next tag"),
+    awful.key({ modkey, "Control", "Shift"   }, "Right",
+       function (c)
+          local curidx = awful.tag.getidx(c:tags()[1])
+          if curidx == 6 then
+             c:tags({screen[mouse.screen]:tags()[1]})
+          else
+             c:tags({screen[mouse.screen]:tags()[curidx + 1]})
+          end
+          awful.tag.viewnext()
     end, "Move focused window to previous tag"),
+    -- awful.key({ modkey, "Control", "Shift" }, "Right", function ()
+    --       local newtag = tonumber(awful.tag.selected(client.focus.screen).name) + 1
+    --       if newtag == 9 then
+    --          newtag = 1
+    --       end
+    --       awful.client.movetotag(tags[client.focus.screen][newtag])
+    --       awful.tag.viewnext()
+    -- end, "Move focused window to next tag"),
+    -- awful.key({ modkey, "Control", "Shift" }, "Left", function ()
+    --       local newtag = tonumber(awful.tag.selected(client.focus.screen).name) - 1
+    --       if newtag == 0 then
+    --          newtag = 8
+    --       end
+    --       awful.client.movetotag(tags[client.focus.screen][newtag])
+    --       awful.tag.viewprev()
+    -- end, "Move focused window to previous tag"),
     awful.key({ modkey, "Shift"     }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
         else awful.titlebar.add(c, { modkey = modkey }) end

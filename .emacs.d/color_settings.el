@@ -25,7 +25,18 @@
               ("CLOSED"    :foreground "forest green" :weight bold))))
 
 (defun fontify-frame (frame)
-  (set-frame-parameter frame 'font "Ubuntu Mono 11"))
+  (set-frame-parameter frame 'font "Ubuntu Mono 11")
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(mode-line ((t (:background "#7F7F7F" :foreground "#8FB28F" :box nil)))) 
+   '(js2-error ((((class color)) (:underline "red"))))
+   '(js2-external-variable ((((class color)) (:underline "red"))))
+   '(flymake-errline ((((class color)) (:underline "red"))))
+   '(flymake-warnline ((((class color)) (:underline "yellow")))))
+)
 
 ;; Fontify current frame
 (fontify-frame nil)
@@ -58,3 +69,8 @@
  '(js2-external-variable ((((class color)) (:underline "red"))))
  '(flymake-errline ((((class color)) (:underline "red"))))
  '(flymake-warnline ((((class color)) (:underline "yellow")))))
+
+(setq 
+ gdb-many-windows t
+ gdb-show-main t
+)

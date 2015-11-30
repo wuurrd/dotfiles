@@ -218,43 +218,6 @@
   )
 )
 ;(global-set-key (kbd "C-\\") 'runtest-pex)
-(global-set-key (kbd "C-c p .") 'projectile-test-gstreamer)
-
-(defun get-gstreamer-test-name ()
-  "Find the gstreamer test name near point"
-  (save-excursion
-    (beginning-of-defun)
-    (let (res)
-      (save-match-data
-	(re-search-forward "GST_START_TEST *\(\\(.\+\\)\)")
-	(setq res (match-string 1)))
-      res)))
-
-(defun get-gstreamer-test-command ()
-  "Find the gstreamer command to run test near point"
-  (let ((test-name (get-gstreamer-test-name))
-	(test-program)
-	(test-command))
-    (when (not (equal "" test-name))
-      ;;; Assume that test-name starts with the name of the test-program (not always true)
-      ; (string-match "\\(.\+?\\)_" test-name)
-      ; (setq test-program (match-string 1 test-name))
-      ;; Assume that filename has the same name as the test-program (not always true)
-      (setq test-program (file-name-base (buffer-file-name)))
-      (setq test-command (concat
-			  "GST_CHECKS=" test-name
-			  " make -C .build/linux-x86_64/__root__/$PWD/media/gst-plugins-pex/tests " ;; FIXME
-			  test-program ".check")))
-    test-command))
-
-(defun projectile-test-gstreamer ()
-  "Will prefill the command to run the current gstreamer test and
-   call projectile-test-project"
-  (interactive)
-  (let ((test-command (get-gstreamer-test-command)))
-    (puthash (projectile-project-root) test-command  projectile-test-cmd-map)
-    (call-interactively 'projectile-test-project))
-)
 (require 'avy)
 (global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
 (global-set-key (kbd "M-g f") 'avy-goto-line)
@@ -262,3 +225,11 @@
 (global-ace-isearch-mode +1)
 (setq ace-isearch-function-from-isearch 'helm-occur-from-isearch)
 (define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
+
+(custom-set-variables
+ '(ace-isearch-input-length 12)
+)
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+(load-file "~/dotfiles/.emacs.d/pexip.el")

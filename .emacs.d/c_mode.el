@@ -1,8 +1,10 @@
 (defun my-c-settings ()
+  (c-set-style "ellemtel")
   (define-key c-mode-map "\C-m" 'reindent-then-newline-and-indent)
   (setq show-trailing-whitespace t)
   (subword-mode 1)
   (setq tab-width 2)
+  (setq indent-tabs-mode nil)
   (setq c-basic-offset 2)
   (setq c-indent-level 2)
   (setq c-continued-statement-offset 4)
@@ -16,6 +18,8 @@
        (append ac-sources '(ac-source-yasnippet)
                           '(ac-source-semantic)))
   (auto-complete-mode 1)
+  (company-mode 1)
+  (semantic-mode 1)
 )
 
 ;; BSD-ish indentation style
