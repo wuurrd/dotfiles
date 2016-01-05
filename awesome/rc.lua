@@ -297,6 +297,7 @@ mymainmenu = awful.menu({ items = { { "Quit", awesome.quit },
                                     { "Edit config", editor_cmd .. " " .. awesome.conffile },
                                     { "Spotify", 'spotify'},
                                     { "Network", 'nm-applet'},
+                                    { "Screenshot", function() sexec("sleep 1 && scrot -s /home/dbu/Downloads/capture-%Y-%m-%d_$wx$h.png") end },
                                     { "Debian", debian.menu.Debian_menu.Debian },
                                   }
                         })
@@ -333,8 +334,6 @@ vicious.register(txwidget, vicious.widgets.net,
                  "tx: ${eth0 up_kb}KB", 2)
 vicious.register(rxwidget, vicious.widgets.net,
                  "rx: ${eth0 down_kb}KB", 2)
-
-
 
 -- {{{ File system usage
 fsicon = widget({ type = "imagebox" })

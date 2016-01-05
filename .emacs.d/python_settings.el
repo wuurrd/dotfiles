@@ -20,7 +20,6 @@
 
 (setq python-shell-interpreter "ipython")
 (defun dbu-python-settings ()
-  (twisted-dev-mode 1)
   (setq show-trailing-whitespace t)
   (setq tab-width 4
         py-indent-offset 4
@@ -28,7 +27,6 @@
   (define-key python-mode-map "\C-m" 'newline-and-indent)
   (auto-complete-mode 1)
   (subword-mode 1)
-  (auto-fill-mode 1)
   ; do not breakline on comments
   (set (make-local-variable 'fill-nobreak-predicate)
        (lambda ()

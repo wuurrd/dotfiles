@@ -52,6 +52,7 @@
  '(ecb-windows-width 0.15)
  '(enable-local-variables :all)
  '(magit-pull-arguments (quote ("--rebase")))
+ '(package-selected-packages (quote (pager)))
  '(revert-without-query (quote (".*\\.pdf"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

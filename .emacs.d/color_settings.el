@@ -43,7 +43,7 @@
 ;; Fontify any future frames
 (push 'fontify-frame after-make-frame-functions)
 
-(set-default-font "Monospace 14")
+(set-default-font "Ubuntu Mono 11")
 
 (if (string= system-name "checkers")
     (set-default-font "Monospace 11")

@@ -77,4 +77,3 @@
 
 (global-set-key (kbd "C-c p .") 'projectile-test-gstreamer)
 (global-set-key (kbd "C-c p ,") 'projectile-test-pexcellent)
-(global-set-key (kbd "<XF86AudioPlay>") 'spotify-playpause)

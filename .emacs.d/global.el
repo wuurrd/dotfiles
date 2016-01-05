@@ -103,26 +103,6 @@
 (delete-selection-mode 1)
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
 
-(global-set-key [F12] 'recompile)
-(global-set-key (kbd "C-S-d") 'duplicate-line-or-region)
-(global-set-key "\C-xp" 'other-window-backward)
-(global-set-key (kbd "C-S-g") 'magit-status)
-(global-set-key [M-S-down] 'move-text-down)
-(global-set-key [M-S-up] 'move-text-up)
-
-(global-set-key (kbd "M-s-SPC") 'er/expand-region)
-(global-set-key (kbd "C-z") 'undo)
-(global-set-key (kbd "s-/") 'comment-dwim)
-
-(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-(global-set-key (kbd "M-?") 'mc/mark-all-like-this-dwim)
-(global-set-key (kbd "C-M-SPC") 'set-rectangular-region-anchor)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-p") 'projectile-find-file-in-known-projects)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c p q") 'helm-do-ag)
 
 ;; make zap-to-char act like zap-up-to-char
 (autoload 'zap-up-to-char "misc"
@@ -137,8 +117,6 @@
     (zap-up-to-char arg char)
     (yank)))
 
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-(global-set-key (kbd "M-Z") 'zap-to-char-save)
 
 ; Make join line not leave a space.
 (defun join-previous-line ()
@@ -146,10 +124,7 @@
   (join-line -1)
   (delete-char 1)
 )
-(global-set-key (kbd "M-j") 'join-previous-line)
 (require 'javascript)
-(global-set-key (kbd "M-i") 'change-inner)
-(global-set-key (kbd "M-o") 'change-outer)
 
 ;; full screen magit-status
 (require 'magit)
@@ -173,11 +148,7 @@
 (add-hook 'git-rebase-mode-hook 'dbu-rebase)
 
 
-(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
 
-(if (eq system-type 'darwin)
-    (global-set-key (kbd "s-M") 'toggle-max-frame)
-)
 (setq scss-compile-at-save nil)
 
 (require 'package)
@@ -218,18 +189,36 @@
   )
 )
 ;(global-set-key (kbd "C-\\") 'runtest-pex)
-(require 'avy)
-(global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
-(global-set-key (kbd "M-g f") 'avy-goto-line)
 (require 'ace-isearch)
 (global-ace-isearch-mode +1)
 (setq ace-isearch-function-from-isearch 'helm-occur-from-isearch)
-(define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
 
 (custom-set-variables
  '(ace-isearch-input-length 12)
+ '(ace-isearch-jump-delay 0.9)
 )
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 (load-file "~/dotfiles/.emacs.d/pexip.el")
+;(require 'setup-paredit)
+(require 'smartparens)
+(require 'smartparens-config)
+(add-hook 'c-mode-hook (lambda () (smartparens-mode 1)))
+(add-hook 'python-mode-hook (lambda () (smartparens-mode 1)))
+(add-hook 'js2-mode-hook (lambda () (smartparens-mode 1)))
+(add-hook 'js-mode-hook (lambda () (smartparens-mode 1)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode 1)))
+
+(defun sp--my-create-newline-and-enter-sexp (&rest _ignored)
+  "Open a new brace or bracket expression, with relevant newlines and indent. "
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(sp-with-modes '(c-mode c++-mode js-mode js2-mode java-mode
+                        typescript-mode perl-mode)
+  (sp-local-pair "{" nil :post-handlers
+                 '((sp--my-create-newline-and-enter-sexp "RET"))))
+
+(require 'keybindings)
+(require 'dbu-diminish)

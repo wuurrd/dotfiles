@@ -8,7 +8,6 @@
   (subword-mode 1)
   (setq show-trailing-whitespace t)
   (c-set-offset 'substatement-open '0)
-  (global-set-key [f10] 'compile)
   (setq c++-tab-always-indent t)
   (setq c-indent-level 4)
   (setq c-basic-offset 4)

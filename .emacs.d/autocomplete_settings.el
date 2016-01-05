@@ -2,13 +2,6 @@
 (require 'flymake-cursor)
 ;This needs to be run after rope is initialised
 ;(global-set-key "\C-xp" 'other-window-backward)
-(global-set-key [f3] 'flymake-display-err-menu-for-current-line)
-(global-set-key [f4] 'flymake-goto-next-error)
-(global-set-key [(f6)] 'clipboard-kill-ring-save)
-(global-set-key [(f7)] 'clipboard-yank)
-(global-set-key [(f9)] 'recompile)
-(global-set-key [(shift f9)] 'twisted-dev-debug-tests)
-(global-set-key [(f11)] 'my-toggle-fullscreen)
 
 ;Autocompletion
 (require 'yasnippet)

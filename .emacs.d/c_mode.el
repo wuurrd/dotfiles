@@ -27,6 +27,7 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (local-set-key (kbd "C-c g") 'ff-find-other-file) 
+            (local-set-key (kbd "C-c .") 'helm-cscope-find-symbol)
             ))
 
 ;; See http://www.gnu.org/software/emacs/manual/html_node/ccmode/Syntactic-Symbols.html
