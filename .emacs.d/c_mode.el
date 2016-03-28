@@ -20,6 +20,7 @@
   (auto-complete-mode 1)
   (company-mode 1)
   (semantic-mode 1)
+  (paredit-mode 1)
 )
 
 ;; BSD-ish indentation style

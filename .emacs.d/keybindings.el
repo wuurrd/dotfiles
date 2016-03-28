@@ -28,8 +28,8 @@
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-S-p") 'projectile-find-file-in-known-projects)
-(global-set-key (kbd "C-x C-p") 'projectile-find-file-dwim)
+(global-set-key (kbd "C-x C-S-p") 'projectile-find-file-dwim)
+(global-set-key (kbd "C-x C-p") 'projectile-find-file-in-known-projects)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c p q") 'helm-do-ag)
 

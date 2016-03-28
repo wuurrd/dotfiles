@@ -103,7 +103,7 @@ layouts = {
 
 -- {{{ Tags
 tags = {
-   names  = {"terminal",        "emacs",        "www",        "spotify",        "misc",  "gst-1.0"},
+   names  = {"terminal",        "emacs",        "www",        "slack",        "spotify",  "misc"},
   --         1           2           3           4           5           6           7           8           9
    layout = { layouts[1], layouts[1], layouts[1], layouts[3], layouts[2], layouts[2], layouts[1]}
 }
@@ -480,6 +480,13 @@ clientbuttons = awful.util.table.join(
 globalkeys = awful.util.table.join(
     -- {{{ Applications
     keydoc.group("Volume"),
+    awful.key({ modkey, "Shift",  }, "F2",    function ()
+          awful.prompt.run({ prompt = "Rename tab: ", text = awful.tag.selected().name, },
+             promptbox[mouse.screen].widget,
+             function (s)
+                awful.tag.selected().name = s
+          end)
+    end, "Rename tag"),
     awful.key({                   }, "XF86AudioMute",         function () volumecfg.toggle()                end, "Mute Volume"),
     awful.key({                   }, "XF86AudioLowerVolume",  function () volumecfg.down()                  end, "Lower Volume"),
     awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end, "Raise Volume"),
@@ -513,6 +520,14 @@ globalkeys = awful.util.table.join(
     end, "Restart Awesome"),
     -- }}}
 
+
+    awful.key({ winkey }, "x",
+    function ()
+      awful.prompt.run({ prompt = "Run Lua code: " },
+      promptbox[mouse.screen].widget,
+      awful.util.eval, nil,
+      awful.util.getdir("cache") .. "/history_eval")
+    end, "Eval Lua Code"),
     -- {{{ Tag browsing
     awful.key({ altkey, "Control" }, "n",   awful.tag.viewnext, "Move to next tag"),
     awful.key({ altkey, "Control" }, "p",   awful.tag.viewprev, "Move to previous tag"),
@@ -666,6 +681,9 @@ awful.rules.rules = {
 
    { rule = { class = "Vlc" },
       properties = { floating = true, maximized_horizontal = true, maximized_vertical = true } },
+
+   { rule = { class = "Pexip Infinity Connect" },
+      properties = { floating = true, instance="_Remember_" } },
 
 -- tag 1:(code) -----------------------------------------------------------------------------------
 --    { rule = { class = "Emacs", instance = "emacs" },
