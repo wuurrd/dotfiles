@@ -3,6 +3,8 @@
 (require 'fill-column-indicator)
 
 (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
+(setq autopep8-path "/usr/local/lib/python2.7/site-packages/autopep8.py")
+(setq autopep8-args " - ")
 
 ;Flymake settings.
 (setq pylint "epylint")

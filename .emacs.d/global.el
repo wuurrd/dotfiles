@@ -203,3 +203,5 @@
 (smartparens-global-mode 1)
 (package-initialize)
 (require 'magit_settings)
+(setq compilation-scroll-output t)
+(setq gc-cons-threshold 20000000)

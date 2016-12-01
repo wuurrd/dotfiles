@@ -18,6 +18,7 @@
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char-save)
 (global-set-key (kbd "M-j") 'join-previous-line)
+(global-set-key (kbd "M-`") 'isearch-forward-symbol-at-point)
 
 
 (global-set-key (kbd "C-S-g") 'magit-status)
@@ -35,6 +36,7 @@
 (global-set-key (kbd "C-x C-p") 'projectile-find-file-in-known-projects)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c p q") 'helm-do-ag)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
