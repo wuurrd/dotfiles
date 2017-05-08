@@ -1,70 +1,83 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-#ZSH_THEME="xiong-chiamiov"
-ZSH_THEME="ys"
-#ZSH_THEME=candy
+ZSH_THEME="bira"
 
-# Set to this to use case-sensitive completion
+# Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Comment this out to disable bi-weekly auto-update checks
+# Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
-# Uncomment to change how often before auto-updates occur? (in days)
+# Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
-# Uncomment following line if you want to disable colors in ls
+# Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
 
-# Uncomment following line if you want to disable autosetting terminal title.
-DISABLE_AUTO_TITLE="true"
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# Uncomment following line if you want to disable command autocorrection
-# DISABLE_CORRECTION="true"
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
-zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*:match:*' original only
-zstyle -e ':completion:*:approximate:*' \
-        max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
-zstyle ':completion:*:functions' ignored-patterns '_*'
-zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:kill:*'   force-list always
-zstyle ':completion:*' special-dirs true
-zstyle ':filter-select:highlight' matched fg=yellow,standout
-zstyle ':filter-select' max-lines $(($LINES / 2))
-zstyle ':filter-select' rotate-list yes # enable rotation for filter-select
-zstyle ':filter-select' case-insensitive yes # enable case-insensitive search
-zstyle ':filter-select' extended-search yes # see below
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-#COMPLETION_WAITING_DOTS="true"
-
-# Uncomment following line if you want to disable marking untracked files under
-# VCS as dirty. This makes repository status check for large repositories much,
-# much faster.
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(gitfast pip fabric battery debian)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git battery osx docker brew)
 
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-export LSCOLORS=Exfxcxdxbxegedabagacad
-source ~/.aliases
+# User configuration
 
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:/usr/local/texlive/2012/bin/universal-darwin:/sbin/:$HOME/bin:$PATH"
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/david/bin"
+# export MANPATH="/usr/local/man:$MANPATH"
 
-export PATH="$HOME/dotfiles/bin:$PATH";
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source ~/src/zaw/zaw.zsh
 source ~/src/zsh-history-substring-search/zsh-history-substring-search.zsh
@@ -85,51 +98,39 @@ bindkey -M emacs '^N' history-substring-search-down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-fpath=(/usr/local/share/zsh-completions $fpath)
+source ~/.aliases
 
+export LANG="en_US.UTF-8"
+export LC_COLLATE="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_MONETARY="en_US.UTF-8"
+export LC_NUMERIC="en_US.UTF-8"
+export LC_TIME="en_US.UTF-8"
+export LC_ALL=
 
+export PATH=${PATH}:/Users/david/Library/Android/sdk/platform-tools/:/Users/david/Library/Android/sdk/tools
 
-function b (){
-  local arg=${1:-1};
-  local dir=""
-  while [ $arg -gt 0 ]; do
-    dir="../$dir"
-    arg=$(($arg - 1));
-  done
-  cd $dir >&/dev/null
+export NVM_DIR="/Users/david/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export GOPATH=$HOME/src/go
+export PATH="$PATH:/usr/local/go/bin:$GOPATH/bin:/Users/david/src/go/src/repo.jazznetworks.com/jazz/main/users/dbu"
+source ~/src/go/src/repo.jazznetworks.com/jazz/main/users/dbu/aliases
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+
+launchctlFind () {                                                                                      1 ↵
+    LaunchctlPATHS=( \
+        ~/Library/LaunchAgents \
+        /Library/LaunchAgents \
+        /Library/LaunchDaemons \
+        /System/Library/LaunchAgents \
+        /System/Library/LaunchDaemons \
+    )
+
+    for curPATH in "${LaunchctlPATHS[@]}"
+    do
+        grep -r "$curPATH" -e "$1"
+    done
+    return 0;
 }
-
-fancy-ctrl-z () {
-  if [[ $#BUFFER -eq 0 ]]; then
-    fg
-    zle redisplay
-  else
-    zle push-input
-    zle clear-screen
-  fi
-}
-zle -N fancy-ctrl-z
-bindkey '^Z' fancy-ctrl-z
-
-if [[ -s '/etc/zsh_command_not_found' ]]; then
-  source '/etc/zsh_command_not_found'
-fi
-export TERM="xterm-256color"
-export EDITOR="vim"
-export PEXDEV_FILESERVER=nofs1.rd.pexip.com
-export PEX_CONFERENCING_CONFIG_DB="$HOME/src/mcu/resources/cfg/mcu/pexcfg.db"
-
-check_stream () {
-  ./gst-launch-0.10 rtmpsrc location="$1 live=1" ! flvdemux name=demux demux.video ! h264parse ! pexh264dec ! ffmpegcolorspace ! fakesink async=0 demux.audio ! fakesink async=0 -v
-}
-
-export MCUDIR=/home/dbu/src/mcu
-
-#export PYTHONPATH=$MCUDIR:$MCUDIR/.build/__autotools__/linux-x86_64/lib/python2.7/site-packages/:$MCUDIR/.build/__autotools__/linux-x86_64/lib/python2.7/site-packages/gst-0.10/:$PYTHONPATH
-#export LD_LIBRARY_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib:$MCUDIR/.build/__autotools__/linux-x86_64/lib/gstreamer-0.10/
-#export GST_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/gstreamer-0.10/
-#export GST_PLUGIN_SCANNER=$MCUDIR/.build/__autotools__/linux-x86_64/libexec/gstreamer-0.10/gst-plugin-scanner
-#export FS_PLUGIN_PATH=$MCUDIR/.build/__autotools__/linux-x86_64/lib/farstream-0.1/
-[ -f ~/dotfiles/zsh/`hostname`.sh ] && source ~/dotfiles/zsh/`hostname`.sh
-export DONT_RESTART_NM=1
-export PATH="/home/dbu/Android/Sdk/build-tools/22.0.1/:$PATH"
