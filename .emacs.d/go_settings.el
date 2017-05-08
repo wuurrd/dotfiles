@@ -1,9 +1,16 @@
 (when (eq system-type 'darwin)
   (require 'exec-path-from-shell)
-  (exec-path-from-shell-copy-env "GOPATH"))
-
+  (setq exec-path-from-shell-check-startup-files nil)
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-copy-env "PATH")
+  ;(setenv "GOPATH" "/Users/david/src/go")
+  ;(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/david/bin:/Users/david/Library/Android/sdk/platform-tools/:/Users/david/Library/Android/sdk/tools:/usr/local/go/bin:/Users/david/src/go/bin:/Users/david/src/go/src/github.com/jazznetworks/main/users/dbu:/usr/local/opt/go/libexec/bin")
+)
 
 (require 'flymake)
+(require 'gotests)
+(require 'go-guru)
 
 (defun flymake-go-init ()
   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
@@ -11,15 +18,21 @@
          (local-file  (file-relative-name
                        temp-file
                        (file-name-directory buffer-file-name))))
-    (list "goflymake" (list temp-file))))
+    (list "/Users/david/src/go/bin/goflymake" (list temp-file)))
+  )
 (push '(".+\\.go$" flymake-go-init) flymake-allowed-file-name-masks)
 (add-hook 'go-mode-hook 'flymake-mode)
 
 
 (defun dbu-go-settings ()
-  (setq show-trailing-whitespace t)
-  (local-set-key (kbd "C-c .") 'godef-jump)
+  (set (make-local-variable 'semantic-mode) nil)
   (local-set-key (kbd "C-c ,") 'pop-tag-mark)
+  (local-set-key (kbd "C-c m") 'pop-tag-mark)
+  (local-set-key (kbd "C-c .") 'godef-jump)
+  (local-set-key (kbd "C-c u") 'go-guru-referrers)
+  (local-set-key (kbd "C-c t") 'gotests-region)
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  (setq show-trailing-whitespace t)
   (subword-mode 1)
   (flymake-mode 1)
 )
@@ -89,3 +102,88 @@
 ;; (add-hook 'post-command-hook 'remove-helm-functions)
 ;; 2015-07-01 Changed to the following.
 (add-hook 'pre-command-hook 'remove-helm-functions)
+
+;; (require 'flycheck-gometalinter)
+;; (eval-after-load 'flycheck
+;;   '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
+;; (setq flycheck-display-errors-delay 0.1)
+;; (setq flycheck-highlighting-mode 'lines)
+
+
+(defun go-instrument-returns ()
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (let ((cnt 0))
+        (narrow-to-defun)
+        (beginning-of-defun)
+        (while (re-search-forward "^[[:space:]]+return")
+          (setq cnt (1+ cnt))
+          (beginning-of-line)
+          (open-line 1)
+          (funcall indent-line-function)
+          (insert (format "log.Println(\"return statement %d\") /* RETURN INSTRUMENT */" cnt))
+          (forward-line 2))))))
+
+(defun go-deinstrument-returns ()
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (narrow-to-defun)
+      (beginning-of-defun)
+      (while (re-search-forward "^.+/\\* RETURN INSTRUMENT \\*/\n" nil t)
+        (replace-match "" nil nil)))))
+
+(defun go-neat-struct ()
+  (interactive)
+  (save-excursion
+    (search-forward "{")
+    (let ((start-level (go-paren-level))
+          (start-pos (point)))
+      (reindent-then-newline-and-indent)
+      (while (and (>= (go-paren-level) start-level)
+                  (search-forward "," nil t))
+        (if (= (go-paren-level) start-level)
+            (reindent-then-newline-and-indent)))
+      (goto-char (1- start-pos))
+      (forward-list)
+      (backward-char)
+      (insert ",")
+      (reindent-then-newline-and-indent))))
+
+
+(defun go-guru--find-enclosing (elems)
+  (let* ((enclosing (go-guru--enclosing)))
+    (cl-find-if (lambda (el)
+                  (member (cdr (assoc 'desc el)) elems))
+                enclosing)))
+
+(defun go-extract-variable (&optional identifier)
+  "Extract the function call under point into its own variable."
+  (interactive)
+  (let* ((undo-inhibit-record-point t)
+         (call (or (go-guru--find-enclosing '("function call (or conversion)"))
+                   (go-guru--find-enclosing '("selector")))))
+    (when call
+      (let* ((start (1+ (cdr (assoc 'start call))))
+             (end (1+ (cdr (assoc 'end call))))
+             (code (buffer-substring-no-properties start end))
+             prev
+             found)
+        (if (not identifier)
+            (setq identifier (read-string (format "Extract %s into variable: " code))))
+        (delete-region start end)
+        (save-excursion
+          (insert identifier)
+          (goto-char start)
+          (dolist (el (append (go-guru--enclosing) nil))
+            (when (and (not found)
+                       (or
+                        (equal (cdr (assoc 'desc el)) "block")
+                        (equal (cdr (assoc 'desc el)) "case clause")
+                        (equal (cdr (assoc 'desc el)) "communication clause")))
+              (goto-char (1+ (cdr (assoc 'start prev))))
+              (insert (format "%s := %s\n" identifier code))
+              (funcall indent-line-function)
+              (setq found t))
+            (setq prev el)))))))

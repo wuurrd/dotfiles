@@ -205,3 +205,15 @@
 (require 'magit_settings)
 (setq compilation-scroll-output t)
 (setq gc-cons-threshold 20000000)
+
+(defun run-projectile-invalidate-cache (&rest _args)
+  ;; We ignore the args to `magit-checkout'.
+  (projectile-invalidate-cache nil))
+
+(advice-add 'magit-pull-from-upstream ; This is `F u'.
+            :after #'run-projectile-invalidate-cache)
+
+
+(defun flymake-display-warning (warning) 
+  "Display a warning to the user, using lwarn"
+  (message warning))
