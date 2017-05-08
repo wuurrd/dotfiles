@@ -26,6 +26,16 @@
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
+(require 'el-get)
+(defvar execList '(exec-path-from-shell))
+(el-get 'sync execList)
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
+(if (eq system-type 'darwin)
+   (exec-path-from-shell-copy-env "PATH")
+)
+
+(load-file "~/dotfiles/.emacs.d/packages.el")
 (load-file "~/dotfiles/.emacs.d/global.el")
 (load-file "~/dotfiles/.emacs.d/color_settings.el")
 (load-file "~/dotfiles/.emacs.d/fullscreen.el")
@@ -40,7 +50,6 @@
 (load-file "~/dotfiles/.emacs.d/html.el")
 (load-file "~/dotfiles/.emacs.d/audio.el")
 
-(load-file "~/dotfiles/.emacs.d/packages.el")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
