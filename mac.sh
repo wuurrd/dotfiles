@@ -20,6 +20,8 @@ brew install protobuf
 brew install nmap
 brew install qcachegrind
 brew install graphviz
+brew install cscope
+brew install shellcheck
 
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 defaults write NSGlobalDomain KeyRepeat -int 1

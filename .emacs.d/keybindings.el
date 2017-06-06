@@ -35,7 +35,7 @@
 (global-set-key (kbd "C-x C-S-p") 'projectile-find-file-dwim)
 (global-set-key (kbd "C-x C-p") 'projectile-find-file-in-known-projects)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c p q") 'helm-do-ag)
+(global-set-key (kbd "C-c p w") 'helm-do-ag)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
