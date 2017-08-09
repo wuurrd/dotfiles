@@ -51,7 +51,7 @@
   ("p" (lambda ()
          (interactive)
          (puthash (projectile-project-root)
-                  (concat build-prefix "./scripts/protoc-compile")
+                  (concat build-prefix "cd ./lib/circuit/api/proto && go generate")
                   projectile-test-cmd-map)
          (call-interactively 'projectile-test-project)) "protobuf" :color amaranth)
   ("l" (lambda ()

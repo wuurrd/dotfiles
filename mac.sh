@@ -22,6 +22,8 @@ brew install qcachegrind
 brew install graphviz
 brew install cscope
 brew install shellcheck
+brew install git-extras
+brew install clang-format
 
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 defaults write NSGlobalDomain KeyRepeat -int 1
@@ -32,6 +34,7 @@ go get -u github.com/dougm/goflymake
 go get -u github.com/afking/gazel/gazel
 go get -u github.com/rogpeppe/godef
 go get -u golang.org/x/tools/cmd/guru
+go get -u github.com/cweill/gotests/...
 
 wget https://download.docker.com/mac/stable/Docker.dmg; open Docker.dmg
 
@@ -41,3 +44,11 @@ sudo easy_install pip
 sudo pip install jedi==0.8.1
 sudo pip install epc==0.0.4
 sudo pip install pylint
+sudo pip install requests
+
+sudo npm install -g react-scripts
+
+sudo gem install xcpretty
+
+brew tap homebrew/games
+brew cask install hedgewars

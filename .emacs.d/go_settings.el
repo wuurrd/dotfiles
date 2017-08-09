@@ -9,19 +9,20 @@
 )
 
 (require 'flymake)
+(require 'flycheck)
 (require 'gotests)
 (require 'go-guru)
 
-(defun flymake-go-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "/Users/david/src/go/bin/goflymake" (list temp-file)))
-  )
-(push '(".+\\.go$" flymake-go-init) flymake-allowed-file-name-masks)
-(add-hook 'go-mode-hook 'flymake-mode)
+;; (defun flymake-go-init ()
+;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-inplace))
+;;          (local-file  (file-relative-name
+;;                        temp-file
+;;                        (file-name-directory buffer-file-name))))
+;;     (list "/Users/david/src/go/bin/goflymake" (list temp-file)))
+;;   )
+;; (push '(".+\\.go$" flymake-go-init) flymake-allowed-file-name-masks)
+;; (add-hook 'go-mode-hook 'flymake-mode)
 
 
 (defun dbu-go-settings ()
@@ -34,12 +35,43 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
   (setq show-trailing-whitespace t)
   (subword-mode 1)
-  (flymake-mode 1)
+  ;; (flymake-mode 1)
+  (flycheck-mode 1)
 )
 
 
 (add-hook 'go-mode-hook 'dbu-go-settings)
 
+
+(flycheck-define-checker go-gofmt
+  "A Go syntax and style checker using the gofmt utility."
+  :command ("goimports" "-e" source)
+  :error-patterns ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
+  :modes 'go-mode
+  :next-checkers 'go-build
+)
+(add-to-list 'flycheck-checkers 'gofmt)
+
+
+(flycheck-define-checker go-build
+  "A Go syntax and type checker using the `go build' command.
+See URL `http://golang.org/cmd/go'."
+  ;; We need to use `temporary-file-name' instead of `null-device', because Go
+  ;; can't write to the null device.  It's “too magic”.  See
+  ;; https://code.google.com/p/go/issues/detail?id=4851 for details.
+  :command ("go" "build" "-o" temporary-file-name)
+  :error-patterns
+  ((error line-start (file-name) ":" line ":"
+          (optional column ":") " "
+          (message (one-or-more not-newline)
+                   (zero-or-more "\n\t" (one-or-more not-newline)))
+          line-end))
+  :modes go-mode
+  :predicate (lambda ()
+               (and (flycheck-buffer-saved-p)
+                    (not (string-suffix-p "_test.go" (buffer-file-name)))))
+)
+(add-to-list 'flycheck-checkers 'go-build)
 
 ;;;
 ;;; Handle *helm* buffer not found issue 2014-09-24, 2015-07-01
@@ -106,8 +138,8 @@
 ;; (require 'flycheck-gometalinter)
 ;; (eval-after-load 'flycheck
 ;;   '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
-;; (setq flycheck-display-errors-delay 0.1)
-;; (setq flycheck-highlighting-mode 'lines)
+(setq flycheck-display-errors-delay 0.3)
+(setq flycheck-highlighting-mode 'lines)
 
 
 (defun go-instrument-returns ()
