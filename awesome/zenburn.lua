@@ -5,6 +5,7 @@
 -------------------------------
 
 
+local awful = require("awful")
 -- {{{ Main
 theme = {}
 theme.confdir       = awful.util.getdir("config")
