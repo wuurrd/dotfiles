@@ -15,7 +15,8 @@ theme.wallpaper_cmd = { "/usr/bin/nitrogen --restore" }
 
 
 -- {{{ Styles
-theme.font      = "Ubuntu Mono 12"
+theme.font      = "DejaVu Sans Mono Bold 10"
+theme.taglist_font = "DejaVu Sans Mono Bold 10"
 
 
 -- {{{ Colors
@@ -24,7 +25,7 @@ theme.fg_normal = "#e6e6e6"
 theme.fg_focus  = "#F0DFAF"
 theme.fg_urgent = "#CC9393"
 -- theme.bg_normal = "#3F3F3F"
-theme.bg_normal = "#111111"
+theme.bg_normal = "#2B2B2B"
 theme.bg_focus  = "#1E2320"
 theme.bg_urgent = theme.bg_normal
 -- }}}
@@ -35,6 +36,7 @@ theme.border_width  = 2
 theme.border_focus  = "#ffaa00"
 theme.border_normal = theme.bg_normal
 theme.border_marked = theme.fg_urgent
+theme.wallpaper = "/home/david/Downloads/IMG_6021.JPG"
 -- }}}
 
 -- {{{ Titlebars
@@ -52,6 +54,8 @@ theme.fg_netup_widget  = "#7F9F7F"
 theme.fg_netdn_widget  = theme.fg_urgent
 theme.bg_widget        = theme.bg_normal
 theme.border_widget    = theme.bg_normal
+theme.background_right = "#343434"
+theme.bg_systray = "#343434"
 -- }}}
 
 -- {{{ Mouse finder
@@ -77,6 +81,7 @@ theme.mouse_finder_color = theme.fg_urgent
 -- {{{ Icons
 --
 -- {{{ Taglist icons
+theme.taglist_bg_focus = "#2B2B2B"
 theme.taglist_squares_sel   = theme.confdir .. "/icons/taglist/sel.png"
 theme.taglist_squares_unsel = theme.confdir .. "/icons/taglist/unsel.png"
 --theme.taglist_squares_resize = "false"
@@ -108,7 +113,7 @@ theme.widget_cpu    = theme.confdir .. "/icons/cpu.png"
 theme.widget_bat    = theme.confdir .. "/icons/bat.png"
 theme.widget_mem    = theme.confdir .. "/icons/mem.png"
 theme.widget_fs     = theme.confdir .. "/icons/disk.png"
-theme.widget_net    = theme.confdir .. "/icons/down.png"
+theme.widget_netdown= theme.confdir .. "/icons/down.png"
 theme.widget_netup  = theme.confdir .. "/icons/up.png"
 theme.widget_wifi   = theme.confdir .. "/icons/wifi.png"
 theme.widget_mail   = theme.confdir .. "/icons/mail.png"
@@ -144,6 +149,7 @@ theme.titlebar_maximized_button_focus_inactive  = theme.confdir .. "/icons/title
 theme.titlebar_maximized_button_normal_inactive = theme.confdir .. "/icons/titlebar/maximized_normal_inactive.png"
 -- }}}
 -- }}}
+
 
 
 return theme

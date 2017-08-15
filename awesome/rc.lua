@@ -20,6 +20,7 @@ local vicious = require("vicious")
 local scratch = require("scratch")
 local beautiful = require("beautiful")
 local gears = require("gears")
+local separatorLain = require("separators")
 local debian = {}
 debian.menu = require("debian.menu")
 -- notifications:
@@ -83,10 +84,16 @@ local scount = screen.count()
 --awful.util.spawn_with_shell("sleep 1 && xmodmap /home/dbu/.xmodmap")
 
 -- notifications:
--- naughty.config.default_preset.timeout = 5
--- naughty.config.default_preset.position = "bottom_right"
--- naughty.config.default_preset.screen           = 1
--- naughty.config.default_preset.font = 'Ubuntu Mono 14'
+naughty.config.defaults.timeout = 7
+naughty.config.defaults.position = "bottom_right"
+naughty.config.defaults.screen           = 1
+naughty.config.defaults.font = 'Roboto Mono 10'
+
+naughty.config.defaults.icon_size = 48
+naughty.config.presets.normal.opacity = 0.85
+naughty.config.presets.low.opacity = 0.85
+naughty.config.presets.critical.opacity = 0.85
+naughty.config.defaults.margin = 10
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
@@ -115,9 +122,8 @@ layouts = {
 
 -- {{{ Tags
 tags = {
-   names  = {"terminal",        "emacs",        "www",        "slack",        "spotify",  "misc"},
-  --         1           2           3           4           5           6           7           8           9
-   layout = { layouts[1], layouts[1], layouts[1], layouts[3], layouts[2], layouts[2], layouts[1]}
+   names  = {"shell",        "emacs",        "webby",        "slack",        "music",       "other"},
+   layout = { layouts[1], layouts[1], layouts[1], layouts[3], layouts[2], layouts[2]}
 }
 
 for s = 1, scount do
@@ -130,23 +136,6 @@ end
 -- }}}
 
 
-function run_once(prg,arg_string,pname,screen)
-    if not prg then
-        do return nil end
-    end
-
-    if not pname then
-       pname = prg
-    end
-
-    if not arg_string then
-        awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. ")",screen)
-    else
-        awful.util.spawn_with_shell("pgrep -f -u $USER -x '" .. pname .. "' || (" .. prg .. " " .. arg_string .. ")",screen)
-    end
-end
-
--- run_once("/usr/bin/pidgin",nil,nil,1)
 
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "vim"
@@ -189,7 +178,7 @@ local alsawidget =
 			"/usr/share/icons/ubuntu-mono-light/status/24/audio-volume-low-panel.svg",
 			"/usr/share/icons/ubuntu-mono-light/status/24/audio-volume-high-panel.svg"
 		},
-		font = "Monospace 11", -- must be a monospace font for the bar to be sized consistently
+		font = "Roboto Mono 11", -- must be a monospace font for the bar to be sized consistently
 		icon_size = 48,
 		bar_size = 40 -- adjust to fit your font if the bar doesn't fit
 	}
@@ -217,14 +206,7 @@ volumecfg.mixercommand = function (command)
 end
 
 volumecfg.notify = function ()
-	local preset =
-	{
-		height = 30,
-		width = 150,
-		font = "Monospace 11",
-        position = "bottom_right",
-        screen = 1
-	}
+	local preset = {}
 	local i = 1;
 	while alsawidget.notifications.icons[i + 1] ~= nil
 	do
@@ -311,7 +293,7 @@ mymainmenu = awful.menu({ items = { { "Quit", awesome.quit },
                                     { "Edit config", editor_cmd .. " " .. awesome.conffile },
                                     { "Spotify", 'spotify'},
                                     { "Network", 'nm-applet'},
-                                    { "Screenshot", function() sexec("sleep 1 && scrot -s /home/dbu/Downloads/capture-%Y-%m-%d_$wx$h.png") end },
+                                    { "Screenshot", function() sexec("sleep 1 && scrot -z /home/david/Downloads/capture-%Y-%m-%d_$wx$h.png") end },
                                     { "Debian", debian.menu.Debian_menu.Debian },
                                   }
                         })
@@ -321,7 +303,11 @@ mylauncher = awful.widget.launcher({ image = beautiful.widget_date,
 -- //////////////////////////////////////////////////////////////////////////////
 --
 -- {{{ Reusable separator
-separator = wibox.widget.imagebox(beautiful.widget_sep)
+-- separator = wibox.widget.imagebox(beautiful.widget_sep)
+separatorRight = separatorLain.arrow_left(theme.bg_normal, "alpha")
+separator = separatorLain.arrow_left("alpha", beautiful.background_right)
+separatorLeft = separatorLain.arrow_right("alpha", theme.bg_normal)
+
 -- }}}
 
 -- {{{ CPU usage and temperature
@@ -337,39 +323,35 @@ cpugraph:set_color(beautiful.fg_widget)
 --   beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
-vicious.register(tzswidget, vicious.widgets.thermal, " $1C", 19, "thermal_zone0")
+vicious.register(tzswidget, vicious.widgets.thermal, " $1°C", 19, "thermal_zone0")
 -- }}}
 
 -- {{{ Network state
+txicon = wibox.widget.imagebox(beautiful.widget_netup)
 txwidget = wibox.widget.textbox("")
+rxicon = wibox.widget.imagebox(beautiful.widget_netdown)
 rxwidget = wibox.widget.textbox("")
 vicious.register(txwidget, vicious.widgets.net,
-                 "tx: ${enp0s31f6 up_kb}KB", 2)
+                 "${enp0s31f6 up_kb}KB", 2)
 vicious.register(rxwidget, vicious.widgets.net,
-                 "rx: ${enp0s31f6 down_kb}KB", 2)
+                 "${enp0s31f6 down_kb}KB", 2)
 
 -- {{{ File system usage
 fsicon = wibox.widget.imagebox(beautiful.widget_fs)
 -- Initialize widgets
-fs = {
-  b = awful.widget.progressbar(), r = awful.widget.progressbar(),
-  h = awful.widget.progressbar(), s = awful.widget.progressbar()
-}
--- Progressbar properties
-for _, w in pairs(fs) do
-  w:set_vertical(true):set_ticks(true)
-  w:set_height(40):set_width(5):set_ticks_size(2)
-  w:set_border_color(beautiful.border_widget)
-  w:set_background_color(beautiful.fg_off_widget)
-  w:set_color(beautiful.fg_widget)
+fsr = awful.widget.progressbar()
+fsr:set_vertical(true):set_ticks(true)
+fsr:set_height(40):set_width(5):set_ticks_size(2)
+fsr:set_border_color(beautiful.border_widget)
+fsr:set_background_color(beautiful.fg_off_widget)
+fsr:set_color(beautiful.fg_widget)
 --  w:set_gradient_colors({ beautiful.fg_widget,
 --     beautiful.fg_center_widget, beautiful.fg_end_widget
 --  }) -- Register buttons
 
-end -- Enable caching
 vicious.cache(vicious.widgets.fs)
 -- Register widgets
-vicious.register(fs.r, vicious.widgets.fs, "${/ used_p}",     599)
+vicious.register(fsr, vicious.widgets.fs, "${/ used_p}",     599)
 -- }}}
 
 -- {{{ Memory usage
@@ -406,6 +388,7 @@ vicious.register(datewidget, vicious.widgets.date, " %e/%m, %R", 61)
 
 -- {{{ System tray
 systray = wibox.widget.systray()
+-- systray:set_color(beautiful.background_right)
 -- }}}
 -- }}}
 
@@ -441,7 +424,7 @@ for s = 1, scount do
     taglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist.buttons)
     -- Create the wibox
     mywibox[s] = awful.wibox({      screen = s,
-        fg = beautiful.fg_normal, height = 40,
+        fg = beautiful.fg_normal, height = 35,
         bg = beautiful.bg_normal, position = "bottom",
         border_color = beautiful.fg_normal,
         border_width = 0,
@@ -450,14 +433,17 @@ for s = 1, scount do
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(taglist[s])
     left_layout:add(layoutbox[s])
-    left_layout:add(separator)
     left_layout:add(promptbox[s])
+    left_layout:add(separatorLeft)
 
 
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(systray) end
-    right_layout:add(separator)
-    right_layout:add(fs.r)
+    right_layout:add(separatorRight)
+    if s == 1 then
+       right_layout:add(systray)
+       right_layout:add(separator)
+    end
+    right_layout:add(fsr)
     right_layout:add(fsicon)
     right_layout:add(separator)
     right_layout:add(membar)
@@ -473,15 +459,18 @@ for s = 1, scount do
     right_layout:add(cpuicon)
     right_layout:add(separator)
     right_layout:add(txwidget)
+    right_layout:add(txicon)
     right_layout:add(separator)
     right_layout:add(rxwidget)
+    right_layout:add(rxicon)
     right_layout:add(separator)
     right_layout:add(mylauncher)
     right_layout:add(datewidget)
+    right_layout:add(separator)
 
     local layout = wibox.layout.align.horizontal()
-    layout:set_left(left_layout)
-    layout:set_right(right_layout)
+    layout:set_left(wibox.widget.background(left_layout, beautiful.background_right))
+    layout:set_right(wibox.widget.background(right_layout, beautiful.background_right))
     mywibox[s]:set_widget(layout)
 end
 -- }}}
