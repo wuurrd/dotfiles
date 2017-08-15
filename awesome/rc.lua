@@ -19,6 +19,7 @@ local wibox = require("wibox")
 local vicious = require("vicious")
 local scratch = require("scratch")
 local beautiful = require("beautiful")
+local gears = require("gears")
 local debian = {}
 debian.menu = require("debian.menu")
 -- notifications:
@@ -48,6 +49,7 @@ do
     end)
 end
 -- }}}
+
 
 -- {{{ Variable definitions
 local altkey = "Mod1"
@@ -88,6 +90,12 @@ local scount = screen.count()
 
 -- Beautiful theme
 beautiful.init(home .. "/.config/awesome/zenburn.lua")
+
+if beautiful.wallpaper then
+    for s = 1, screen.count() do
+        gears.wallpaper.maximized(beautiful.wallpaper, s)
+    end
+end
 
 --zenburn.lua
 
@@ -150,12 +158,12 @@ editor_cmd = terminal .. " -e " .. editor
 
 
 -- Volume widget
-volumecfg = {}
+local volumecfg = {}
 volumecfg.cardid  = 0
 volumecfg._volume  = 0
 volumecfg._notify = nil
 volumecfg.channel = "Master"
-volumecfg.widget = wibox.widget.textbox("")
+volumecfg.widget = wibox.widget.textbox("Volume")
 volumecfg.widget.align = "right"
 
 volumecfg_t = awful.tooltip({ objects = { volumecfg.widget },})
@@ -204,7 +212,7 @@ volumecfg.mixercommand = function (command)
                alsawidget._muted = t
                volume = volume .. "M"
        end
-       volumecfg.widget.text = volume
+       volumecfg.widget:set_text(volume)
        volumecfg.notify()
 end
 
@@ -278,11 +286,13 @@ volumecfg.down = function ()
 end
 volumecfg.toggle = function ()
        volumecfg.mixercommand(" sset " .. volumecfg.channel .. " toggle")
-       awful.util.spawn("amixer sset " .. "Speaker" .. " unmute")
+       awful.util.spawn("amixer sset " .. "PCM" .. " unmute")
        awful.util.spawn("amixer sset " .. "Headphone" .. " unmute")
        awful.util.spawn("amixer sset " .. "Front" .. " unmute")
        awful.util.spawn("amixer sset " .. "Center" .. " unmute")
        awful.util.spawn("amixer sset " .. "Surround" .. " unmute")
+       awful.util.spawn("amixer sset " .. "Side" .. " unmute")
+       awful.util.spawn("amixer sset " .. "Line" .. " unmute")
        awful.util.spawn("amixer sset " .. "LFE" .. " unmute")
 end
 volumecfg.widget:buttons(awful.util.table.join(
@@ -322,6 +332,7 @@ tzswidget = wibox.widget.textbox("")
 -- Graph properties
 cpugraph:set_width(40):set_height(40)
 cpugraph:set_background_color(beautiful.fg_off_widget)
+cpugraph:set_color(beautiful.fg_widget)
 -- cpugraph:set_gradient_angle(0):set_gradient_colors({
 --   beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 -- Register widgets
@@ -350,6 +361,7 @@ for _, w in pairs(fs) do
   w:set_height(40):set_width(5):set_ticks_size(2)
   w:set_border_color(beautiful.border_widget)
   w:set_background_color(beautiful.fg_off_widget)
+  w:set_color(beautiful.fg_widget)
 --  w:set_gradient_colors({ beautiful.fg_widget,
 --     beautiful.fg_center_widget, beautiful.fg_end_widget
 --  }) -- Register buttons
@@ -368,6 +380,7 @@ membar = awful.widget.progressbar()
 membar:set_vertical(true):set_ticks(true)
 membar:set_height(40):set_width(8):set_ticks_size(2)
 membar:set_background_color(beautiful.fg_off_widget)
+membar:set_color(beautiful.fg_widget)
 --membar:set_gradient_colors({ beautiful.fg_widget,
 --   beautiful.fg_center_widget, beautiful.fg_end_widget
 --}) -- Register widget
@@ -504,6 +517,9 @@ globalkeys = awful.util.table.join(
                 awful.tag.selected().name = s
           end)
     end, "Rename tag"),
+    awful.key({                   }, "XF86AudioPlay",         function () 
+          awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+                                                              end, "Pause Spotify"),
     awful.key({                   }, "XF86AudioMute",         function () volumecfg.toggle()                end, "Mute Volume"),
     awful.key({                   }, "XF86AudioLowerVolume",  function () volumecfg.down()                  end, "Lower Volume"),
     awful.key({                   }, "XF86AudioRaiseVolume",  function () volumecfg.up()                    end, "Raise Volume"),

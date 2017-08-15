@@ -138,7 +138,7 @@ See URL `http://golang.org/cmd/go'."
 ;; (require 'flycheck-gometalinter)
 ;; (eval-after-load 'flycheck
 ;;   '(add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup))
-(setq flycheck-display-errors-delay 0.3)
+(setq flycheck-display-errors-delay 0.1)
 (setq flycheck-highlighting-mode 'lines)
 
 
