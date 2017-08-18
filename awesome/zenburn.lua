@@ -46,7 +46,7 @@ theme.titlebar_bg_normal = theme.bg_normal
 -- }}}
 
 -- {{{ Widgets
-theme.fg_widget        = "#AECF96"
+theme.fg_widget        = "#FFFFFF" -- "#AECF96"
 theme.fg_center_widget = "#88A175"
 theme.fg_end_widget    = "#FF5656"
 theme.fg_off_widget    = "#292B2F"
@@ -64,7 +64,9 @@ theme.mouse_finder_color = theme.fg_urgent
 -- }}}
 
 -- {{{ Tooltips
--- theme.tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
+theme.tooltip_fg_color = "#FFFFFF"
+theme.tooltip_bg_color = "#343434"
+-- [font|opacity|fg_color|bg_color|border_width|border_color]
 -- }}}
 
 -- {{{ Taglist and Tasklist
@@ -119,7 +121,7 @@ theme.widget_wifi   = theme.confdir .. "/icons/wifi.png"
 theme.widget_mail   = theme.confdir .. "/icons/mail.png"
 theme.widget_vol    = theme.confdir .. "/icons/vol.png"
 theme.widget_org    = theme.confdir .. "/icons/cal.png"
-theme.widget_date   = theme.confdir .. "/icons/time.png"
+theme.widget_date   = theme.confdir .. "/icons/clock.png"
 theme.widget_crypto = theme.confdir .. "/icons/crypto.png"
 theme.widget_sep    = theme.confdir .. "/icons/separator.png"
 -- }}}

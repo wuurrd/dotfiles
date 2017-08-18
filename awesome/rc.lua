@@ -122,7 +122,7 @@ layouts = {
 
 -- {{{ Tags
 tags = {
-   names  = {"shell",        "emacs",        "webby",        "slack",        "music",       "other"},
+   names  = {"shell",        "emacs",        "webby",        "slack",        "music"},
    layout = { layouts[1], layouts[1], layouts[1], layouts[3], layouts[2], layouts[2]}
 }
 
@@ -323,7 +323,7 @@ cpugraph:set_color(beautiful.fg_widget)
 --   beautiful.fg_end_widget, beautiful.fg_center_widget, beautiful.fg_widget})
 -- Register widgets
 vicious.register(cpugraph,  vicious.widgets.cpu,      "$1")
-vicious.register(tzswidget, vicious.widgets.thermal, " $1°C", 19, "thermal_zone0")
+vicious.register(tzswidget, vicious.widgets.thermal, " $1°C", 19, "thermal_zone1")
 -- }}}
 
 -- {{{ Network state
@@ -332,9 +332,9 @@ txwidget = wibox.widget.textbox("")
 rxicon = wibox.widget.imagebox(beautiful.widget_netdown)
 rxwidget = wibox.widget.textbox("")
 vicious.register(txwidget, vicious.widgets.net,
-                 "${enp0s31f6 up_kb}KB", 2)
+                 "${enp0s31f6 up_kb}KB", 1)
 vicious.register(rxwidget, vicious.widgets.net,
-                 "${enp0s31f6 down_kb}KB", 2)
+                 "${enp0s31f6 down_kb}KB", 1)
 
 -- {{{ File system usage
 fsicon = wibox.widget.imagebox(beautiful.widget_fs)
@@ -431,8 +431,9 @@ for s = 1, scount do
         opacity = 0.8
     })
     local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(taglist[s])
+    left_layout:add(separator)
     left_layout:add(layoutbox[s])
+    left_layout:add(taglist[s])
     left_layout:add(promptbox[s])
     left_layout:add(separatorLeft)
 
@@ -444,18 +445,22 @@ for s = 1, scount do
        right_layout:add(separator)
     end
     right_layout:add(fsr)
+    right_layout:add(separator)
     right_layout:add(fsicon)
     right_layout:add(separator)
     right_layout:add(membar)
+    right_layout:add(separator)
     right_layout:add(memicon)
     right_layout:add(separator)
     right_layout:add(volumecfg.widget)
+    right_layout:add(separator)
     right_layout:add(volwidget)
     right_layout:add(volicon)
     right_layout:add(separator)
     right_layout:add(tzswidget)
     right_layout:add(separator)
     right_layout:add(cpugraph)
+    right_layout:add(separator)
     right_layout:add(cpuicon)
     right_layout:add(separator)
     right_layout:add(txwidget)
@@ -506,6 +511,11 @@ globalkeys = awful.util.table.join(
                 awful.tag.selected().name = s
           end)
     end, "Rename tag"),
+    awful.key({                   }, "XF86Launch5",         function () awful.tag.viewonly(tags[1][1]) end, "Go to shell"),
+    awful.key({                   }, "XF86Launch6",         function () awful.tag.viewonly(tags[1][2]) end, "Go to emacs"),
+    awful.key({                   }, "XF86Launch7",         function () awful.tag.viewonly(tags[1][3]) end, "Go to webby"),
+    awful.key({                   }, "XF86Launch8",         function () awful.tag.viewonly(tags[1][4]) end, "Go to slack"),
+    awful.key({                   }, "XF86Launch9",         function () awful.tag.viewonly(tags[1][5]) end, "Go to music"),
     awful.key({                   }, "XF86AudioPlay",         function () 
           awful.util.spawn("dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
                                                               end, "Pause Spotify"),
