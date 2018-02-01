@@ -1,0 +1,16 @@
+#!/bin/bash
+DBUS_SENDER="org.freedesktop.login1"
+DBUS_INTERFACE="org.freedesktop.login1.Session"
+DBUS_PATH="/org/freedesktop/login1/session/$XDG_SESSION_ID"
+DBUS_SIGNAL="Lock"
+
+DBUS_FILTER="type='signal',sender='$DBUS_SENDER',interface='$DBUS_INTERFACE',path='$DBUS_PATH'"
+
+xset s off -dpms
+xautolock -time 11 -corners -00- -cornerdelay 3 -cornerredelay 660 -locker "i3lock -n -c 121212" -notify 60 -notifier "xset dpms force off" &
+
+dbus-monitor --system "$DBUS_FILTER" | \
+    grep --line-buffered "member=$DBUS_SIGNAL$" | \
+    while read; do
+        xautolock -locknow
+    done
