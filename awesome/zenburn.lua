@@ -36,7 +36,7 @@ theme.border_width  = 2
 theme.border_focus  = "#ffaa00"
 theme.border_normal = theme.bg_normal
 theme.border_marked = theme.fg_urgent
-theme.wallpaper = "/home/david/Downloads/IMG_6021.JPG"
+theme.wallpaper = "/home/david/dotfiles/fluxbox/backgrounds/wood.jpg"
 -- }}}
 
 -- {{{ Titlebars
@@ -83,7 +83,7 @@ theme.tooltip_bg_color = "#343434"
 -- {{{ Icons
 --
 -- {{{ Taglist icons
-theme.taglist_bg_focus = "#2B2B2B"
+theme.taglist_bg_focus = "#5B5B5B"
 theme.taglist_squares_sel   = theme.confdir .. "/icons/taglist/sel.png"
 theme.taglist_squares_unsel = theme.confdir .. "/icons/taglist/unsel.png"
 --theme.taglist_squares_resize = "false"
@@ -151,7 +151,9 @@ theme.titlebar_maximized_button_focus_inactive  = theme.confdir .. "/icons/title
 theme.titlebar_maximized_button_normal_inactive = theme.confdir .. "/icons/titlebar/maximized_normal_inactive.png"
 -- }}}
 -- }}}
+theme.master_count=3
 
-
-
+theme.useless_gap=10
+theme.gap_single_client=false
+theme.taglist_squares_resize=true
 return theme

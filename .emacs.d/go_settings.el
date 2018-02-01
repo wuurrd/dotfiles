@@ -1,3 +1,4 @@
+(setenv "GOPATH" "/home/david/src/go")
 (when (eq system-type 'darwin)
   (require 'exec-path-from-shell)
   (setq exec-path-from-shell-check-startup-files nil)
@@ -7,6 +8,7 @@
   ;(setenv "GOPATH" "/Users/david/src/go")
   ;(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/david/bin:/Users/david/Library/Android/sdk/platform-tools/:/Users/david/Library/Android/sdk/tools:/usr/local/go/bin:/Users/david/src/go/bin:/Users/david/src/go/src/github.com/jazznetworks/main/users/dbu:/usr/local/opt/go/libexec/bin")
 )
+
 
 (require 'flymake)
 (require 'flycheck)
@@ -37,7 +39,9 @@
   (subword-mode 1)
   ;; (flymake-mode 1)
   (flycheck-mode 1)
+  ;; (auto-complete-mode 0)
 )
+ 
 
 
 (add-hook 'go-mode-hook 'dbu-go-settings)
@@ -219,3 +223,12 @@ See URL `http://golang.org/cmd/go'."
               (funcall indent-line-function)
               (setq found t))
             (setq prev el)))))))
+
+(setq flycheck-checker-error-threshold 1000)
+
+(defconst my-protobuf-style
+  '((c-basic-offset . 4)
+    (indent-tabs-mode . nil)))
+
+(add-hook 'protobuf-mode-hook
+          (lambda () (c-add-style "my-style" my-protobuf-style t)))

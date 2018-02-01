@@ -166,14 +166,14 @@
   )
 )
 ;(global-set-key (kbd "C-\\") 'runtest-pex)
-(require 'ace-isearch)
-(global-ace-isearch-mode +1)
-(setq ace-isearch-function-from-isearch 'helm-occur-from-isearch)
+;; (require 'ace-isearch)
+;; (global-ace-isearch-mode +1)
+;; (setq ace-isearch-function-from-isearch 'helm-occur-from-isearch)
 
-(custom-set-variables
- '(ace-isearch-input-length 12)
- '(ace-isearch-jump-delay 0.9)
-)
+;; (custom-set-variables
+;;  '(ace-isearch-input-length 12)
+;;  '(ace-isearch-jump-delay 0.9)
+;; )
 
 (load-file "~/dotfiles/.emacs.d/pexip.el")
 ;(require 'setup-paredit)
@@ -199,9 +199,7 @@
 
 (require 'keybindings)
 (require 'dbu-diminish)
-(define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
 (smartparens-global-mode 1)
-(package-initialize)
 (require 'magit_settings)
 (setq compilation-scroll-output t)
 (setq gc-cons-threshold 20000000)
@@ -217,3 +215,9 @@
 (defun flymake-display-warning (warning) 
   "Display a warning to the user, using lwarn"
   (message warning))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((emacs-lisp . t) (sh . t) (C . t)))
+
+(el-get)
+(package-initialize)

@@ -12,7 +12,7 @@
 (eval-after-load "guide-key" '(diminish 'guide-key-mode))
 (eval-after-load "whitespace-cleanup-mode" '(diminish 'whitespace-cleanup-mode))
 (eval-after-load "subword" '(diminish 'subword-mode))
-(eval-after-load "ace-isearch" '(diminish 'ace-isearch-mode))
+;; (eval-after-load "ace-isearch" '(diminish 'ace-isearch-mode))
 (eval-after-load "auto-complete" '(diminish 'auto-complete-mode))
 (eval-after-load "projectile" '(diminish 'projectile-mode))
 (eval-after-load "helm" '(diminish 'helm-mode))

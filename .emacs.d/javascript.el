@@ -1,3 +1,4 @@
+(require 'flycheck)
 ;; may be in an arbitrary order
 (eval-when-compile (require 'cl))
 
@@ -28,35 +29,27 @@
         ("Function" "function\\s-+\\([^ ]+\\) *(" 1)
         ("Function" " \\([^ ]+\\)\\s-*=\\s-*function\\s-*(" 1)))
 
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(javascript-jshint)))
+
+;; use eslint with web-mode for jsx files
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
+;; customize flycheck temp file prefix
+(setq-default flycheck-temp-prefix ".flycheck")
+
+;; disable json-jsonlist checking for json files
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(json-jsonlist)))
+
 ;; js-mode imenu enhancement
 ;; @see http://stackoverflow.com/questions/20863386/idomenu-not-working-in-javascript-mode
 (defun mo-js-imenu-make-index ()
   (save-excursion
     (imenu--generic-function javascript-common-imenu-regex-list)))
 
-(defun flymake-jshint-init ()
-  (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-inplace))
-         (local-file (file-relative-name
-                      temp-file
-                      (file-name-directory buffer-file-name)))
-         (arglist (list local-file)))
-    (list "jshint" arglist)))
-
-(defun mo-js-mode-hook ()
-  (setq imenu-create-index-function 'mo-js-imenu-make-index)
-  (setq flymake-err-line-patterns
-        (cons '(".*: line \\([[:digit:]]+\\), col \\([[:digit:]]+\\), \\(.*\\)$"
-                nil 1 2 3)
-              flymake-err-line-patterns))
-
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.js\\'" flymake-jshint-init)
-               '("\\.json\\'" flymake-jshint-init))
-  (flymake-mode 1)
-)
-
-(add-hook 'js-mode-hook 'mo-js-mode-hook)
 
 ;; {{ patching imenu in js2-mode
 (setq js2-imenu-extra-generic-expression javascript-common-imenu-regex-list)
@@ -195,6 +188,7 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   '(define-key js2-mode-map (kbd "M-j") nil))
 
 (defun my-js2-mode-setup()
+  (prettier-js-mode)
   (setq mode-name "JS2")
   (electric-indent-mode 0)
   (local-set-key (kbd "C-c .") 'ac-js2-jump-to-definition)
@@ -202,9 +196,8 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
   (tern-mode 1)
   (tern-ac-setup)
   (js2-imenu-extras-mode)
-  (electric-indent-mode 0)
   (ac-js2-mode)
-  (electric-indent-mode 0)
+  (flycheck-mode)
 )
 
 (autoload 'js2-mode "js2-mode" nil t)
@@ -232,5 +225,26 @@ Merge RLT and EXTRA-RLT, items in RLT has *higher* priority."
 
 
 (setq tern-command '("/Users/david/.emacs.d/el-get/tern/bin/tern" "--no-port-file"))
+
+(setq prettier-js-command "/home/david/src/go/src/repo.jazznetworks.com/jazz/main/frontend/node_modules/prettier/bin/prettier.js")
+
+(setq prettier-js-args '(
+  "--single-quote"
+  "--no-semi"
+))
+
+
+(defun my-elm-mode-setup()
+  (setq company-backends '(company-elm))
+  (flycheck-elm-setup)
+  (flycheck-mode)
+  (company-mode)
+  (elm-oracle-setup-completion)
+  (setq elm-format-on-save t)
+)
+
+(add-hook 'elm-mode-hook 'my-elm-mode-setup)
+
+
 
 (provide 'javascript)

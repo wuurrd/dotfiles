@@ -16,4 +16,3 @@
 
 ;; (add-hook 'java-mode-hook 'dbu-java-settings)
 
-(package-initialize)

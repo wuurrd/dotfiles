@@ -33,7 +33,7 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-x C-S-p") 'projectile-find-file-dwim)
-(global-set-key (kbd "C-x C-p") 'projectile-find-file-in-known-projects)
+(global-set-key (kbd "C-x C-p") 'projectile-find-file)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c p w") 'helm-do-ag)
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
@@ -45,8 +45,8 @@
 (global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
 (global-set-key (kbd "M-g f") 'avy-goto-line)
 
-(require 'ace-isearch)
-(define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
+;; (require 'ace-isearch)
+;; (define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
 
 (global-set-key [f3] 'flymake-display-err-menu-for-current-line)
 (global-set-key [f4] 'flymake-goto-next-error)
