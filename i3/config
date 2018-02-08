@@ -59,7 +59,7 @@ bindsym Print exec scrot -z "/home/david/.scrot/capture-%Y-%m-%d.png"
 # start a terminal
 bindsym $mod+t exec --no-startup-id "terminator"
 # start dmenu (a program launcher)
-bindsym $mod+Shift+p exec --no-startup-id dmenu_run
+bindsym $mod+Shift+p exec --no-startup-id dmenu_run -b -fn SourceCodePro-Regular:size=16
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -104,16 +104,21 @@ bindsym $win+v split h
 # enter fullscreen mode for the focused container
 bindsym $win+f fullscreen
 bindsym $mod+Control+l exec xautolock -locknow 
+bindsym Scroll_Lock exec xautolock -locknow 
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $win+s layout stacking
+# bindsym $win+s layout stacking
 bindsym $win+w layout tabbed
 bindsym $win+e layout toggle split
 
 mode "split" {
+        bindsym 0 exec "i3-msg layout toggle split && i3-msg mode default"
+        bindsym 1 exec "i3-msg layout tabbed && i3-msg mode default"
         bindsym 2 exec "i3-msg split v && i3-msg mode default"
         bindsym 3 exec "i3-msg split h && i3-msg mode default"
+        
 
+        bindsym q mode "default"
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
@@ -148,6 +153,7 @@ bindsym $win+minus workspace 11
 bindsym $win+equal workspace 12
 
 # move focused container to workspace
+bindsym $mod+Control+h exec python ~/.config/i3/nextscreen.py
 bindsym $mod+Control+Shift+Left exec python ~/.config/i3/movewin.py prev
 bindsym $mod+Control+Shift+Right exec python ~/.config/i3/movewin.py next
 bindsym $mod+Shift+1 move container to workspace number 1 terminal
