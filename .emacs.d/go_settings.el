@@ -10,20 +10,32 @@
 
 
 (use-package go-guru :ensure t)
-(use-package gotests :ensure t)
-(use-package flycheck :ensure t)
+
+(use-package flycheck :ensure t
+  :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (setq-default flycheck-disabled-checkers
+   (append flycheck-disabled-checkers
+	   '(javascript-jshint)))
+  (setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+	  '(json-jsonlist)))
+  (setq-default flycheck-temp-prefix ".flycheck")
+)
 
 (defun dbu-go-settings ()
   (subword-mode 1)
   (flycheck-mode 1)
 )
 
+(load-file "~/dotfiles/.emacs.d/gotests.el")
+
 (use-package go-mode
   :init
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
   :ensure t
-  :after (go-guru gotests flycheck)
+  :after (go-guru flycheck)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   (add-hook 'before-save-hook #'gofmt-before-save)

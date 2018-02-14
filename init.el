@@ -25,15 +25,17 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 
-(package-initialize)
 
 (use-package exec-path-from-shell :ensure t
+  :init
+  (setq exec-path-from-shell-check-startup-files nil)
   :config
   (exec-path-from-shell-initialize)
   (if (eq system-type 'darwin)

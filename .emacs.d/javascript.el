@@ -1,4 +1,3 @@
-(require 'flycheck)
 ;; may be in an arbitrary order
 (eval-when-compile (require 'cl))
 
@@ -29,20 +28,11 @@
         ("Function" "function\\s-+\\([^ ]+\\) *(" 1)
         ("Function" " \\([^ ]+\\)\\s-*=\\s-*function\\s-*(" 1)))
 
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint)))
 
 ;; use eslint with web-mode for jsx files
-(flycheck-add-mode 'javascript-eslint 'web-mode)
 
-;; customize flycheck temp file prefix
-(setq-default flycheck-temp-prefix ".flycheck")
 
 ;; disable json-jsonlist checking for json files
-(setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(json-jsonlist)))
 
 ;; js-mode imenu enhancement
 ;; @see http://stackoverflow.com/questions/20863386/idomenu-not-working-in-javascript-mode
