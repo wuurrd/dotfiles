@@ -21,6 +21,14 @@
  (add-to-list 'flymake-allowed-file-name-masks
           '("\\.py\\'" flymake-pylint-init)))
 
+(use-package jedi
+  :ensure t
+  :init
+  (setq jedi:setup-keys t)
+  :config
+  (jedi:setup)
+)
+
 (setq python-shell-interpreter "ipython")
 (defun dbu-python-settings ()
   (setq show-trailing-whitespace t)
@@ -28,6 +36,8 @@
         py-indent-offset 4
         indent-tabs-mode nil)
   (define-key python-mode-map "\C-m" 'newline-and-indent)
+  (local-set-key (kbd "C-c .") 'jedi:goto-definition)
+  (local-set-key (kbd "C-c ,") 'jedi:goto-definition-pop-marker)
   (auto-complete-mode 1)
   (subword-mode 1)
   ; do not breakline on comments
@@ -35,14 +45,13 @@
        (lambda ()
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
-  (setq jedi:setup-keys t)
-  (jedi:setup)
   (yas-minor-mode-on)
   (set (make-local-variable 'ac-sources)
        (append ac-sources '(ac-source-yasnippet)))
   (flymake-mode 1)
   ;(push 'ac-source-yasnippet ac-sources)
   (flymake-mode 1)
+
 )
 
 (add-hook 'python-mode-hook 'dbu-python-settings)

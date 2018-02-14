@@ -11,32 +11,16 @@
   (yas/load-directory "~/dotfiles/.emacs.d/yasnippet/snippets")
 )
 
-(require 'auto-complete)
-(require 'auto-complete-config)
-
-(add-to-list 'ac-dictionary-directories "~/dotfiles/.emacs.d/ac-dict")
-(ac-config-default)
-;(global-auto-complete-mode t)
-;(when (require 'auto-complete nil t)
-;  (require 'auto-complete-python)
-;  (require 'auto-complete-css)
-;  (require 'auto-complete-cpp)
-;  (require 'auto-complete-emacs-lisp)
-;  (require 'auto-complete-gtags)
-;  (require 'auto-complete-yasnippet)
-;
-;  (global-auto-complete-mode t)
-;  (setq ac-auto-start 3)
-;  (setq ac-dwim t)
-;  (set-default 'ac-sources '(ac-source-abbrev ac-source-words-in-buffer ac-source-files-in-current-dir ac-source-symbols))
-;)
-;
-(defun remove-tail (item)
-  (car (split-string item ":"))
+(use-package auto-complete
+  :ensure t
+  :init
+  (setq ac-auto-show-menu    0.2)
+  (setq ac-delay             0.2)
+  (setq ac-fuzzy-enable      t)
+  (setq ac-menu-height       20)
+  (setq ac-auto-start t)
+  (setq ac-show-menu-immediately-on-auto-complete t)
+  :config
+  (add-to-list 'ac-dictionary-directories "~/dotfiles/.emacs.d/ac-dict")
+  (ac-config-default)
 )
-
-(defun prefix-list-elements (list prefix)
-  (let (value)
-    (nreverse
-     (dolist (element list value)
-      (setq value (cons (format "%s%s" prefix element) value))))))

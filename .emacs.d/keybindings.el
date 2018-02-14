@@ -1,18 +1,39 @@
 (global-set-key [F12] 'recompile)
 (global-set-key (kbd "C-S-d") 'duplicate-line-or-region)
 (global-set-key "\C-xp" 'other-window-backward)
-(global-set-key [M-S-down] 'move-text-down)
-(global-set-key [M-S-up] 'move-text-up)
+(use-package move-text
+  :ensure t
+  :bind (
+    :map global-map
+    ([M-S-down] . 'move-text-down)
+    ([M-S-up] . 'move-text-up)
+  )
+)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "s-/") 'comment-dwim)
-(global-set-key (kbd "M-s-SPC") 'er/expand-region)
-(global-set-key (kbd "C-c a") 'er/expand-region)
-(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "M-?") 'mc/mark-all-like-this-dwim)
-(global-set-key (kbd "M-!") 'mc/mark-next-symbol-like-this)
-(global-set-key (kbd "C-M-SPC") 'set-rectangular-region-anchor)
+
+(use-package expand-region
+  :ensure t
+  :bind (
+    :map global-map
+    ("M-s-SPC" . 'er/expand-region)
+    ("C-c a" . 'er/expand-region)
+  )
+)
+
+(use-package multiple-cursors
+  :ensure t
+  :bind (
+    :map global-map
+    ("C-S-<mouse-1>" . 'mc/add-cursor-on-click)
+    ("C->" . 'mc/mark-next-like-this)
+    ("C-<" . 'mc/mark-previous-like-this)
+    ("M-?" . 'mc/mark-all-like-this-dwim)
+    ("M-!" . 'mc/mark-next-symbol-like-this)
+    ("C-M-SPC" . 'set-rectangular-region-anchor)
+  )
+)
+
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char-save)
 (global-set-key (kbd "M-j") 'join-previous-line)
