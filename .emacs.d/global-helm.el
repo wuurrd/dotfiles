@@ -43,7 +43,6 @@
 (use-package helm-ag
   :ensure t
   :after (helm ag)
-  :bind
   :bind (
     :map global-map
     ("C-c p w" . 'helm-do-ag)
@@ -55,8 +54,6 @@
   :after (helm projectile)
   :init
   (setq projectile-completion-system 'helm)
-  :config
-
 )
 
 (defun run-projectile-invalidate-cache (&rest _args)
