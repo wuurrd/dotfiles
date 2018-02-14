@@ -1,5 +1,3 @@
-(require 'magit)
-
 (global-set-key [F12] 'recompile)
 (global-set-key (kbd "C-S-d") 'duplicate-line-or-region)
 (global-set-key "\C-xp" 'other-window-backward)
@@ -21,29 +19,13 @@
 (global-set-key (kbd "M-`") 'isearch-forward-symbol-at-point)
 
 
-(global-set-key (kbd "C-S-g") 'magit-status)
-
-(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
-
 (if (eq system-type 'darwin)
     (global-set-key (kbd "s-M") 'toggle-max-frame)
 )
 
 
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-S-p") 'projectile-find-file-dwim)
-(global-set-key (kbd "C-x C-p") 'projectile-find-file)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c p w") 'helm-do-ag)
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
-(require 'avy)
-(global-set-key (kbd "C-:") 'avy-goto-word-or-subword-1)
-(global-set-key (kbd "M-g f") 'avy-goto-line)
 
 ;; (require 'ace-isearch)
 ;; (define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)

@@ -20,21 +20,29 @@
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d"))
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d/auto-install"))
 
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;; (require 'el-get)
+;; (el-get)
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
 
-(require 'el-get)
-(el-get)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile (require 'use-package))
+
 (package-initialize)
 
-(defvar execList '(exec-path-from-shell))
-(el-get 'sync execList)
-(require 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
-(if (eq system-type 'darwin)
-   (exec-path-from-shell-copy-env "PATH")
+(use-package exec-path-from-shell :ensure t
+  :config
+  (exec-path-from-shell-initialize)
+  (if (eq system-type 'darwin)
+      (exec-path-from-shell-copy-env "PATH")
+  )
 )
 
 (load-file "~/dotfiles/.emacs.d/packages.el")
+(load-file "~/dotfiles/.emacs.d/global-helm.el")
 (load-file "~/dotfiles/.emacs.d/global.el")
 (load-file "~/dotfiles/.emacs.d/color_settings.el")
 (load-file "~/dotfiles/.emacs.d/fullscreen.el")
@@ -48,6 +56,8 @@
 (load-file "~/dotfiles/.emacs.d/irc_mode.el")
 (load-file "~/dotfiles/.emacs.d/html.el")
 (load-file "~/dotfiles/.emacs.d/audio.el")
+(load-file "~/dotfiles/.emacs.d/protobuf.el")
+(load-file "~/dotfiles/.emacs.d/dbu-diminish.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

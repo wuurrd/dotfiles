@@ -46,23 +46,13 @@
 (blink-cursor-mode (- (*) (*) (*)))
 ;(toggle-show-tabs-show-ws)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-(unless (require 'el-get nil t) 
-  (with-current-buffer (url-retrieve-synchronously "https://raw.github.com/dimitri/el-get/master/el-get-install.el") 
-    (goto-char (point-max)) 
-    (eval-print-last-sexp)))
-(el-get 'sync)
 
 ;(add-hook 'font-lock-mode-hook 'hc-highlight-tabs)
 ;(add-hook 'font-lock-mode-hook 'hc-highlight-trailing-whitespace)
 
 ; Needs to be initialised after rope.
 
-(require 'helm-find-files-in-project)
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
-(setq projectile-enable-caching t)
 (setq ring-bell-function 'ignore)
-(setq helm-buffers-fuzzy-matching t)
 
 (defun duplicate-line-or-region ()
   (interactive)
@@ -92,12 +82,13 @@
   (next-line 1)
   (yank)
 )
-(require 'helm-config)
-(helm-mode 1)
-(setq helm-ag-command-option "--smart-case --ignore=node_modules")
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+
+(use-package keyfreq
+  :ensure t
+  :config
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1)
+)
 
 (delete-selection-mode 1)
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
@@ -129,12 +120,11 @@
 )
 (setq scss-compile-at-save nil)
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
 (setq bookmark-save-flag 1)
-(require 'smartscan)
-(global-smartscan-mode 1)
+(use-package smartscan :ensure t
+  :config
+  (global-smartscan-mode 1)
+)
 
 (require 'auto-complete)
 (setq ac-auto-show-menu    0.2)
@@ -165,52 +155,22 @@
     (shell-command-on-region (car bnds) (cdr bnds) "sh ~/bin/runtest.sh &")
   )
 )
-;(global-set-key (kbd "C-\\") 'runtest-pex)
-;; (require 'ace-isearch)
-;; (global-ace-isearch-mode +1)
-;; (setq ace-isearch-function-from-isearch 'helm-occur-from-isearch)
-
-;; (custom-set-variables
-;;  '(ace-isearch-input-length 12)
-;;  '(ace-isearch-jump-delay 0.9)
-;; )
 
 (load-file "~/dotfiles/.emacs.d/pexip.el")
 ;(require 'setup-paredit)
-(require 'smartparens)
-(require 'smartparens-config)
-(add-hook 'c-mode-hook (lambda () (smartparens-mode 1)))
-(add-hook 'python-mode-hook (lambda () (smartparens-mode 1)))
-(add-hook 'js2-mode-hook (lambda () (smartparens-mode 1)))
-(add-hook 'js-mode-hook (lambda () (smartparens-mode 1)))
-(add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode 1)))
-
-(defun sp--my-create-newline-and-enter-sexp (&rest _ignored)
-  "Open a new brace or bracket expression, with relevant newlines and indent. "
-  (newline)
-  (indent-according-to-mode)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-(sp-with-modes '(c-mode c++-mode js-mode js2-mode java-mode
-                        typescript-mode perl-mode)
-  (sp-local-pair "{" nil :post-handlers
-                 '((sp--my-create-newline-and-enter-sexp "RET"))))
+(use-package smartparens
+  :ensure t
+  :config
+  (add-hook 'c-mode-hook (lambda () (smartparens-mode 1)))
+  (add-hook 'python-mode-hook (lambda () (smartparens-mode 1)))
+  (add-hook 'js2-mode-hook (lambda () (smartparens-mode 1)))
+  (add-hook 'js-mode-hook (lambda () (smartparens-mode 1)))
+  (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode 1)))
+)
 
 (require 'keybindings)
-(require 'dbu-diminish)
-(smartparens-global-mode 1)
-(require 'magit_settings)
 (setq compilation-scroll-output t)
 (setq gc-cons-threshold 20000000)
-
-(defun run-projectile-invalidate-cache (&rest _args)
-  ;; We ignore the args to `magit-checkout'.
-  (projectile-invalidate-cache nil))
-
-(advice-add 'magit-pull-from-upstream ; This is `F u'.
-            :after #'run-projectile-invalidate-cache)
-
 
 (defun flymake-display-warning (warning) 
   "Display a warning to the user, using lwarn"
@@ -218,6 +178,3 @@
 
 (org-babel-do-load-languages
  'org-babel-load-languages '((emacs-lisp . t) (sh . t) (C . t)))
-
-(el-get)
-(package-initialize)

@@ -1,9 +1,9 @@
-(require 'color-theme)
+(use-package zenburn-theme :ensure t)
+
 ;(color-theme-initialize)
 ;(color-theme-pok-wob)
 ;(require 'color-theme-almost-monokai)
 ;(color-theme-almost-monokai)
-(load-theme 'zenburn t)
 
 ;; (require 'highlight-current-line)
 ;; (highlight-current-line-on t)

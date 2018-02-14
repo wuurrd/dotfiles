@@ -1,5 +1,3 @@
-(require 'xcscope)
-(cscope-setup)
 (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-mode))
 
