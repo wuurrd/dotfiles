@@ -38,9 +38,7 @@
   :after (go-guru flycheck)
   :config
   (add-hook 'before-save-hook #'gofmt-before-save)
-  :hook (
-    (go-mode . 'dbu-go-settings)
-  )
+  (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
     :map go-mode-map
     ("C-c ," . pop-tag-mark)
