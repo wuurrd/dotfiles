@@ -1,14 +1,9 @@
-(require 'flymake)
-(require 'flymake-cursor)
-;This needs to be run after rope is initialised
-;(global-set-key "\C-xp" 'other-window-backward)
-
-;Autocompletion
 (use-package yasnippet :ensure t
   :init
   (setq yas/trigger-key (kbd "C-c C-e"))
   :config
   (yas/load-directory "~/dotfiles/.emacs.d/yasnippet/snippets")
+  :diminish yas-minor-mode
 )
 
 (use-package auto-complete

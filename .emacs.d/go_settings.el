@@ -21,11 +21,13 @@
   (append flycheck-disabled-checkers
 	  '(json-jsonlist)))
   (setq-default flycheck-temp-prefix ".flycheck")
+  (setq-default flycheck-pylintrc "~/dotfiles/pylintrc")
 )
 
 (defun dbu-go-settings ()
   (subword-mode 1)
   (flycheck-mode 1)
+  (push 'ac-source-yasnippet ac-sources)
 )
 
 (load-file "~/dotfiles/.emacs.d/gotests.el")

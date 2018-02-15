@@ -26,7 +26,7 @@
   :init
   (setq jedi:setup-keys t)
   :config
-  (jedi:setup)
+  (add-hook 'python-mode-hook 'jedi:setup)
 )
 
 (setq python-shell-interpreter "ipython")
@@ -45,13 +45,9 @@
        (lambda ()
          (not (eq (get-text-property (point) 'face)
                   'font-lock-comment-face))))
-  (yas-minor-mode-on)
-  (set (make-local-variable 'ac-sources)
-       (append ac-sources '(ac-source-yasnippet)))
-  (flymake-mode 1)
-  ;(push 'ac-source-yasnippet ac-sources)
-  (flymake-mode 1)
-
+  (yas/minor-mode-on)
+  (flycheck-mode 1)
+  (add-to-list 'ac-sources 'ac-source-yasnippet)
 )
 
 (add-hook 'python-mode-hook 'dbu-python-settings)
