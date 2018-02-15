@@ -62,6 +62,7 @@
 (load-file "~/dotfiles/.emacs.d/protobuf.el")
 (load-file "~/dotfiles/.emacs.d/dbu-diminish.el")
 (load-file "~/dotfiles/.emacs.d/user-markdown.el")
+(load-file "~/dotfiles/.emacs.d/user-yaml.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
