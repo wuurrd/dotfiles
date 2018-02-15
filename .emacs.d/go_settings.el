@@ -9,7 +9,15 @@
 
 
 
-(use-package go-guru :ensure t)
+(use-package go-guru :ensure t
+  :config
+  (defun go-guru-set-current-package-as-main ()
+    (interactive)
+    (let* ((filename (buffer-file-name))
+           (gopath-src-path (concat (file-name-as-directory (go-guess-gopath)) "src"))
+           (relative-package-path (directory-file-name (file-name-directory (file-relative-name filename gopath-src-path)))))
+      (setq go-guru-scope relative-package-path)))
+)
 
 (use-package flycheck :ensure t
   :config
@@ -50,6 +58,7 @@
     ("C-c u" . go-guru-referrers)
     ("C-c t" . gotests-region)
     ("C-m" . 'newline-and-indent)
+    ("C-c a" . 'go-guru-expand-region)
   )
 )
 
