@@ -1,6 +1,5 @@
 (use-package diminish :ensure t
   :config
-  (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (eval-after-load "eldoc" '(diminish 'eldoc-mode))
   (eval-after-load "paredit" '(diminish 'paredit-mode))
   (eval-after-load "tagedit" '(diminish 'tagedit-mode))

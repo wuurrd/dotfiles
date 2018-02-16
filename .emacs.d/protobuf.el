@@ -7,5 +7,6 @@
   (add-hook 'protobuf-mode-hook 'my-protobuf-settings)
   :bind (
     ("M-j" . nil)
+    ("C-m" . 'newline-and-indent)
   )
 )

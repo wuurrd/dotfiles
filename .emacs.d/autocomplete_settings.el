@@ -1,11 +1,3 @@
-(use-package yasnippet :ensure t
-  :init
-  (setq yas/trigger-key (kbd "C-c C-e"))
-  :config
-  (yas/load-directory "~/dotfiles/.emacs.d/yasnippet/snippets")
-  :diminish yas-minor-mode
-)
-
 (use-package auto-complete
   :ensure t
   :init

@@ -37,7 +37,6 @@
 (defun dbu-go-settings ()
   (subword-mode 1)
   (flycheck-mode 1)
-  (push 'ac-source-yasnippet ac-sources)
   (add-hook 'before-save-hook #'gofmt-before-save)
 )
 

@@ -37,7 +37,7 @@
    '(flymake-warnline ((((class color)) (:underline "yellow")))))
   (if (eq system-type 'darwin)
       (set-frame-parameter frame 'font '"Source Code Pro for Powerline 14")
-    (set-frame-parameter frame 'font "Ubuntu Mono 11")
+    (set-default-font "Source Code Pro for Powerline 9")
   )
 )
 
@@ -47,10 +47,10 @@
 (push 'fontify-frame after-make-frame-functions)
 
 (if (eq system-type 'darwin)
-    (set-default-font "Source Code Pro for Powerline 14")
+    (set-default-font "Source Code Pro for Powerline 10")
   (if (string= system-name "checkers")
       (set-default-font "Monospace 11")
-    (set-default-font "Ubuntu Mono 11")
+    (set-default-font "Source Code Pro for Powerline 9")
     )
 )
 

@@ -43,7 +43,6 @@
   )
 )
 
-(load-file "~/dotfiles/.emacs.d/packages.el")
 (load-file "~/dotfiles/.emacs.d/global-helm.el")
 (load-file "~/dotfiles/.emacs.d/global.el")
 (load-file "~/dotfiles/.emacs.d/color_settings.el")

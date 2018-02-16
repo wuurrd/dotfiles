@@ -14,8 +14,6 @@
     (setq c-indent-level offset)
   )
   (setq c-tab-always-indent t)
-  (append ac-sources '(ac-source-yasnippet))
-  ;; (set (make-local-variable 'ac-sources)
   (company-mode 1)
   (auto-complete-mode 1)
   (paredit-mode 1)

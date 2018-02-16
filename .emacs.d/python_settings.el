@@ -47,7 +47,6 @@
                   'font-lock-comment-face))))
   (yas/minor-mode-on)
   (flycheck-mode 1)
-  (add-to-list 'ac-sources 'ac-source-yasnippet)
 )
 
 (add-hook 'python-mode-hook 'dbu-python-settings)
