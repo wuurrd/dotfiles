@@ -36,7 +36,7 @@
    '(flymake-errline ((((class color)) (:underline "red"))))
    '(flymake-warnline ((((class color)) (:underline "yellow")))))
   (if (eq system-type 'darwin)
-      (set-frame-parameter frame 'font '"Source Code Pro for Powerline 14")
+      (set-frame-parameter frame 'font '"Source Code Pro for Powerline 9")
     (set-default-font "Source Code Pro for Powerline 9")
   )
 )
