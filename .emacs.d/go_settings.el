@@ -58,6 +58,7 @@
     ("C-c t" . gotests-region)
     ("C-m" . 'newline-and-indent)
     ("C-c a" . 'go-guru-expand-region)
+    ("C-x c i" . 'helm-imenu)
   )
 )
 
