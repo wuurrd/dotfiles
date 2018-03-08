@@ -137,6 +137,7 @@
   (add-hook 'js2-mode-hook (lambda () (smartparens-mode 1)))
   (add-hook 'js-mode-hook (lambda () (smartparens-mode 1)))
   (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode 1)))
+  (add-hook 'go-mode-hook (lambda () (smartparens-mode 1)))
 )
 
 (require 'keybindings)

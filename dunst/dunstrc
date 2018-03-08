@@ -147,7 +147,7 @@
     browser = /usr/bin/xdg-open
     
     # Align icons left/right/off
-    icon_position = left
+    icon_position = off
     max_icon_size = 40
     
     # Paths to default icons.

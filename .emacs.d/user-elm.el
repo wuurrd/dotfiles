@@ -1,12 +1,18 @@
+(defun dbu-elm-settings ()
+  (setq elm-format-on-save t)
+  (setq company-backends '(company-elm))
+  (flycheck-mode)
+  (company-mode)
+  (flycheck-elm-setup)
+)
+
+(use-package flycheck-elm
+  :ensure t
+)
+
 (use-package elm-mode
   :ensure t
   :after (flycheck-elm)
-  :init
-  (setq elm-format-on-save t)
-  (setq company-backends '(company-elm))
   :config
-  (flycheck-mode)
-  (company-mode)
-  (elm-oracle-setup-completion)
-  (flycheck-elm-setup)
+  (add-hook 'elm-mode-hook 'dbu-elm-settings)
 )
