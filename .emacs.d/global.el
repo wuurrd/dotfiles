@@ -140,6 +140,12 @@
   (add-hook 'go-mode-hook (lambda () (smartparens-mode 1)))
 )
 
+(use-package jump-char
+  :ensure t
+  :bind
+  ("M-m" . jump-char-forward)
+  )
+
 (require 'keybindings)
 (setq compilation-scroll-output t)
 (setq gc-cons-threshold 20000000)

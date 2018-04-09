@@ -1,26 +1,30 @@
-;; may be in an arbitrary order
-(eval-when-compile (require 'cl))
-
-(require 'prettier-js)
-(setq prettier-js-command
-   "/home/david/src/go/src/repo.jazznetworks.com/jazz/main/frontend/node_modules/prettier/bin-prettier.js"
-)
-
-(setq prettier-js-args '(
-  "--single-quote"
-  "--no-semi"
-))
+(defun dbu-prettier()
+  (interactive)
+  (when (eq major-mode 'js2-mode) (prettier-js)))
 
 (defun dbu-js-settings()
-  (add-hook 'before-save-hook 'prettier-js 'local)
+  (add-hook 'before-save-hook 'dbu-prettier)
   (setq mode-name "JS2")
   (smartparens-mode 1)
   (js2-imenu-extras-mode)
   (flycheck-mode)
 )
 
+(use-package prettier-js
+  :ensure t
+  :init
+  (setq prettier-js-command
+        "/home/david/src/go/src/repo.jazznetworks.com/jazz/main/frontend/node_modules/prettier/bin-prettier.js"
+        )
+  (setq prettier-js-args '(
+                           "--single-quote"
+                           "--no-semi"
+                           ))
+)
+
 (use-package js2-mode
   :ensure t
+  :after prettier-js
   :init
   (setq js2-use-font-lock-faces t
       js2-mode-must-byte-compile nil
@@ -28,6 +32,7 @@
       js2-indent-on-enter-key t
       js2-skip-preprocessor-directives t
       js2-auto-indent-p t
+      js2-basic-offset 2
       js2-bounce-indent-p t)
   :config
   (add-hook 'js2-mode-hook 'dbu-js-settings)

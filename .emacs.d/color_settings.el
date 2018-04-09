@@ -41,6 +41,7 @@
         (set-default-font "Source Code Pro for Powerline 13")
         )
     (set-default-font "Source Code Pro for Powerline 9")
+    (set-frame-parameter frame 'font '"Source Code Pro for Powerline 9")
   )
 )
 
