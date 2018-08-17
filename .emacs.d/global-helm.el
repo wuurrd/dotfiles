@@ -2,6 +2,7 @@
   :ensure t
   :init
   (setq projectile-enable-caching t)
+  (setq projectile-sort-order 'recently-active)
   :config
   (projectile-global-mode)
   (global-set-key (kbd "C-x C-S-p") 'projectile-find-file-dwim)

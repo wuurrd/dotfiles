@@ -63,6 +63,7 @@
 (load-file "~/dotfiles/.emacs.d/user-markdown.el")
 (load-file "~/dotfiles/.emacs.d/user-yaml.el")
 (load-file "~/dotfiles/.emacs.d/user-lisp.el")
+(load-file "~/dotfiles/.emacs.d/user-scala.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

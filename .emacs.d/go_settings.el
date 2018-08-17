@@ -19,6 +19,10 @@
       (setq go-guru-scope relative-package-path)))
 )
 
+(use-package company-go :ensure t
+  :after (company)
+)
+
 (use-package flycheck :ensure t
   :config
   (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -37,16 +41,19 @@
 (defun dbu-go-settings ()
   (subword-mode 1)
   (flycheck-mode 1)
+  (auto-complete-mode 0)
+  (set (make-local-variable 'company-backends) '(company-go))
+  (company-mode 1)
   (add-hook 'before-save-hook #'gofmt-before-save)
+  (setq show-trailing-whitespace t)
+  (set (make-local-variable 'semantic-mode) nil)
 )
 
 
 (use-package go-mode
   :init
-  (setq show-trailing-whitespace t)
-  (set (make-local-variable 'semantic-mode) nil)
   :ensure t
-  :after (go-guru flycheck)
+  :after (go-guru flycheck company-go)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (

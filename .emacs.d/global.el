@@ -148,7 +148,7 @@
 
 (require 'keybindings)
 (setq compilation-scroll-output t)
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold 40000000)
 
 (defun flymake-display-warning (warning) 
   "Display a warning to the user, using lwarn"
