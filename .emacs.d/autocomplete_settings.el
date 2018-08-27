@@ -14,12 +14,12 @@
   (ac-config-default)
 )
 
+
 (use-package company :ensure t
   :config
   (defun my-company-visible-and-explicit-action-p ()
     (and (company-tooltip-visible-p)
          (company-explicit-action-p)))
-
   (setq company-require-match nil)
   (setq company-idle-delay 0.2)
   (setq company-tooltip-limit 20)
@@ -28,12 +28,16 @@
       '(company-pseudo-tooltip-unless-just-one-frontend
         company-preview-frontend
         company-echo-metadata-frontend))
-  (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
-  (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
-  (define-key company-active-map (kbd "[tab]") (lambda () (interactive) (company-complete)))
   (setq company-minimum-prefix-length 0)
-
-  (custom-set-faces
-   `(company-template-field ((t (:foreground "#DFAF8F" :background "#2B2B2B"))))
-   )
+  ;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
+  ;; (define-key company-active-map [tab] 'company-complete-selection)
+  :custom-face
+  (company-template-field ((t (:foreground "#DFAF8F" :background "#2B2B2B"))))
+  :bind (:map company-active-map
+    ("C-n" . (lambda () (interactive) (company-complete-common-or-cycle 1)))
+    ("C-p" . (lambda () (interactive) (company-complete-common-or-cycle -1)))
+    ("C-h" . nil)
+    ;:map company-search-map
+    ;([?\t] . company-complete-selection)
+  )
 )
