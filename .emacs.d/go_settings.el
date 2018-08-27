@@ -21,6 +21,15 @@
 
 (use-package company-go :ensure t
   :after (company)
+  :config
+  (defadvice company-go (around fix-company-go-prefix activate)
+    "Clobber company-go to use company-grab-word instead of the
+flakey regular expression. This allows us to complete standard
+variables etc. as well as methods and properties."
+    ad-do-it
+    (when (eql (ad-get-arg 0) 'prefix)
+      (setq ad-return-value (company-grab-word)))
+  )
 )
 
 (use-package flycheck :ensure t

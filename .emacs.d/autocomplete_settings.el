@@ -30,5 +30,10 @@
         company-echo-metadata-frontend))
   (define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle 1)))
   (define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
-  (setq company-minimum-prefix-length 1)
+  (define-key company-active-map (kbd "[tab]") (lambda () (interactive) (company-complete)))
+  (setq company-minimum-prefix-length 0)
+
+  (custom-set-faces
+   `(company-template-field ((t (:foreground "#DFAF8F" :background "#2B2B2B"))))
+   )
 )
