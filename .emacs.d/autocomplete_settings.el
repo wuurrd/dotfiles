@@ -12,6 +12,10 @@
   :config
   (add-to-list 'ac-dictionary-directories "~/dotfiles/.emacs.d/ac-dict")
   (ac-config-default)
+  :bind (:map ac-complete-mode-map
+    ("C-n" . ac-next)
+    ("C-p" . ac-previous)
+    )
 )
 
 

@@ -58,3 +58,5 @@
     (shell-command-on-region (mark) (point) "python -m json.tool" (buffer-name) t)
   )
 )
+
+(use-package "pyfmt" :ensure t)

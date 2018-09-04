@@ -8,6 +8,14 @@
 )
 
 
+(defun forward-or-backward-sexp (&optional arg)
+  "Go to the matching parenthesis character if one is adjacent to point."
+  (interactive "^p")
+  (cond ((looking-at "\\s(") (forward-sexp arg))
+        ((looking-back "\\s)" 1) (backward-sexp arg))
+        ;; Now, try to succeed from inside of a bracket
+        ((looking-at "\\s)") (forward-char) (backward-sexp arg))
+        ((looking-back "\\s(" 1) (backward-char) (forward-sexp arg))))
 
 (use-package go-guru :ensure t
   :config
@@ -19,18 +27,6 @@
       (setq go-guru-scope relative-package-path)))
 )
 
-(use-package company-go :ensure t
-  :after (company)
-  :config
-  (defadvice company-go (around fix-company-go-prefix activate)
-    "Clobber company-go to use company-grab-word instead of the
-flakey regular expression. This allows us to complete standard
-variables etc. as well as methods and properties."
-    ad-do-it
-    (when (eql (ad-get-arg 0) 'prefix)
-      (setq ad-return-value (company-grab-word)))
-  )
-)
 
 (use-package flycheck :ensure t
   :config
@@ -46,13 +42,13 @@ variables etc. as well as methods and properties."
 )
 
 (load-file "~/dotfiles/.emacs.d/gotests.el")
+(load-file "~/dotfiles/.emacs.d/go-autocomplete.el")
 
 (defun dbu-go-settings ()
   (subword-mode 1)
   (flycheck-mode 1)
-  (auto-complete-mode 0)
-  (set (make-local-variable 'company-backends) '(company-go))
-  (company-mode 1)
+  (auto-complete-mode 1)
+  (set (make-local-variable 'ac-sources) (cons '(ac-source-go) '()))
   (add-hook 'before-save-hook #'gofmt-before-save)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
@@ -62,7 +58,7 @@ variables etc. as well as methods and properties."
 (use-package go-mode
   :init
   :ensure t
-  :after (go-guru flycheck company-go)
+  :after (go-guru flycheck)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
@@ -75,6 +71,7 @@ variables etc. as well as methods and properties."
     ("C-m" . 'newline-and-indent)
     ("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
+    ("C-'" . 'forward-or-backward-sexp)
   )
 )
 
