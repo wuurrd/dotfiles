@@ -58,7 +58,7 @@
 (use-package go-mode
   :init
   :ensure t
-  :after (go-guru flycheck)
+  :after (go-guru flycheck gorepl-mode)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
@@ -71,8 +71,13 @@
     ("C-m" . 'newline-and-indent)
     ("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
+    :map global-map
     ("C-'" . 'forward-or-backward-sexp)
   )
+)
+
+(use-package gorepl-mode
+  :ensure t
 )
 
 (use-package flycheck :ensure t
