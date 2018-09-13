@@ -68,6 +68,11 @@
   (keyfreq-autosave-mode 1)
 )
 
+(use-package undo-tree
+  :ensure t
+  :init
+  (undo-tree-mode))
+
 (delete-selection-mode 1)
 (setq compile-command "~/src/mcu/buildtools/pexbuildv2 configure build install -p")
 
