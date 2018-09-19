@@ -62,10 +62,14 @@
   :ensure t
 )
 
+(use-package gotest
+  :ensure t
+)
+
 (use-package go-mode
   :init
   :ensure t
-  :after (go-guru flycheck gorepl-mode go-impl go-rename)
+  :after (go-guru flycheck gorepl-mode go-impl go-rename gotest)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
@@ -79,6 +83,8 @@
     ("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
     ("C-x c r" . 'go-rename)
+    ("C-x c t" . 'go-test-current-test)
+    ("C-x c f" . 'go-test-current-file)
     :map global-map
     ("C-'" . 'forward-or-backward-sexp)
   )
