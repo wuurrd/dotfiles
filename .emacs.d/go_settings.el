@@ -54,11 +54,18 @@
   (set (make-local-variable 'semantic-mode) nil)
 )
 
+(use-package go-impl
+  :ensure t
+)
+
+(use-package go-rename
+  :ensure t
+)
 
 (use-package go-mode
   :init
   :ensure t
-  :after (go-guru flycheck gorepl-mode)
+  :after (go-guru flycheck gorepl-mode go-impl go-rename)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
@@ -71,6 +78,7 @@
     ("C-m" . 'newline-and-indent)
     ("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
+    ("C-x c r" . 'go-rename)
     :map global-map
     ("C-'" . 'forward-or-backward-sexp)
   )

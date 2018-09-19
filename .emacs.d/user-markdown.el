@@ -33,8 +33,11 @@ Captured %<%Y-%m-%d %H:%M>
 %i
 " "Basic task data")
 
+(use-package org-timeline :ensure t)
+
 (use-package org :ensure t
   :commands org-mode
+  :after (org-timeline)
   :init
   (setq org-expiry-inactive-timestamps t)
   (setq org-clock-idle-time nil)
@@ -113,6 +116,7 @@ Captured %<%Y-%m-%d %H:%M>
            "* %?\n\n%i\n%U\n"
            )))
   :config
+  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
   (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (add-to-list 'org-file-apps '(system . "xdg-open \"%s\""))

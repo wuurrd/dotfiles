@@ -132,7 +132,13 @@
   )
 )
 
-(load-file "~/dotfiles/.emacs.d/pexip.el")
+(let
+    ((work "~/dotfiles/.emacs.d/work.el"))
+  (when
+      (file-exists-p work)
+    (load-file work)
+  )
+)
 ;(require 'setup-paredit)
 (use-package smartparens
   :ensure t
