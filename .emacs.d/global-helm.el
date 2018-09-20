@@ -80,14 +80,18 @@
   :config
   (advice-add 'magit-pull-from-upstream ; This is `F u'.
             :after #'run-projectile-invalidate-cache)
-  (global-set-key (kbd "C-S-g") 'magit-status)
   (add-hook 'git-rebase-mode-hook 'dbu-rebase)
   (defadvice magit-status (around magit-fullscreen activate)
     (window-configuration-to-register :magit-fullscreen)
     ad-do-it
     (delete-other-windows))
   :bind (
+    :map global-map
+    ("C-S-g" . 'magit-status)
+    ("C-x g" . 'magit-status)
     :map magit-status-mode-map
     ("q" . 'magit-quit-session)
+    :map magit-process-mode-map
+    ("C-c C-o" . 'browse-url-chrome)
   )
 )

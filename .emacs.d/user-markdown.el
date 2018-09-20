@@ -53,6 +53,8 @@ Captured %<%Y-%m-%d %H:%M>
   (setq org-src-fontify-natively t)
   (setq org-latex-listings 'minted)
   (setq org-log-done 'time)
+  (setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "google-chrome")
   (setq org-todo-keywords
         '((sequence
            "TODO(t)"
