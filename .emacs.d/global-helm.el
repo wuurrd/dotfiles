@@ -20,7 +20,7 @@
   :after (projectile)
   :init
   (setq helm-buffers-fuzzy-matching t)
-  (setq helm-ag-command-option "--smart-case --ignore=node_modules --ignore=elm-stuff")
+  (setq helm-ag-command-option "--smart-case --ignore=node_modules --ignore=elm-stuff --ignore=static")
   :ensure t
   :config
   (helm-mode 1)

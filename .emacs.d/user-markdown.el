@@ -118,6 +118,7 @@ Captured %<%Y-%m-%d %H:%M>
            "* %?\n\n%i\n%U\n"
            )))
   :config
+  (require 'ox-beamer)
   (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
   (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
