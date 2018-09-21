@@ -239,10 +239,15 @@ type = internal/network
 interface = enp0s31f6
 interval = 3.0
 
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
 format-connected-underline = #55aa55
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
+label-connected = %upspeed:8% %downspeed:8%
 
 format-disconnected =
 ;format-disconnected = <label-disconnected>
