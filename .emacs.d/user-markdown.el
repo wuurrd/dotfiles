@@ -39,6 +39,7 @@ Captured %<%Y-%m-%d %H:%M>
   :commands org-mode
   :after (org-timeline)
   :init
+  (setq org-startup-indented t)
   (setq org-expiry-inactive-timestamps t)
   (setq org-clock-idle-time nil)
   (setq org-log-done 'time)
