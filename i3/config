@@ -74,8 +74,8 @@ bindsym $mod+Shift+c kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j exec python ~/.config/i3/focus.py next
-bindsym $mod+k exec python ~/.config/i3/focus.py prev
+bindsym $win+j exec python ~/.config/i3/focus.py next
+bindsym $win+k exec python ~/.config/i3/focus.py prev
 bindsym $mod+Tab exec python ~/.config/i3/focus.py next
 bindsym $mod+Shift+Tab exec python ~/.config/i3/focus.py prev
 
@@ -88,10 +88,10 @@ bindsym $mod+Control+n workspace next_on_output
 bindsym $mod+Control+Right workspace next_on_output
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $win+Shift+h move left
+bindsym $win+Shift+j move down
+bindsym $win+Shift+k move up
+bindsym $win+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $win+Shift+Left move left
