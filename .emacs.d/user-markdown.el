@@ -123,8 +123,14 @@ Captured %<%Y-%m-%d %H:%M>
   (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
   (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (add-to-list 'org-file-apps '(system . "xdg-open \"%s\""))
-  (add-to-list 'org-file-apps '(t . "xdg-open \"%s\""))
+  (if (eq system-type 'darwin)
+      (progn
+        (add-to-list 'org-file-apps '(system . "open \"%s\""))
+        (add-to-list 'org-file-apps '(t . "open \"%s\"")))
+      (progn
+        (add-to-list 'org-file-apps '(system . "xdg-open \"%s\""))
+        (add-to-list 'org-file-apps '(t . "xdg-open \"%s\"")))
+  )
   :bind (
     :map global-map
     ("C-c o" . 'open-org)
