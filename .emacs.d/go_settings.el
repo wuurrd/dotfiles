@@ -80,7 +80,7 @@
     ("C-c u" . go-guru-referrers)
     ("C-c t" . gotests-region)
     ("C-m" . 'newline-and-indent)
-    ("C-c a" . 'go-guru-expand-region)
+    ;("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
     ("C-x c r" . 'go-rename)
     ("C-x c t" . 'go-test-current-test)

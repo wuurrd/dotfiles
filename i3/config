@@ -32,6 +32,8 @@ exec --no-startup-id "~/startup.sh"
 exec --no-startup-id "nitrogen --restore"
 exec --no-startup-id "~/.config/i3/polybar-launcher"
 exec --no-startup-id "/usr/bin/openport-gui"
+exec --no-startup-id "dropbox start"
+exec --no-startup-id "emacs --daemon"
 #  setxkbmap -layout us,no -option "grp:switch,ctrl:nocaps" 
 
 focus_on_window_activation focus
@@ -61,6 +63,7 @@ bindsym Print exec scrot -z "/home/david/.scrot/capture-%Y-%m-%d.png"
 
 # start a terminal
 bindsym $mod+t exec --no-startup-id "gnome-terminal"
+bindsym $win+t exec --no-startup-id "emacsclient -c --eval '(progn (org-capture) (delete-other-windows) (setq-local kill-buffer-hook (lambda () (delete-frame))))'"
 bindsym XF86Calculator exec --no-startup-id "gnome-calculator"
 # start dmenu (a program launcher)
 bindsym $mod+Shift+p exec --no-startup-id dmenu_run -b -fn SourceCodePro-Regular:size=16

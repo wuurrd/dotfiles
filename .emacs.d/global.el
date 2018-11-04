@@ -1,6 +1,6 @@
 (setq inhibit-splash-screen t)
 (column-number-mode)
-(server-start)
+(unless (server-running-p) (server-start))
 (ido-mode t)
 (setq ido-case-fold  t)
 (fset 'yes-or-no-p 'y-or-n-p)
