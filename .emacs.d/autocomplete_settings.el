@@ -40,6 +40,8 @@
   :bind (:map company-active-map
     ("C-n" . (lambda () (interactive) (company-complete-common-or-cycle 1)))
     ("C-p" . (lambda () (interactive) (company-complete-common-or-cycle -1)))
+    ("TAB" . (lambda () (interactive) (company-complete-selection)))
+    ([tab] . (lambda () (interactive) (company-complete-selection)))
     ("C-h" . nil)
     ;:map company-search-map
     ;([?\t] . company-complete-selection)

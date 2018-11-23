@@ -47,11 +47,13 @@
 (defun dbu-go-settings ()
   (subword-mode 1)
   (flycheck-mode 1)
-  (auto-complete-mode 1)
+  (auto-complete-mode 0)
+  (company-mode 1)
   (set (make-local-variable 'ac-sources) (cons '(ac-source-go) '()))
   (add-hook 'before-save-hook #'gofmt-before-save)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
+  (setq company-backends '(company-tabnine))
 )
 
 (use-package go-impl
@@ -69,7 +71,7 @@
 (use-package go-mode
   :init
   :ensure t
-  :after (go-guru flycheck gorepl-mode go-impl go-rename gotest)
+  :after (go-guru flycheck gorepl-mode go-impl go-rename gotest company-tabnine)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (

@@ -65,6 +65,7 @@
 (load-file "~/dotfiles/.emacs.d/user-lisp.el")
 (load-file "~/dotfiles/.emacs.d/user-scala.el")
 (load-file "~/dotfiles/.emacs.d/user-movement.el")
+(load-file "~/dotfiles/.emacs.d/user-autocomplete.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
