@@ -9,7 +9,7 @@
 
 (defun open-org()
   (interactive)
-  (find-file "~/organizer.org")
+  (find-file "~/Dropbox/org/organizer.org")
 )
 
 (defun my/org-contacts-template-email (&optional return-value)
