@@ -15,7 +15,7 @@
   )
   (setq c-tab-always-indent t)
   (company-mode 1)
-  (auto-complete-mode 1)
+  ;(auto-complete-mode 1)
   (paredit-mode 1)
   (semantic-mode 1)
   (electric-indent-mode 0)

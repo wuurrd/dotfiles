@@ -73,6 +73,25 @@
   (smartscan-mode 0)
   )
 
+(defun my-magit-find-master ()
+  "Visit a file in master brnach"
+  (interactive)
+  (let ((file (magit-read-file-from-rev "master" "Find file in master" buffer-file-name)))
+    (magit-find-file "master" file))
+  )
+
+(defun my-magit-find-master-this ()
+  "Visit this file in master brnach"
+  (interactive)
+  (magit-find-file "master" buffer-file-name)
+  )
+
+(defun my-magit-ediff-master-this ()
+  "Ediff this file against master brnach"
+  (interactive)
+  (magit-ediff-compare nil "master" (magit-current-file) (magit-current-file))
+  )
+
 (use-package magit
   :after (projectile helm)
   :ensure t
@@ -89,6 +108,11 @@
     :map global-map
     ("C-S-g" . 'magit-status)
     ("C-x g" . 'magit-status)
+    ("C-c m f" . 'magit-find-file)
+    ("C-c m m" . 'my-magit-find-master)
+    ("C-c m t" . 'my-magit-find-master-this)
+    ("C-c m e" . 'my-magit-ediff-master-this)
+    ("C-c m E" . 'magit-ediff-compare)
     :map magit-status-mode-map
     ("q" . 'magit-quit-session)
     :map magit-process-mode-map

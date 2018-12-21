@@ -1,7 +1,5 @@
 (use-package auto-complete
   :ensure t
-  :config
-  (ac-flyspell-workaround)
   :init
   (setq ac-auto-show-menu    0.2)
   (setq ac-delay             0.2)
@@ -11,7 +9,13 @@
   (setq ac-show-menu-immediately-on-auto-complete t)
   :config
   (add-to-list 'ac-dictionary-directories "~/dotfiles/.emacs.d/ac-dict")
-  (ac-config-default)
+  (ac-flyspell-workaround)
+  ;; (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+  ;; (add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
+  ;; (add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+  ;; (add-hook 'ruby-mode-hook 'ac-ruby-mode-setup)
+  ;; (add-hook 'css-mode-hook 'ac-css-mode-setup)
+  ;; (add-hook 'auto-complete-mode-hook 'ac-common-setup)
   :bind (:map ac-complete-mode-map
     ("C-n" . ac-next)
     ("C-p" . ac-previous)
@@ -39,6 +43,13 @@
   (company-template-field ((t (:foreground "#DFAF8F" :background "#2B2B2B"))))
   :bind (:map company-active-map
     ("C-n" . (lambda () (interactive) (company-complete-common-or-cycle 1)))
+    ("C-p" . (lambda () (interactive) (company-complete-common-or-cycle -1)))
+    ;; ("C-f" . (lambda () (interactive)
+    ;;            (if (= company-candidates-length 1)
+    ;;                (company-complete-selection)
+    ;;              (company-abort)
+    ;;                )
+    ;;            )
     ("C-p" . (lambda () (interactive) (company-complete-common-or-cycle -1)))
     ("TAB" . (lambda () (interactive) (company-complete-selection)))
     ([tab] . (lambda () (interactive) (company-complete-selection)))

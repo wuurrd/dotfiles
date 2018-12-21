@@ -1,6 +1,6 @@
 (defun dbu-elm-settings ()
   (setq elm-format-on-save t)
-  (setq company-backends '(company-elm))
+  (setq-local company-backends '(company-tabnine))
   (flycheck-mode)
   (company-mode)
   (flycheck-elm-setup)

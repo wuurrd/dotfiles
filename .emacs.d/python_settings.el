@@ -38,7 +38,9 @@
   (define-key python-mode-map "\C-m" 'newline-and-indent)
   (local-set-key (kbd "C-c .") 'jedi:goto-definition)
   (local-set-key (kbd "C-c ,") 'jedi:goto-definition-pop-marker)
-  (auto-complete-mode 1)
+  ;(auto-complete-mode 1)
+  (setq-local company-backends '(company-tabnine))
+  (company-mode 1)
   (subword-mode 1)
   ; do not breakline on comments
   (set (make-local-variable 'fill-nobreak-predicate)

@@ -28,6 +28,8 @@
 )
 
 
+(use-package go-dlv :ensure t)
+
 (use-package flycheck :ensure t
   :config
   (flycheck-add-mode 'javascript-eslint 'web-mode)
@@ -53,7 +55,7 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
-  (setq company-backends '(company-tabnine))
+  (setq-local company-backends '(company-tabnine))
 )
 
 (use-package go-impl
@@ -77,7 +79,6 @@
   :bind (
     :map go-mode-map
     ("C-c ," . pop-tag-mark)
-    ("C-c m" . pop-tag-mark)
     ("C-c ." . godef-jump)
     ("C-c u" . go-guru-referrers)
     ("C-c t" . gotests-region)
