@@ -33,8 +33,6 @@ Captured %<%Y-%m-%d %H:%M>
 %i
 " "Basic task data")
 
-(use-package org-timeline :ensure t)
-
 (use-package org :ensure t
   :commands org-mode
   :after (org-timeline)
