@@ -92,6 +92,27 @@
   (magit-ediff-compare nil "master" (magit-current-file) (magit-current-file))
   )
 
+(defun my-magit-merge-preview ()
+  "Preview result of merging REV into the current branch."
+  (interactive)
+  (setq rev "master")
+  (magit-mode-setup #'my-magit-merge-preview-mode rev))
+
+(define-derived-mode my-magit-merge-preview-mode magit-diff-mode "Magit Merge"
+  "Mode for previewing a merge."
+  :group 'magit-diff
+  (hack-dir-local-variables-non-file-buffer))
+
+(defun my-magit-merge-preview-refresh-buffer (rev)
+  (let* ((branch rev)
+         (head (magit-get-current-branch)))
+    (magit-set-header-line-format (format "Preview merge of %s into %s"
+                                          (or branch "HEAD")
+                                          rev))
+    (magit-insert-section (diffbuf)
+      (magit-git-wash #'magit-diff-wash-diffs
+        "merge-tree" (magit-git-string "merge-base" rev head) rev head))))
+
 (use-package magit
   :after (projectile helm)
   :ensure t
@@ -113,6 +134,7 @@
     ("C-c m t" . 'my-magit-find-master-this)
     ("C-c m e" . 'my-magit-ediff-master-this)
     ("C-c m E" . 'magit-ediff-compare)
+    ("C-c m b" . 'my-magit-merge-preview)
     :map magit-status-mode-map
     ("q" . 'magit-quit-session)
     :map magit-process-mode-map
