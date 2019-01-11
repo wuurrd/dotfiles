@@ -35,7 +35,6 @@ Captured %<%Y-%m-%d %H:%M>
 
 (use-package org :ensure t
   :commands org-mode
-  :after (org-timeline)
   :init
   (setq org-startup-indented t)
   (setq org-expiry-inactive-timestamps t)
@@ -118,7 +117,6 @@ Captured %<%Y-%m-%d %H:%M>
            )))
   :config
   (require 'ox-beamer)
-  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
   (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (if (eq system-type 'darwin)
