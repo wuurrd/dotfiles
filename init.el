@@ -67,6 +67,7 @@
 (load-file "~/dotfiles/.emacs.d/user-movement.el")
 (load-file "~/dotfiles/.emacs.d/user-autocomplete.el")
 (load-file "~/dotfiles/.emacs.d/user-keys.el")
+(load-file "~/dotfiles/.emacs.d/user-kube.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
