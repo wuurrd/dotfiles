@@ -113,6 +113,14 @@
       (magit-git-wash #'magit-diff-wash-diffs
         "merge-tree" (magit-git-string "merge-base" rev head) rev head))))
 
+(defun my-browse-url (url &rest args)
+  (interactive (browse-url-interactive-arg "URL: "))
+  (if (eq system-type 'darwin)
+      (apply #'browse-url-chrome url args)
+    (apply #'browse-url url args)
+  )
+)
+
 (use-package magit
   :after (projectile helm)
   :ensure t
@@ -138,6 +146,6 @@
     :map magit-status-mode-map
     ("q" . 'magit-quit-session)
     :map magit-process-mode-map
-    ("C-c C-o" . 'browse-url-chrome)
+    ("C-c C-o" . 'my-browse-url)
   )
 )
