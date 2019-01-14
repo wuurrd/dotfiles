@@ -5,9 +5,14 @@
   (setq projectile-sort-order 'recently-active)
   :config
   (projectile-global-mode)
-  (global-set-key (kbd "C-x C-S-p") 'projectile-find-file-dwim)
-  (global-set-key (kbd "C-x C-p") 'projectile-find-file)
+  :bind (
+    :map global-map
+    ("C-x C-S-p" . 'projectile-find-file-dwim)
+    ("C-x C-p" . 'projectile-find-file)
+    :map projectile-mode-map
+    ("C-c p" . 'projectile-command-map)
   )
+)
 
 (defun remove-helm-functions ()
   (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
