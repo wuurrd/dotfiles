@@ -34,6 +34,7 @@ exec --no-startup-id "~/.config/i3/polybar-launcher"
 exec --no-startup-id "/usr/bin/openport-gui"
 exec --no-startup-id "dropbox start"
 exec --no-startup-id "emacs --daemon"
+exec --no-startup-id "ssh-add -k ~/.ssh/id_rsa"
 #  setxkbmap -layout us,no -option "grp:switch,ctrl:nocaps" 
 
 focus_on_window_activation focus
