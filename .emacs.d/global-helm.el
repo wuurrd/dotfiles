@@ -95,7 +95,7 @@
 (defun my-magit-merge-preview ()
   "Preview result of merging REV into the current branch."
   (interactive)
-  (setq rev "master")
+  (setq rev "origin/master")
   (magit-mode-setup #'my-magit-merge-preview-mode rev))
 
 (define-derived-mode my-magit-merge-preview-mode magit-diff-mode "Magit Merge"
