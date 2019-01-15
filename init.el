@@ -39,7 +39,9 @@
   :config
   (exec-path-from-shell-initialize)
   (if (eq system-type 'darwin)
-      (exec-path-from-shell-copy-env "PATH")
+      (progn
+        (exec-path-from-shell-copy-env "PATH")
+        (exec-path-from-shell-copy-env "LANG"))
   )
 )
 
