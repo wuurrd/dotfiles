@@ -15,6 +15,9 @@
 
 ;(package-initialize)
 
+(if (eq system-type 'darwin)
+    (setq mac-option-modifier 'meta)
+  )
 (add-to-list 'load-path (expand-file-name "/usr/share/emacs/site-lisp/emacs-goodies-el/"))
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d/yasnippet"))
 (add-to-list 'load-path (expand-file-name "~/dotfiles/.emacs.d"))
