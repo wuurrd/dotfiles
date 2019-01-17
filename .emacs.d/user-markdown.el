@@ -23,6 +23,9 @@
       (concat "%^{" org-contacts-email-property "}p")))
 
 
+(use-package org-bullets :ensure t
+  )
+
 (defvar my/org-basic-task-template "* TODO %^{Task}
 :PROPERTIES:
 :Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}
@@ -35,6 +38,7 @@ Captured %<%Y-%m-%d %H:%M>
 
 (use-package org :ensure t
   :commands org-mode
+  :after org-bullets
   :init
   (setq org-startup-indented t)
   (setq org-expiry-inactive-timestamps t)
@@ -117,7 +121,10 @@ Captured %<%Y-%m-%d %H:%M>
            )))
   :config
   (require 'ox-beamer)
-  (add-hook 'org-mode-hook (lambda () (auto-revert-mode 1)))
+  (add-hook 'org-mode-hook (lambda ()
+                             (auto-revert-mode 1)
+                             (org-bullets-mode 1)
+                             ))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (if (eq system-type 'darwin)
       (progn
