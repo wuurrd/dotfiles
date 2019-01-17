@@ -40,6 +40,7 @@ Captured %<%Y-%m-%d %H:%M>
   :commands org-mode
   :after org-bullets
   :init
+  (setq org-hide-leading-stars t)
   (setq org-startup-indented t)
   (setq org-expiry-inactive-timestamps t)
   (setq org-clock-idle-time nil)
