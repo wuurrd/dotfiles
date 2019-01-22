@@ -172,8 +172,5 @@
    'org-babel-load-languages '((emacs-lisp . t) (sh . t) (C . t)))
 )
 
-(org-babel-do-load-languages
- 'org-babel-load-languages '((emacs-lisp . t) (shell . t) (C . t)))
-
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
