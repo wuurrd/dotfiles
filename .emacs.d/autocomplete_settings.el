@@ -61,11 +61,14 @@
 
 (use-package lsp-mode
   :ensure t
+  :diminish
   :config
   (setq lsp-clients-go-format-tool "gofmt")
 )
 
 (use-package company-lsp
   :ensure t
-  :after lsp-mode
+  :after company lsp-mode
+  :init
+  (push 'company-lsp company-backends)
 )

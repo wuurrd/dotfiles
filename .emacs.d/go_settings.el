@@ -56,7 +56,6 @@
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
   (lsp)
-  (setq-local company-backends '(company-lsp))
 )
 
 (use-package go-impl

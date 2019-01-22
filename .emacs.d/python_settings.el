@@ -16,7 +16,6 @@
   (local-set-key (kbd "C-c .") 'xref-find-definitions)
   ;(auto-complete-mode 1)
   (lsp)
-  (setq-local company-backends '(company-lsp))
   (company-mode 1)
   (subword-mode 1)
   ; do not breakline on comments
