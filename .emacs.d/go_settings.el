@@ -55,7 +55,8 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
-  (setq-local company-backends '(company-tabnine))
+  (lsp)
+  (setq-local company-backends '(company-lsp))
 )
 
 (use-package go-impl
@@ -78,14 +79,14 @@
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
     :map go-mode-map
-    ("C-c ," . pop-tag-mark)
-    ("C-c ." . godef-jump)
-    ("C-c u" . go-guru-referrers)
+    ("C-c ," . xref-pop-marker-stack)
+    ("C-c ." . xref-find-definitions)
+    ("C-c u" . lsp-find-references)
     ("C-c t" . gotests-region)
     ("C-m" . 'newline-and-indent)
     ;("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
-    ("C-x c r" . 'go-rename)
+    ("C-x c r" . 'lsp-rename)
     ("C-x c t" . 'go-test-current-test)
     ("C-x c f" . 'go-test-current-file)
     :map global-map

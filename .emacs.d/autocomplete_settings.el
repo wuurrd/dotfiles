@@ -58,3 +58,12 @@
     ;([?\t] . company-complete-selection)
   )
 )
+
+(use-package lsp-mode
+  :ensure t
+)
+
+(use-package company-lsp
+  :ensure t
+  :after lsp-mode
+)

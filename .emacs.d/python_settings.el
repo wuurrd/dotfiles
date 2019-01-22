@@ -36,10 +36,11 @@
         py-indent-offset 4
         indent-tabs-mode nil)
   (define-key python-mode-map "\C-m" 'newline-and-indent)
-  (local-set-key (kbd "C-c .") 'jedi:goto-definition)
-  (local-set-key (kbd "C-c ,") 'jedi:goto-definition-pop-marker)
+  (local-set-key (kbd "C-c .") 'xref-pop-marker-stack)
+  (local-set-key (kbd "C-c ,") 'xref-find-definitions)
   ;(auto-complete-mode 1)
-  (setq-local company-backends '(company-tabnine))
+  (lsp)
+  (setq-local company-backends '(company-lsp))
   (company-mode 1)
   (subword-mode 1)
   ; do not breakline on comments
@@ -49,6 +50,7 @@
                   'font-lock-comment-face))))
   (yas/minor-mode-on)
   (flycheck-mode 1)
+  (smartparens-mode 1)
 )
 
 (add-hook 'python-mode-hook 'dbu-python-settings)
