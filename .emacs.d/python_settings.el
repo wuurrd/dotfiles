@@ -4,30 +4,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("^BUILD$" . python-mode))
-(setq autopep8-path "/usr/local/lib/python2.7/site-packages/autopep8.py")
-(setq autopep8-args " - ")
-
-;Flymake settings.
-(setq pylint "epylint")
-(when (load "flymake" t)
- (defun flymake-pylint-init ()
-   (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                      'flymake-create-temp-inplace))
-      (local-file (file-relative-name
-                   temp-file
-                   (file-name-directory buffer-file-name))))
-     (list "/usr/local/bin/epylint" (list local-file))))
-
- (add-to-list 'flymake-allowed-file-name-masks
-          '("\\.py\\'" flymake-pylint-init)))
-
-(use-package jedi
-  :ensure t
-  :init
-  (setq jedi:setup-keys t)
-  :config
-  (add-hook 'python-mode-hook 'jedi:setup)
-)
 
 (setq python-shell-interpreter "ipython")
 (defun dbu-python-settings ()
@@ -36,8 +12,8 @@
         py-indent-offset 4
         indent-tabs-mode nil)
   (define-key python-mode-map "\C-m" 'newline-and-indent)
-  (local-set-key (kbd "C-c .") 'xref-pop-marker-stack)
-  (local-set-key (kbd "C-c ,") 'xref-find-definitions)
+  (local-set-key (kbd "C-c ,") 'xref-pop-marker-stack)
+  (local-set-key (kbd "C-c .") 'xref-find-definitions)
   ;(auto-complete-mode 1)
   (lsp)
   (setq-local company-backends '(company-lsp))

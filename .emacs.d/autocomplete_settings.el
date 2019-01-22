@@ -61,6 +61,8 @@
 
 (use-package lsp-mode
   :ensure t
+  :config
+  (setq lsp-clients-go-format-tool "gofmt")
 )
 
 (use-package company-lsp
