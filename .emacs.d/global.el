@@ -174,3 +174,8 @@
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
+
+(use-package yasnippet
+  :config
+  (add-to-list 'yas-snippet-dirs "~/dotfiles/.emacs.d/yasnippet")
+)

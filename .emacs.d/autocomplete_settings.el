@@ -36,7 +36,7 @@
       '(company-pseudo-tooltip-unless-just-one-frontend
         company-preview-frontend
         company-echo-metadata-frontend))
-  (setq company-minimum-prefix-length 0)
+  (setq company-minimum-prefix-length 1)
   ;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
   ;; (define-key company-active-map [tab] 'company-complete-selection)
   :custom-face
