@@ -55,7 +55,6 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
-  (lsp)
 )
 
 (use-package go-impl
@@ -80,12 +79,12 @@
     :map go-mode-map
     ("C-c ," . xref-pop-marker-stack)
     ("C-c ." . xref-find-definitions)
-    ("C-c u" . lsp-find-references)
+    ("C-c u" . go-guru-referrers)
     ("C-c t" . gotests-region)
     ("C-m" . 'newline-and-indent)
     ;("C-c a" . 'go-guru-expand-region)
     ("C-x c i" . 'helm-imenu)
-    ("C-x c r" . 'lsp-rename)
+    ("C-x c r" . 'go-rename)
     ("C-x c t" . 'go-test-current-test)
     ("C-x c f" . 'go-test-current-file)
     :map global-map

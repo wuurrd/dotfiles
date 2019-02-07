@@ -2,6 +2,8 @@
   :ensure t
   :config
   (setq custom-tabnine-always-trigger nil)
+  :init
+  (push 'company-tabnine company-backends)
 )
 
 (use-package irony
