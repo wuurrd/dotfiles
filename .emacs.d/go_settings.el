@@ -78,7 +78,7 @@
   :bind (
     :map go-mode-map
     ("C-c ," . xref-pop-marker-stack)
-    ("C-c ." . xref-find-definitions)
+    ("C-c ." . godef-jump)
     ("C-c u" . go-guru-referrers)
     ("C-c t" . gotests-region)
     ("C-m" . 'newline-and-indent)
