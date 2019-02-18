@@ -103,12 +103,6 @@ bindsym $win+Shift+Down move down
 bindsym $win+Shift+Up move up
 bindsym $win+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $win+b split v
-
-# split in vertical orientation
-bindsym $win+v split h
-
 # enter fullscreen mode for the focused container
 bindsym $win+f fullscreen
 bindsym $mod+Control+l exec xautolock -locknow 
@@ -136,6 +130,7 @@ bindsym Control+q mode "split"
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+bindsym $win+Shift+F9 exec "i3-msg 'focus parent' && i3-msg 'mark dropdown' && i3-msg 'move scratchpad'"
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
