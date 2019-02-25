@@ -19,6 +19,33 @@
     ("M-s-SPC" . 'er/expand-region)
     ("C-c a" . 'er/expand-region)
   )
+  )
+
+(use-package jumplist
+  :ensure t
+  :config
+  (setq jumplist-hook-commands
+   '(move-beginning-of-line
+     end-of-visual-line
+     beginning-of-defun end-of-defun
+     end-of-buffer beginning-of-buffer
+     sp-forward-sexp sp-backward-sexp
+     helm-swoop helm-imenu helm-find-files helm-multi-files
+     helm-projectile-switch-project helm-projectile-find-file
+     find-function find-variable
+     mark-defun mark-whole-buffer
+     avy-goto-char avy-goto-char-2
+     helm-gtags-find-pattern helm-gtags-find-tag-adapter helm-gtags-find-rtag-adapter
+     helm-ag-select-directory
+     ensime-edit-definition
+     ensime-edit-definition-with-fallback
+     isearch-forward))
+  (setq jumplist-ex-mode t)
+  :bind (
+    :map global-map
+    ("C->" . 'jumplist-next)
+    ("C-<" . 'jumplist-previous)
+  )
 )
 
 (use-package multiple-cursors
@@ -26,8 +53,7 @@
   :bind (
     :map global-map
     ("C-S-<mouse-1>" . 'mc/add-cursor-on-click)
-    ("C->" . 'mc/mark-next-like-this)
-    ("C-<" . 'mc/mark-previous-like-this)
+    ("C-?" . 'mc/mark-next-like-this)
     ("M-?" . 'mc/mark-all-like-this-dwim)
     ("M-!" . 'mc/mark-next-symbol-like-this)
     ("C-M-SPC" . 'set-rectangular-region-anchor)
