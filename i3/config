@@ -140,7 +140,6 @@ bindsym $win+a focus parent
 
 # focus the child container
 bindsym $win+c focus child
-bindsym $win+Shift+F9 exec "i3-msg 'focus parent' && i3-msg 'mark dropdown' && i3-msg 'move scratchpad'"
 
 # switch to workspace
 bindsym $win+1 workspace number 1 terminal
