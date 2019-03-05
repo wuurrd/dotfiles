@@ -1,10 +1,12 @@
 (use-package projectile
   :ensure t
+  :after (perspective)
   :init
   (setq projectile-enable-caching t)
   (setq projectile-sort-order 'recently-active)
   :config
   (projectile-global-mode)
+  (persp-mode)
   :bind (
     :map global-map
     ("C-x C-S-p" . 'projectile-find-file-dwim)
