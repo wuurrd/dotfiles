@@ -16,3 +16,10 @@
 
 ;; (add-hook 'java-mode-hook 'dbu-java-settings)
 
+(use-package gradle-mode
+  :ensure t
+  )
+
+(use-package groovy-mode
+  :ensure t
+  )
