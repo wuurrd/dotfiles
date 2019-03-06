@@ -65,6 +65,7 @@
 (load-file "~/dotfiles/.emacs.d/audio.el")
 (load-file "~/dotfiles/.emacs.d/protobuf.el")
 (load-file "~/dotfiles/.emacs.d/dbu-diminish.el")
+(load-file "~/dotfiles/.emacs.d/user-perspective.el")
 (load-file "~/dotfiles/.emacs.d/user-markdown.el")
 (load-file "~/dotfiles/.emacs.d/user-yaml.el")
 (load-file "~/dotfiles/.emacs.d/user-lisp.el")

@@ -1,6 +1,7 @@
 (use-package perspective
   :ensure t
-  :commands persp-mode
+  :config
+  (persp-mode)
   )
 
 (use-package spray
