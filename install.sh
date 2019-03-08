@@ -41,3 +41,7 @@ git clone git@github.com:tpope/vim-surround.git
 cd -
 ln -s `pwd`/.vimrc ~/.vimrc
 ##################
+
+# sudo apt install i3 i3blocks
+git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
+ln -s `pwd`/i3blocks-config ~/.config/i3blocks/config
