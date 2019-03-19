@@ -48,6 +48,7 @@
 
 (defun dbu-go-settings ()
   (subword-mode 1)
+  (setq-local flycheck-disabled-checkers '(go-unconvert go-golint go-megacheck go-errcheck))
   (flycheck-mode 1)
   (auto-complete-mode 0)
   (company-mode 1)

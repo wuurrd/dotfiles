@@ -134,3 +134,5 @@ launchctlFind () {                                                              
     done
     return 0;
 }
+
+source ~/dotfiles/fzf.zsh
