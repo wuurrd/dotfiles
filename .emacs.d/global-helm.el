@@ -121,7 +121,7 @@
 (defun my-browse-url (url &rest args)
   (interactive (browse-url-interactive-arg "URL: "))
   (if (eq system-type 'darwin)
-      (apply #'browse-url-chrome url args)
+      (apply #'browse-url-default-macosx-browser url args)
     (apply #'browse-url url args)
   )
 )
