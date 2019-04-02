@@ -24,8 +24,16 @@
 (use-package helm
   :after (projectile)
   :init
-  (setq helm-buffers-fuzzy-matching t)
-  (setq helm-ag-command-option "--smart-case --ignore=node_modules --ignore=elm-stuff --ignore=static")
+  (setq helm-buffers-fuzzy-matching t
+        helm-echo-input-in-header-line t
+        helm-ag-command-option "--smart-case --ignore=node_modules --ignore=elm-stuff --ignore=static"
+        helm-bookmark-show-location t
+        helm-display-header-line nil
+        helm-split-window-in-side-p t
+        helm-always-two-windows t
+        helm-imenu-execute-action-at-once-if-one nil
+        helm-org-format-outline-path t
+  )
   :ensure t
   :config
   (helm-mode 1)

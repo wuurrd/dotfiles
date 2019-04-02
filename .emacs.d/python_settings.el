@@ -2,20 +2,13 @@
 (require 'twisted-dev)
 (require 'fill-column-indicator)
 
-(add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
-(add-to-list 'auto-mode-alist '("^BUILD$" . python-mode))
-
-(setq python-shell-interpreter "ipython")
 (defun dbu-python-settings ()
   (setq show-trailing-whitespace t)
   (setq tab-width 4
         py-indent-offset 4
         indent-tabs-mode nil)
-  (define-key python-mode-map "\C-m" 'newline-and-indent)
-  (local-set-key (kbd "C-c ,") 'xref-pop-marker-stack)
-  (local-set-key (kbd "C-c .") 'xref-find-definitions)
+  (jedi-mode 1)
   ;(auto-complete-mode 1)
-  (lsp)
   (company-mode 1)
   (subword-mode 1)
   ; do not breakline on comments
@@ -28,7 +21,26 @@
   (smartparens-mode 1)
 )
 
-(add-hook 'python-mode-hook 'dbu-python-settings)
+(use-package pyfmt :ensure t)
+
+(use-package jedi :ensure t)
+
+(use-package python-mode
+  :ensure t
+  :after (company-tabnine pyfmt lsp-mode jedi)
+  :config
+  (add-hook 'python-mode-hook 'dbu-python-settings)
+  (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
+  (add-to-list 'auto-mode-alist '("^BUILD$" . python-mode))
+  (setq python-shell-interpreter "ipython")
+  :bind (
+    :map python-mode-map
+    ("C-c ," . 'xref-pop-marker-stack)
+    ("C-c ." . 'jedi:goto-definition)
+    ("\C-m" . 'newline-and-indent)
+  )
+)
+
 (add-to-list 'auto-mode-alist '("\\.mxml\\'" . actionscript-mode))
 
 (defun json-format ()
@@ -38,4 +50,3 @@
   )
 )
 
-(use-package "pyfmt" :ensure t)
