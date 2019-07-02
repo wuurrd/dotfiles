@@ -72,3 +72,11 @@
   :init
   (push 'company-lsp company-backends)
 )
+
+(use-package anzu
+  :ensure t
+  :diminish
+  :bind (:map global-map
+    ("M-%" . #'anzu-query-replace-regexp)
+  )
+  )

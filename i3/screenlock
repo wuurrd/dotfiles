@@ -7,7 +7,7 @@ DBUS_SIGNAL="Lock"
 DBUS_FILTER="type='signal',sender='$DBUS_SENDER',interface='$DBUS_INTERFACE',path='$DBUS_PATH'"
 
 xset s off -dpms
-xautolock -time 5 -corners -00- -cornerdelay 3 -cornerredelay 660 -locker "i3lock -n -c 121212" -notify 60 -notifier "xset dpms force off" &
+xautolock -time 60 -locker "i3lock -f -n -c 121212" -notify 60 -notifier "xset dpms force off" &
 
 dbus-monitor --system "$DBUS_FILTER" | \
     grep --line-buffered "member=$DBUS_SIGNAL$" | \

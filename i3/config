@@ -60,7 +60,7 @@ bindsym XF86AudioPlay exec --no-startup-id dbus-send --print-reply --dest=org.mp
 bindsym XF86Launch9 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 bindsym XF86Launch8 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 bindsym XF86Display exec --no-startup-id xrandr --auto
-bindsym Print exec scrot -z "/home/david/.scrot/capture-%Y-%m-%d.png"
+bindsym Print exec --no-startup-id bash -c "sleep 0.2 && scrot -s -z /home/david/.scrot/capture-%Y-%m-%d.png"
 
 # start a terminal
 bindsym $mod+t exec --no-startup-id "gnome-terminal"
