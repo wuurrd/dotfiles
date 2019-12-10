@@ -14,7 +14,7 @@
   :ensure t
   :init
   (setq prettier-js-command
-        "/home/david/src/go/src/repo.jazznetworks.com/jazz/main/frontend/node_modules/prettier/bin-prettier.js"
+        "/Users/david/.nvm/versions/node/v13.0.1/lib/node_modules/prettier/bin-prettier.js"
         )
   (setq prettier-js-args '(
                            "--single-quote"
@@ -32,6 +32,7 @@
       js2-indent-on-enter-key t
       js2-skip-preprocessor-directives t
       js2-auto-indent-p t
+      js2-strict-missing-semi-warning nil
       js2-basic-offset 2
       js2-bounce-indent-p t)
   :config

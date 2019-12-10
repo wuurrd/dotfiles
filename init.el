@@ -14,6 +14,8 @@
 ;;
 
 ;(package-initialize)
+(setq mac-option-key-is-meta t)
+(setq mac-option-modifier 'meta)
 
 (if (eq system-type 'darwin)
     (setq mac-option-modifier 'meta)
