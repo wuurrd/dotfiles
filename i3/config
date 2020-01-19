@@ -31,11 +31,13 @@ exec --no-startup-id "~/.config/i3/screenlock"
 exec --no-startup-id "~/startup.sh"
 exec --no-startup-id "nitrogen --restore"
 #exec --no-startup-id "~/.config/i3/polybar-launcher"
-exec --no-startup-id "/usr/bin/openport-gui"
 exec --no-startup-id "dropbox start"
 exec --no-startup-id "emacs --daemon"
+exec --no-startup-id "nm-applet"
+exec always --no-startup-id "xset r rate 220 40"
 exec --no-startup-id "ssh-add -k ~/.ssh/id_rsa"
-#  setxkbmap -layout us,no -option "grp:switch,ctrl:nocaps" 
+exec --no-startup-id "setxkbmap -layout us,no -option \"grp:switch,ctrl:nocaps\""
+exec --no-startup-id "xinput set-int-prop \"DELL08AF:00 06CB:76AF Touchpad\" \"libinput Natural Scrolling Enabled\" 8 1"
 
 focus_on_window_activation focus
 focus_follows_mouse yes
@@ -51,8 +53,8 @@ bindsym $mod+F9 scratchpad show
 bindsym $mod+Shift+XF86Tools move scratchpad
 bindsym $mod+Shift+F9 move scratchpad
 
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 10%
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 10%
+bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
+bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
@@ -64,10 +66,12 @@ bindsym Print exec --no-startup-id bash -c "sleep 0.2 && scrot -s -z /home/david
 
 # start a terminal
 bindsym $mod+t exec --no-startup-id "gnome-terminal"
+bindsym $win+o exec --no-startup-id "emacsclient -cn"
 bindsym $win+t exec --no-startup-id "emacsclient -c --eval '(progn (org-capture) (delete-other-windows) (setq-local kill-buffer-hook (lambda () (delete-frame))))'"
 bindsym XF86Calculator exec --no-startup-id "gnome-calculator"
 # start dmenu (a program launcher)
-bindsym $mod+Shift+p exec --no-startup-id dmenu_run -b -fn SourceCodePro-Regular:size=16
+bindsym $mod+Shift+p exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
+bindsym $win+space exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -83,7 +87,7 @@ bindsym $win+k exec python ~/.config/i3/focus.py prev
 bindsym $mod+Tab exec python ~/.config/i3/focus.py next
 bindsym $mod+Shift+Tab exec python ~/.config/i3/focus.py prev
 
-bindsym $mod+Escape exec python ~/.config/i3/winmenu.py
+bindsym $mod+Escape exec "rofi -show window -kb-cancel Escape,Control+c,Control+g"
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Control+p workspace prev_on_output
@@ -105,13 +109,14 @@ bindsym $win+Shift+Right move right
 
 # enter fullscreen mode for the focused container
 bindsym $win+f fullscreen
-bindsym $mod+Control+l exec xautolock -locknow 
-bindsym Scroll_Lock exec xautolock -locknow 
+bindsym $mod+Control+l exec xset s activate
+bindsym Scroll_Lock exec xset s activate
 
 # change container layout (stacked, tabbed, toggle split)
 # bindsym $win+s layout stacking
 bindsym $win+w layout tabbed
 bindsym $win+e layout toggle split
+bindsym $win+y fullscreen disable, floating enable, resize set 251 170, sticky enable, move window to position 1515 20
 
 mode "split" {
         bindsym 0 exec "i3-msg layout toggle split && i3-msg mode default"
@@ -202,6 +207,7 @@ mode "resize" {
         bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
+        bindsym q mode "default"
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
@@ -223,6 +229,7 @@ bar {
     status_command i3blocks
     modifier Mod4
     position bottom
+    font pango:DejaVu Sans Mono 8
     colors {
         background #383838
         statusline #DCDCCC

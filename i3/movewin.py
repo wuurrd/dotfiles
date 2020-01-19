@@ -15,7 +15,7 @@ else:
         workspace_next = workspaces[-1]
     else:
         workspace_next = workspace_next[0]
-print workspace_next
+print(workspace_next)
 ws_nodes = i3.filter(num=currentnum)[0]['nodes']
 ws_nodes = ws_nodes + i3.filter(num=currentnum)[0]['floating_nodes']
 curr = i3.filter(ws_nodes, focused=True)[0]
