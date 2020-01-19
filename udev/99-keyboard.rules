@@ -1,0 +1,13 @@
+ACTION=="add" \
+, ATTRS{idVendor}=="04b4" \
+, ATTRS{idProduct}=="0818" \
+, ENV{DISPLAY}=":0" \
+, ENV{XAUTHORITY}="/run/user/1001/gdm/Xauthority" \
+, RUN+="/usr/bin/setxkbmap  -layout us,no -option 'grp:switch,ctrl:nocaps'"
+
+ACTION=="add" \
+, ATTRS{idVendor}=="04b4" \
+, ATTRS{idProduct}=="0818" \
+, ENV{DISPLAY}=":0" \
+, ENV{XAUTHORITY}="/run/user/1001/gdm/Xauthority" \
+, RUN+="/usr/bin/xset r rate 220 40"

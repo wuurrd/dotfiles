@@ -5,6 +5,7 @@ cd ~/src
 git clone git@github.com:zsh-users/zaw.git
 git clone git@github.com:zsh-users/zsh-history-substring-search.git
 git clone git@github.com:alejandrogomez/shipit.git
+git clone https://github.com/haikarainen/light.git
 
 cd ~
 git clone git://github.com/robbyrussell/oh-my-zsh.git

@@ -45,7 +45,7 @@ ZSH_THEME="bira"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git battery osx docker brew)
+plugins=(git battery docker command-not-found)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -111,12 +111,11 @@ export LC_ALL=
 
 export PATH=${PATH}:/Users/david/Library/Android/sdk/platform-tools/:/Users/david/Library/Android/sdk/tools
 
-export NVM_DIR="/Users/david/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 export GOPATH=$HOME/src/go
-export PATH="$PATH:/usr/local/go/bin:$GOPATH/bin:/Users/david/src/go/src/repo.jazznetworks.com/jazz/main/users/dbu"
-source ~/src/go/src/repo.jazznetworks.com/jazz/main/users/dbu/aliases
+export PATH="$PATH:/usr/local/go/bin:$GOPATH/bin"
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 
 launchctlFind () {                                                                                      1 ↵
