@@ -43,8 +43,8 @@
         (set-frame-parameter frame 'font '"Source Code Pro for Powerline 13")
         (set-default-font "Source Code Pro for Powerline 13")
         )
-    (set-default-font "Source Code Pro for Powerline 9")
-    (set-frame-parameter frame 'font '"Source Code Pro for Powerline 9")
+    (set-default-font "Source Code Pro for Powerline 10")
+    (set-frame-parameter frame 'font '"Source Code Pro for Powerline 10")
   )
 )
 
@@ -57,7 +57,7 @@
     (set-default-font "Source Code Pro for Powerline 13")
   (if (string= system-name "checkers")
       (set-default-font "Monospace 11")
-    (set-default-font "Source Code Pro for Powerline 9")
+    (set-default-font "Source Code Pro for Powerline 10")
     )
 )
 

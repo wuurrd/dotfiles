@@ -1,6 +1,8 @@
 (defun dbu-prettier()
   (interactive)
-  (when (eq major-mode 'js2-mode) (prettier-js)))
+  (when (eq major-mode 'js2-mode) (prettier-js))
+  (when (eq major-mode 'rjsx-mode) (prettier-js))
+  )
 
 (defun dbu-js-settings()
   (add-hook 'before-save-hook 'dbu-prettier)
@@ -8,13 +10,14 @@
   (smartparens-mode 1)
   (js2-imenu-extras-mode)
   (flycheck-mode)
+  (company-mode)
 )
 
 (use-package prettier-js
   :ensure t
   :init
   (setq prettier-js-command
-        "/Users/david/.nvm/versions/node/v13.0.1/lib/node_modules/prettier/bin-prettier.js"
+        "/home/david/.nvm/versions/node/v11.10.1/lib/node_modules/prettier/bin-prettier.js"
         )
   (setq prettier-js-args '(
                            "--single-quote"
@@ -22,9 +25,16 @@
                            ))
 )
 
-(use-package js2-mode
+(use-package rjsx-mode
   :ensure t
   :after prettier-js
+  :config
+  (add-hook 'rjsx-mode-hook 'dbu-js-settings)
+)
+
+(use-package js2-mode
+  :ensure t
+  :after rjsx-mode
   :init
   (setq js2-use-font-lock-faces t
       js2-mode-must-byte-compile nil
