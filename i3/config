@@ -108,7 +108,7 @@ bindsym $win+Shift+Up move up
 bindsym $win+Shift+Right move right
 
 # enter fullscreen mode for the focused container
-bindsym $win+f fullscreen
+bindsym $win+Shift+f fullscreen
 bindsym $mod+Control+l exec xset s activate
 bindsym Scroll_Lock exec xset s activate
 
@@ -229,7 +229,7 @@ bar {
     status_command i3blocks
     modifier Mod4
     position bottom
-    font pango:DejaVu Sans Mono 8
+    font pango:Source Code Pro Powerline 8
     colors {
         background #383838
         statusline #DCDCCC
