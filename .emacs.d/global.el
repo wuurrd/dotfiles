@@ -176,3 +176,13 @@
   :config
   (add-to-list 'yas-snippet-dirs "~/dotfiles/.emacs.d/yasnippet")
 )
+
+(defvar local-directory
+  (concat user-emacs-directory ".local/")
+  "This variable dictates where to put auto saves"
+)
+
+(setq auto-save-list-file-prefix nil)
+(setq backup-directory-alist `((".*" . ,local-directory)))
+(setq auto-save-file-name-transforms  `((".*" ,local-directory t)))
+(setq recentf-save-file (expand-file-name "recentf" local-directory))
