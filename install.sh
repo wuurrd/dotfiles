@@ -44,6 +44,6 @@ cd -
 ln -s `pwd`/.vimrc ~/.vimrc
 ##################
 
-# sudo apt install i3 i3blocks
+# sudo apt install i3 i3blocks xfce4-power-manager
 git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks
 ln -s `pwd`/i3blocks-config ~/.config/i3blocks/config
