@@ -1,4 +1,3 @@
-
 (defun other-window-backward ()
   "Select the previous window."
   (interactive)
@@ -95,6 +94,7 @@
 (global-set-key (kbd "<XF86AudioPlay>") 'spotify-playpause)
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-c `") 'org-agenda)
 
 (setq inhibit-splash-screen t)
 (column-number-mode)
@@ -712,10 +712,10 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (setq-default flycheck-disabled-checkers
    (append flycheck-disabled-checkers
-           '(javascript-jshint)))
+	   '(javascript-jshint)))
   (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
-          '(json-jsonlist)))
+	  '(json-jsonlist)))
   (setq-default flycheck-temp-prefix ".flycheck")
   (setq-default flycheck-pylintrc "~/dotfiles/pylintrc")
 )
@@ -843,16 +843,16 @@
 ;; See http://www.gnu.org/software/emacs/manual/html_node/ccmode/Syntactic-Symbols.html
 (defvar c-elements-to-align-with-spaces
   (list 'func-decl-cont
-        'topmost-intro-cont
-        'arglist-cont
-        'arglist-cont-nonempty
-        'statement-cont
-        'c
-        'inher-cont
-        'member-init-cont
-        'template-args-cont
-        'objc-method-args-cont
-        'objc-method-call-cont)
+	'topmost-intro-cont
+	'arglist-cont
+	'arglist-cont-nonempty
+	'statement-cont
+	'c
+	'inher-cont
+	'member-init-cont
+	'template-args-cont
+	'objc-method-args-cont
+	'objc-method-call-cont)
   "List of syntactic elements that should be aligned with spaces.
 If you find an element you want to align with spaces but is not handled here,
 find the syntactic element with C-c C-s or M-x c-show-syntactic-information
@@ -867,7 +867,7 @@ c-elements-to-align-with-spaces."
   (let ((continuation nil))
     (dolist (elem c-elements-to-align-with-spaces continuation)
       (when (assq elem context)
-        (setq continuation t)))))
+	(setq continuation t)))))
 
 
 (defun c-indent-align-with-spaces-hook ()
@@ -879,26 +879,26 @@ spaces for the rest (the aligment)."
   (interactive)
   (when indent-tabs-mode
     (let ((context c-syntactic-context)
-          (curr-indent (current-indentation))
-          (base-indent nil))
+	  (curr-indent (current-indentation))
+	  (base-indent nil))
       (when (c-context-continuation-p context)
-        (save-excursion
-          ;; Find indentation of nearest not-continuation context
-          (do ()
-              ((not (c-context-continuation-p context)))
-            (goto-char (c-langelem-pos (car context)))
-            (setq context (c-guess-basic-syntax)))
-          (setq base-indent (current-indentation)))
-        ;; Untabify region between base indent and current indent
-        (let ((end (point)))
-          (save-excursion
-            (while (> (current-column) base-indent)
-              (backward-char))
-            (untabify (point) end)))
-        ;; We might need to adjust the marker to a more correct/practical
-        ;; position.
-        (when (= (current-column) base-indent)
-          (back-to-indentation))))))
+	(save-excursion
+	  ;; Find indentation of nearest not-continuation context
+	  (do ()
+	      ((not (c-context-continuation-p context)))
+	    (goto-char (c-langelem-pos (car context)))
+	    (setq context (c-guess-basic-syntax)))
+	  (setq base-indent (current-indentation)))
+	;; Untabify region between base indent and current indent
+	(let ((end (point)))
+	  (save-excursion
+	    (while (> (current-column) base-indent)
+	      (backward-char))
+	    (untabify (point) end)))
+	;; We might need to adjust the marker to a more correct/practical
+	;; position.
+	(when (= (current-column) base-indent)
+	  (back-to-indentation))))))
 
 (defun stianse-c-mode-hook ()
   (interactive)
@@ -924,14 +924,14 @@ spaces for the rest (the aligment)."
 
   ;; Show whitespaces, but reduce what to show. Too much is disturbing.
   (setq whitespace-style '(tabs
-                           spaces
-                           trailing
-                           space-before-tab
-                           empty
-                           ;;lines-tail
-                           ;;indentation
-                           tab-mark
-                           space-mark))
+			   spaces
+			   trailing
+			   space-before-tab
+			   empty
+			   ;;lines-tail
+			   ;;indentation
+			   tab-mark
+			   space-mark))
   (whitespace-mode -1)
   
   ;;(add-to-list 'before-save-hook 'whitespace-cleanup)
@@ -1038,144 +1038,6 @@ spaces for the rest (the aligment)."
   :init (setq markdown-command "multimarkdown")
 )
 
-(defun open-org()
-  (interactive)
-  (find-file "~/Dropbox/org/organizer.org")
-)
-
-(defun my/org-contacts-template-email (&optional return-value)
-  "Try to return the contact email for a template.
-  If not found return RETURN-VALUE or something that would ask the user."
-  (or (cadr (if (gnus-alive-p)
-                (gnus-with-article-headers
-                 (mail-extract-address-components
-                  (or (mail-fetch-field "Reply-To") (mail-fetch-field "From") "")))))
-      return-value
-      (concat "%^{" org-contacts-email-property "}p")))
-
-
-(use-package org-bullets :ensure t
-  )
-
-(defvar my/org-basic-task-template "* TODO %^{Task}
-:PROPERTIES:
-:Effort: %^{effort|1:00|0:05|0:15|0:30|2:00|4:00}
-:END:
-Captured %<%Y-%m-%d %H:%M>
-%?
-
-%i
-" "Basic task data")
-
-(use-package org :ensure t
-  :commands org-mode
-  :after org-bullets
-  :init
-  (setq org-hide-leading-stars t)
-  (setq org-startup-indented t)
-  (setq org-expiry-inactive-timestamps t)
-  (setq org-clock-idle-time nil)
-  (setq org-log-done 'time)
-  (setq org-clock-continuously nil)
-  (setq org-clock-persist t)
-  (setq org-clock-in-switch-to-state "STARTED")
-  (setq org-clock-in-resume nil)
-  (setq org-show-notification-handler 'message)
-  (setq org-clock-report-include-clocking-task t)
-  (setq org-startup-indented nil)
-  (setq org-M-RET-may-split-line nil)
-  (setq org-src-fontify-natively t)
-  (setq org-latex-listings 'minted)
-  (setq org-log-done 'time)
-  (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome")
-  (setq org-todo-keywords
-        '((sequence
-           "TODO(t)"
-           "STARTED(s)"
-           "WAITING(w@/!)"
-           "ONGOING(o)"
-           "|"
-           "DONE(d)"
-           "CANCELLED(c@)"
-           ))
-        )
-  (setq org-latex-pdf-process
-        '("pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f"
-          "pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f"
-          "pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f"))
-  (setq org-default-notes-file "~/organizer.org")
-  (setq org-capture-templates
-        `(("t" "Tasks" entry
-           (file+headline "~/organizer.org" "Inbox")
-           ,my/org-basic-task-template)
-          ("T" "Quick task" entry
-           (file+headline "~/organizer.org" "Inbox")
-           "* TODO %^{Task}\nSCHEDULED: %t\n"
-           :immediate-finish t)
-          ("i" "Interrupting task" entry
-           (file+headline "~/organizer.org" "Inbox")
-           "* STARTED %^{Task}"
-           :clock-in :clock-resume)
-          ("e" "Emacs idea" entry
-           (file+headline "~/organizer.org" "Emacs")
-           "* TODO %^{Task}"
-           :immediate-finish t)
-          ("p" "People task" entry
-           (file+headline "~/organizer.org" "Tasks")
-           ,my/org-basic-task-template)
-          ("j" "Journal entry" plain
-           (file+datetree "~/journal.org")
-           "%K - %a\n%i\n%?\n"
-           :unnarrowed t)
-          ("J" "Journal entry with date" plain
-           (file+datetree+prompt "~/journal.org")
-           "%K - %a\n%i\n%?\n"
-           :unnarrowed t)
-          ("s" "Journal entry with date, scheduled" entry
-           (file+datetree+prompt "~/journal.org")
-           "* \n%K - %a\n%t\t%i\n%?\n"
-           :unnarrowed t)
-          ("dp" "Done - People" entry
-           (file+headline "~/organizer.org" "Tasks")
-           "* DONE %^{Task}\nSCHEDULED: %^t\n%?")
-          ("dt" "Done - Task" entry
-           (file+headline "~/organizer.org" "Inbox")
-           "* DONE %^{Task}\nSCHEDULED: %^t\n%?")
-          ("q" "Quick note" item
-           (file+headline "~/organizer.org" "Quick notes"))
-          ("n" "Daily note" table-line (file+olp "~/organizer.org" "Inbox")
-           "| %u | %^{Note} |"
-           :immediate-finish t)
-          ("r" "Notes" entry
-           (file+datetree "~/organizer.org")
-           "* %?\n\n%i\n%U\n"
-           )))
-  :config
-  (require 'ox-beamer)
-  (add-hook 'org-mode-hook (lambda ()
-                             (auto-revert-mode 1)
-                             (org-bullets-mode 1)
-                             ))
-  (add-to-list 'org-latex-packages-alist '("" "minted"))
-  (if (eq system-type 'darwin)
-      (progn
-        (add-to-list 'org-file-apps '(system . "open \"%s\""))
-        (add-to-list 'org-file-apps '(t . "open \"%s\"")))
-      (progn
-        (add-to-list 'org-file-apps '(system . "xdg-open \"%s\""))
-        (add-to-list 'org-file-apps '(t . "xdg-open \"%s\"")))
-  )
-  :bind (
-    :map org-mode-map
-    ("C-'" . 'forward-or-backward-sexp)
-    :map global-map
-    ("C-c o" . 'open-org)
-    ("C-c c" . 'org-capture)
-    ("C-c `" . 'org-agenda)
-  )
-)
-
 (use-package yaml-mode
   :ensure t
 )
@@ -1253,10 +1115,29 @@ Captured %<%Y-%m-%d %H:%M>
 
 (which-key-mode)
 
+(use-package org-caldav
+  :ensure t
+  :config
+  (setq org-caldav-url 'google
+    org-caldav-resume-aborted 'always
+    org-icalendar-timezone "Europe/Berlin"
+    org-icalendar-include-body nil
+  )
+  (setq org-caldav-calendars
+  '((:calendar-id "david.buchmann@gmail.com" :files ("~/Dropbox/org/calendar.org")
+     :inbox "~/Dropbox/org/fromhome.org")
+   ))
+  (setq plstore-cache-passphrase-for-symmetric-encryption t)
+  (setq org-caldav-oauth2-available t)
+)
+(use-package oauth2
+  :ensure t
+)
+
 
 
 (let
-    ((work "~/dotfiles/.emacs.d/work.el"))
+    ((work "~/Dropbox/org/work.el"))
   (when
       (file-exists-p work)
     (load-file work)

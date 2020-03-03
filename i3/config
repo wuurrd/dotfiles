@@ -63,7 +63,8 @@ bindsym XF86AudioPlay exec --no-startup-id dbus-send --print-reply --dest=org.mp
 bindsym XF86Launch9 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 bindsym XF86Launch8 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 bindsym XF86Display exec --no-startup-id xrandr --auto
-bindsym Print exec --no-startup-id bash -c "sleep 0.2 && scrot -s -z /home/david/.scrot/capture-%Y-%m-%d.png"
+bindsym Print exec --no-startup-id bash -c "sleep 0.2 && gnome-screenshot -a"
+bindsym $win+Print exec --no-startup-id bash -c "sleep 0.2 && gnome-screenshot"
 
 # start a terminal
 bindsym $mod+t exec --no-startup-id "gnome-terminal"
@@ -73,6 +74,8 @@ bindsym XF86Calculator exec --no-startup-id "gnome-calculator"
 # start dmenu (a program launcher)
 bindsym $mod+Shift+p exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 bindsym $win+space exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
+
+bindsym $win+p exec --no-startup-id "bash /home/david/dotfiles/monitor_autoswitch.sh"
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -153,7 +156,7 @@ bindsym $win+2 workspace number 2 emacs
 bindsym $win+3 workspace number 3 www
 bindsym $win+4 workspace number 4 slack
 bindsym $win+5 workspace number 5 music
-bindsym $win+6 workspace 6
+bindsym $win+6 workspace number 6 ghidra
 bindsym $win+7 workspace 7
 bindsym $win+8 workspace 8
 bindsym $win+9 workspace 9
@@ -170,7 +173,7 @@ bindsym $win+Shift+2 move container to workspace number 2 emacs
 bindsym $win+Shift+3 move container to workspace number 3 www
 bindsym $win+Shift+4 move container to workspace number 4 slack
 bindsym $win+Shift+5 move container to workspace number 5 music
-bindsym $win+Shift+6 move container to workspace 6
+bindsym $win+Shift+6 move container to workspace number 6 ghidra
 bindsym $win+Shift+7 move container to workspace 7
 bindsym $win+Shift+8 move container to workspace 8
 bindsym $win+Shift+9 move container to workspace 9
@@ -179,7 +182,7 @@ bindsym $win+Shift+minus move container to workspace 11
 bindsym $win+Shift+equal move container to workspace 12
 
 #workspace 1 output DVI-I-1
-bindsym $mod+o move workspace to output left
+bindsym $mod+o exec python ~/.config/i3/moveworkspace.py
 
 # reload the configuration file
 bindsym $mod+Control+r reload

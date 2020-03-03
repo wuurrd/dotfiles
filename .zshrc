@@ -135,3 +135,4 @@ launchctlFind () {                                                              
 }
 
 source ~/dotfiles/fzf.zsh
+export PATH="$PATH:/home/david/src/ghidra:/home/david/bin"
