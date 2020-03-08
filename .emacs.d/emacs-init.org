@@ -1246,6 +1246,22 @@ spaces for the rest (the aligment)."
   :ensure t
 )
 #+END_SRC
+** emacs-python-black
+#+BEGIN_SRC emacs-lisp
+#+END_SRC
+ (use-package python-black
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'python-black-on-save-mode)
+ )
+** py-isort
+#+BEGIN_SRC emacs-lisp
+ (use-package py-isort
+  :ensure t
+  :config
+  (add-hook 'before-save-hook 'py-isort-before-save)
+ )
+#+END_SRC
 ** 
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
