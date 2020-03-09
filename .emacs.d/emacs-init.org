@@ -1262,6 +1262,14 @@ spaces for the rest (the aligment)."
   (add-hook 'before-save-hook 'py-isort-before-save)
  )
 #+END_SRC
+** filladapt
+#+BEGIN_SRC emacs-lisp
+(use-package filladapt
+  :ensure t
+  :config
+  (setq-default filladapt-mode t)
+)
+#+END_SRC
 ** 
 #+BEGIN_SRC emacs-lisp
 #+END_SRC
