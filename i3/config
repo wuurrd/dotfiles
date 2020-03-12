@@ -36,9 +36,10 @@ exec --no-startup-id "emacs --daemon"
 exec --no-startup-id "nm-applet"
 exec always --no-startup-id "xset r rate 220 40"
 exec --no-startup-id "ssh-add -k ~/.ssh/id_rsa"
-exec --no-startup-id "setxkbmap -layout us,no -option \"grp:switch,ctrl:nocaps\""
+exec always --no-startup-id "setxkbmap -layout us,no -option \"grp:switch,ctrl:nocaps\""
 exec --no-startup-id "xinput set-int-prop \"DELL08AF:00 06CB:76AF Touchpad\" \"libinput Natural Scrolling Enabled\" 8 1"
 exec --no-startup-id "xfce4-power-manager"
+exec --no-startup-id "caffeine-indicator"
 
 focus_on_window_activation focus
 focus_follows_mouse yes
@@ -54,6 +55,8 @@ bindsym $mod+F9 scratchpad show
 bindsym $mod+Shift+XF86Tools move scratchpad
 bindsym $mod+Shift+F9 move scratchpad
 
+bindsym XF86Launch5 exec --no-startup-id bash -c "~/.config/i3/reset_keyboard.sh"
+bindsym XF86Eject exec --no-startup-id bash -c "~/.config/i3/reset_keyboard.sh"
 bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
 bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+
