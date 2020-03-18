@@ -660,7 +660,7 @@
 
 (use-package python-mode
   :ensure t
-  :after (company-tabnine pyfmt lsp-mode jedi)
+  :after (company-tabnine pyfmt jedi)
   :config
   (add-hook 'python-mode-hook 'dbu-python-settings)
   (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
@@ -1131,6 +1131,32 @@ spaces for the rest (the aligment)."
   (setq org-caldav-oauth2-available t)
 )
 (use-package oauth2
+  :ensure t
+)
+
+(use-package terraform-mode
+  :ensure t
+)
+
+(use-package python-black
+ :ensure t
+ :config
+ (add-hook 'python-mode-hook #'python-black-on-save-mode)
+)
+
+(use-package py-isort
+ :ensure t
+ :config
+ (add-hook 'before-save-hook #'py-isort-before-save)
+)
+
+(use-package filladapt
+  :ensure t
+  :config
+  (setq-default filladapt-mode t)
+)
+
+(use-package dockerfile-mode
   :ensure t
 )
 

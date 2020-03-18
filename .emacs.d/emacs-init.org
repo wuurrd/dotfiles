@@ -723,7 +723,7 @@
 
 (use-package python-mode
   :ensure t
-  :after (company-tabnine pyfmt lsp-mode jedi)
+  :after (company-tabnine pyfmt jedi)
   :config
   (add-hook 'python-mode-hook 'dbu-python-settings)
   (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
@@ -1248,18 +1248,18 @@ spaces for the rest (the aligment)."
 #+END_SRC
 ** emacs-python-black
 #+BEGIN_SRC emacs-lisp
-#+END_SRC
  (use-package python-black
   :ensure t
   :config
-  (add-hook 'python-mode-hook 'python-black-on-save-mode)
+  (add-hook 'python-mode-hook #'python-black-on-save-mode)
  )
+#+END_SRC
 ** py-isort
 #+BEGIN_SRC emacs-lisp
  (use-package py-isort
   :ensure t
   :config
-  (add-hook 'before-save-hook 'py-isort-before-save)
+  (add-hook 'before-save-hook #'py-isort-before-save)
  )
 #+END_SRC
 ** filladapt
@@ -1268,6 +1268,12 @@ spaces for the rest (the aligment)."
   :ensure t
   :config
   (setq-default filladapt-mode t)
+)
+#+END_SRC
+** dockerfile
+#+BEGIN_SRC emacs-lisp
+(use-package dockerfile-mode
+  :ensure t
 )
 #+END_SRC
 ** 

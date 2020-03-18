@@ -50,11 +50,6 @@
   )
 )
 
-(defun open-org()
-  (interactive)
-  (find-file "~/Dropbox/org/organizer.org")
-)
-
 (defun my/org-contacts-template-email (&optional return-value)
   "Try to return the contact email for a template.
   If not found return RETURN-VALUE or something that would ask the user."
@@ -116,7 +111,7 @@ Captured %<%Y-%m-%d %H:%M>
         '("pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f"
           "pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f"
           "pdflatex -interaction nonstopmode -shell-escape -output-directory %o %f"))
-  (setq org-default-notes-file "~/organizer.org")
+  (setq org-default-notes-file "~/Dropbox/org/organizer.org")
   (setq org-capture-templates
         `(("t" "Tasks" entry
            (file+headline "~/organizer.org" "Inbox")
@@ -183,7 +178,6 @@ Captured %<%Y-%m-%d %H:%M>
     ("C-'" . 'forward-or-backward-sexp)
     ("C-c `" . 'org-agenda)
     :map global-map
-    ("C-c o" . 'open-org)
     ("C-c c" . 'org-capture)
     ("C-c `" . 'org-agenda)
   )

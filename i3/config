@@ -123,7 +123,7 @@ bindsym Scroll_Lock exec xset s activate
 # bindsym $win+s layout stacking
 bindsym $win+w layout tabbed
 bindsym $win+e layout toggle split
-bindsym $win+y fullscreen disable, floating enable, resize set 251 170, sticky enable, move window to position 1515 20
+bindsym $win+y sticky toggle
 
 mode "split" {
         bindsym 0 exec "i3-msg layout toggle split && i3-msg mode default"
