@@ -34,12 +34,13 @@ exec --no-startup-id "nitrogen --restore"
 exec --no-startup-id "dropbox start"
 exec --no-startup-id "emacs --daemon"
 exec --no-startup-id "nm-applet"
-exec always --no-startup-id "xset r rate 220 40"
+exec --no-startup-id "xset r rate 220 40"
 exec --no-startup-id "ssh-add -k ~/.ssh/id_rsa"
-exec always --no-startup-id "setxkbmap -layout us,no -option \"grp:switch,ctrl:nocaps\""
+exec --no-startup-id "setxkbmap -layout us,no -option \"grp:switch,ctrl:nocaps\""
 exec --no-startup-id "xinput set-int-prop \"DELL08AF:00 06CB:76AF Touchpad\" \"libinput Natural Scrolling Enabled\" 8 1"
 exec --no-startup-id "xfce4-power-manager"
 exec --no-startup-id "caffeine-indicator"
+exec --no-startup-id "blueman-applet"
 
 focus_on_window_activation focus
 focus_follows_mouse yes
@@ -63,9 +64,11 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
 bindsym XF86AudioPlay exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+bindsym XF86AudioNext exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+bindsym XF86AudioPrev exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
 bindsym XF86Launch9 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
 bindsym XF86Launch8 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
-bindsym XF86Display exec --no-startup-id xrandr --auto
+bindsym XF86Display exec --no-startup-id autorandr -c --default laptop
 bindsym Print exec --no-startup-id bash -c "sleep 0.2 && gnome-screenshot -a"
 bindsym $win+Print exec --no-startup-id bash -c "sleep 0.2 && gnome-screenshot"
 

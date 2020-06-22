@@ -201,8 +201,8 @@
         (set-frame-parameter frame 'font '"Source Code Pro for Powerline 13")
         (set-default-font "Source Code Pro for Powerline 13")
         )
-    (set-default-font "Source Code Pro for Powerline 10")
-    (set-frame-parameter frame 'font '"Source Code Pro for Powerline 10")
+    (set-default-font "Source Code Pro for Powerline 9")
+    (set-frame-parameter frame 'font '"Source Code Pro for Powerline 9")
   )
 )
 
@@ -215,7 +215,7 @@
     (set-default-font "Source Code Pro for Powerline 13")
   (if (string= system-name "checkers")
       (set-default-font "Monospace 11")
-    (set-default-font "Source Code Pro for Powerline 10")
+    (set-default-font "Source Code Pro for Powerline 9")
     )
 )
 
@@ -1080,6 +1080,7 @@ spaces for the rest (the aligment)."
   :ensure t
   :config
   (setq custom-tabnine-always-trigger nil)
+  (setq company-tabnine-insert-arguments nil)
   :init
   (push 'company-tabnine company-backends)
 )
@@ -1158,6 +1159,43 @@ spaces for the rest (the aligment)."
 
 (use-package dockerfile-mode
   :ensure t
+)
+
+(use-package poetry
+  :ensure t
+)
+
+(defun dbu-rust-settings ()
+  (subword-mode 1)
+  (flycheck-mode 1)
+  (auto-complete-mode 0)
+  (company-mode 1)
+  (setq show-trailing-whitespace t)
+  (set (make-local-variable 'semantic-mode) nil)
+  (setq-local company-backends '(company-tabnine company-lsp))
+  (add-hook 'before-save-hook 'lsp-format-buffer nil t)
+)
+
+(use-package flycheck-inline
+  :ensure t
+)
+
+(use-package cargo
+  :ensure t
+  :hook (rust-mode . cargo-minor-mode)
+)
+
+(use-package flycheck-rust
+  :ensure t
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+)
+
+(use-package rust-mode
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook 'dbu-rust-settings)
+  :hook (rust-mode . lsp)
 )
 
 
