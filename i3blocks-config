@@ -36,8 +36,8 @@ markup=none
 # See the script for details.
 
 [mediaplayer]
-instance=spotify
-interval=5
+instance=playerctl
+interval=10
 signal=10
 
 [volume]
@@ -130,7 +130,7 @@ interval=10
 #
 [time]
 command=date '+%Y-%m-%d %H:%M:%S'
-interval=5
+interval=10
 
 
 [apt-upgrades]

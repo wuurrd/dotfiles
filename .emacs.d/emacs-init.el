@@ -143,7 +143,7 @@
 (setq compilation-scroll-output t)
 (setq gc-cons-threshold 40000000)
 (org-babel-do-load-languages
- 'org-babel-load-languages '((emacs-lisp . t) (sh . t) (C . t)))
+ 'org-babel-load-languages '((emacs-lisp . t) (shell . t) (C . t)))
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -164,7 +164,11 @@
   (exec-path-from-shell-copy-env "PATH")
 )
 
-(use-package zenburn-theme :ensure t)
+(use-package zenburn-theme
+  :ensure t
+  :config
+  (load-theme 'zenburn t)
+)
 
 (setq-default scroll-up-aggressively 0)
 (setq-default scroll-down-aggressively 0)
@@ -172,8 +176,11 @@
 
 (setq org-todo-keyword-faces
       (quote (("TODO"      :foreground "red"          :weight bold)
+              ("BACKLOG"   :foreground "light blue"         :weight bold)
               ("NEXT"      :foreground "blue"         :weight bold)
               ("DONE"      :foreground "forest green" :weight bold)
+              ("IN-PROGRESS"   :foreground "hotpink"         :weight bold)
+              ("SELECTED-FOR-DEVELOPMENT"   :foreground "yellow"  :weight bold)
               ("WAITING"   :foreground "yellow"       :weight bold)
               ("SOMEDAY"   :foreground "goldenrod"    :weight bold)
               ("CANCELLED" :foreground "orangered"    :weight bold)
@@ -199,9 +206,9 @@
   (if (eq system-type 'darwin)
       (progn
         (set-frame-parameter frame 'font '"Source Code Pro for Powerline 13")
-        (set-default-font "Source Code Pro for Powerline 13")
+        (set-frame-font "Source Code Pro for Powerline 13")
         )
-    (set-default-font "Source Code Pro for Powerline 9")
+    (set-frame-font "Source Code Pro for Powerline 9")
     (set-frame-parameter frame 'font '"Source Code Pro for Powerline 9")
   )
 )
@@ -212,10 +219,10 @@
 (push 'fontify-frame after-make-frame-functions)
 
 (if (eq system-type 'darwin)
-    (set-default-font "Source Code Pro for Powerline 13")
+    (set-frame-font "Source Code Pro for Powerline 13")
   (if (string= system-name "checkers")
-      (set-default-font "Monospace 11")
-    (set-default-font "Source Code Pro for Powerline 9")
+      (set-frame-font "Monospace 11")
+    (set-frame-font "Source Code Pro for Powerline 9")
     )
 )
 
@@ -366,8 +373,15 @@
   (interactive (browse-url-interactive-arg "URL: "))
   (if (eq system-type 'darwin)
       (apply #'browse-url-default-macosx-browser url args)
-    (apply #'browse-url url args)
+    (apply #'browse-url-chrome url args)
   )
+)
+
+(defun open-pr-link ()
+  (interactive)
+  (fset 'find-https
+   "\C-shttps:\342\C-ch\C-o")
+  (execute-kbd-macro 'find-https)
 )
 
 (use-package magit
@@ -395,8 +409,14 @@
     :map magit-status-mode-map
     ("q" . 'magit-quit-session)
     :map magit-process-mode-map
-    ("C-c C-o" . 'my-browse-url)
+    ("C-c C-o" . 'open-pr-link)
+    ("C-c h C-o" . 'my-browse-url)
   )
+)
+
+(use-package forge
+  :after magit
+  :ensure t
 )
 
 (use-package keyfreq
@@ -414,8 +434,8 @@
 
 (defun dbu-prettier()
   (interactive)
-  (when (eq major-mode 'js2-mode) (prettier-js))
-  (when (eq major-mode 'rjsx-mode) (prettier-js))
+  ;; (when (eq major-mode 'js2-mode) (prettier-js))
+  ;; (when (eq major-mode 'rjsx-mode) (prettier-js))
   )
 
 (use-package prettier-js
@@ -718,6 +738,18 @@
 	  '(json-jsonlist)))
   (setq-default flycheck-temp-prefix ".flycheck")
   (setq-default flycheck-pylintrc "~/dotfiles/pylintrc")
+
+  :config
+  (flycheck-define-checker npm-groovy-lint
+  "A groovy syntax checker using groovy compiler API.
+  See URL `http://www.groovy-lang.org'."
+    :command ("/home/david/.nvm/versions/node/v12.14.0/bin/node" "/home/david/.nvm/versions/node/v12.14.0/bin/npm-groovy-lint" "--no-insight")
+    :standard-input t
+    :error-patterns
+    ((error line-start "  " line (one-or-more not-newline) "[39m  " (message) line-end))
+    :modes groovy-mode)
+  (add-to-list 'flycheck-checkers 'npm-groovy-lint)
+
 )
 
 (load-file "~/dotfiles/.emacs.d/gotests.el")
@@ -762,8 +794,18 @@
   :ensure t
   )
 
+(defun dbu-groovy-settings ()
+  (setq-default groovy-indent-offset 2)
+  (setq-local company-backends '(company-tabnine company-lsp))
+  (company-mode 1)
+  (flycheck-mode 1)
+)
+
 (use-package groovy-mode
   :ensure t
+  :after (company-tabnine)
+  :config
+  (add-hook 'groovy-mode-hook 'dbu-groovy-settings)
   )
 
 (defun dbu-elm-settings ()
@@ -1080,7 +1122,9 @@ spaces for the rest (the aligment)."
   :ensure t
   :config
   (setq custom-tabnine-always-trigger nil)
-  (setq company-tabnine-insert-arguments nil)
+  (setq company-tabnine-insert-arguments t)
+  (setq company-tabnine-log-file-path "/tmp/tabnine.log")
+  (setq company-tabnine-install-static-binary t)
   :init
   (push 'company-tabnine company-backends)
 )
@@ -1148,7 +1192,7 @@ spaces for the rest (the aligment)."
 (use-package py-isort
  :ensure t
  :config
- (add-hook 'before-save-hook #'py-isort-before-save)
+ ;; (add-hook 'before-save-hook #'py-isort-before-save)
 )
 
 (use-package filladapt
@@ -1196,6 +1240,10 @@ spaces for the rest (the aligment)."
   :config
   (add-hook 'rust-mode-hook 'dbu-rust-settings)
   :hook (rust-mode . lsp)
+)
+
+(use-package jsonnet-mode
+  :ensure t
 )
 
 

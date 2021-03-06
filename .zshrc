@@ -45,7 +45,7 @@ ZSH_THEME="bira"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git battery docker command-not-found kube-ps1)
+plugins=(git battery docker command-not-found kube-ps1 kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -138,3 +138,10 @@ source ~/dotfiles/fzf.zsh
 export PATH="$PATH:/home/david/src/ghidra:/home/david/bin:/home/david/.local/bin"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="/home/david/bin:$PATH"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+#export PATH="$PATH:$HOME/.rvm/bin"
+#source ~/.rvm/scripts/rvm
+export DOCKER_BUILDKIT=1

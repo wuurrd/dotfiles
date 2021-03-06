@@ -14,6 +14,7 @@
 ;;
 
 ;(package-initialize)
+;(setq package-check-signature nil)
 (setq mac-option-key-is-meta t)
 (setq mac-option-modifier 'meta)
 
@@ -95,11 +96,14 @@ Captured %<%Y-%m-%d %H:%M>
   (setq org-latex-listings 'minted)
   (setq org-log-done 'time)
   (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome")
+      browse-url-generic-program "firefox")
   (setq org-todo-keywords
         '((sequence
            "TODO(t)"
+           "BACKLOG(t)"
+           "SELECTED-FOR-DEVELOPMENT(t)"
            "STARTED(s)"
+           "IN-PROGRESS(s)"
            "WAITING(w@/!)"
            "ONGOING(o)"
            "|"
@@ -194,6 +198,9 @@ Captured %<%Y-%m-%d %H:%M>
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ace-isearch-input-length 12)
+ '(custom-safe-themes
+   (quote
+    ("f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" default)))
  '(ecb-options-version "2.40")
  '(ecb-source-path (quote ("~/src")))
  '(ecb-tip-of-the-day nil)
@@ -202,10 +209,10 @@ Captured %<%Y-%m-%d %H:%M>
  '(magit-pull-arguments (quote ("--rebase")))
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/calendar.org" "~/src/exploit/nsm2/report.org" "~/Dropbox/org/fromhome.org" "~/Dropbox/sørkedalsveien/styremote.org" "~/Dropbox/org/organizer.org")))
+    ("~/Dropbox/org/legevaktx.org" "~/Dropbox/org/cognite.org" "~/Dropbox/org/calendar.org" "~/src/exploit/nsm2/report.org" "~/Dropbox/org/fromhome.org" "~/Dropbox/sørkedalsveien/styremote.org" "~/Dropbox/org/organizer.org")))
  '(package-selected-packages
    (quote
-    (terraform-mode oauth2 org-caldav rjsx-mode gnu-elpa-keyring-update yasnippet pager)))
+    (graphql-mode jsonnet-mode forge org-jira cargo flycheck-rust flycheck-rus racer racer-mode flycheck-inline rust-mode poetry syntax-subword dockerfile-mode filladapt py-isort python-black terraform-mode oauth2 org-caldav rjsx-mode gnu-elpa-keyring-update yasnippet pager)))
  '(revert-without-query (quote (".*\\.pdf"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -213,8 +220,10 @@ Captured %<%Y-%m-%d %H:%M>
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(company-template-field ((t (:foreground "#DFAF8F" :background "#2B2B2B"))))
- '(flymake-errline ((((class color)) (:underline "red"))))
- '(flymake-warnline ((((class color)) (:underline "yellow"))))
+ '(flymake-errline ((((class color)) (:underline "red"))) t)
+ '(flymake-error ((((supports :underline (:style wave))) (:underline (:style wave :color "#CC9393") :inherit unspecified :foreground unspecified :background unspecified)) (t (:foreground "#BC8383" :weight bold :underline t))))
+ '(flymake-warning ((((supports :underline (:style wave))) (:underline (:style wave :color "#DFAF8F") :inherit unspecified :foreground unspecified :background unspecified)) (t (:foreground "#DFAF8F" :weight bold :underline t))))
+ '(flymake-warnline ((((class color)) (:underline "yellow"))) t)
  '(js2-error ((((class color)) (:underline "red"))))
  '(js2-external-variable ((((class color)) (:underline "red"))))
  '(mode-line ((t (:background "#7F7F7F" :foreground "#8FB28F" :box nil)))))

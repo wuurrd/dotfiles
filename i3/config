@@ -16,7 +16,7 @@ set $win Mod4
 # is used in the bar {} block below.
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+font "pango:Source Code Pro for Powerline 8"
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
@@ -63,11 +63,11 @@ bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 2%-
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
-bindsym XF86AudioPlay exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
-bindsym XF86AudioNext exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
-bindsym XF86AudioPrev exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
-bindsym XF86Launch9 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
-bindsym XF86Launch8 exec --no-startup-id dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
+bindsym XF86AudioNext exec --no-startup-id playerctl next
+bindsym XF86AudioPrev exec --no-startup-id playerctl previous
+bindsym XF86Launch9 exec --no-startup-id playerctl next
+bindsym XF86Launch8 exec --no-startup-id playerctl previous
 bindsym XF86Display exec --no-startup-id autorandr -c --default laptop
 bindsym Print exec --no-startup-id bash -c "sleep 0.2 && gnome-screenshot -a"
 bindsym $win+Print exec --no-startup-id bash -c "sleep 0.2 && gnome-screenshot"
@@ -81,7 +81,7 @@ bindsym XF86Calculator exec --no-startup-id "gnome-calculator"
 bindsym $mod+Shift+p exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 bindsym $win+space exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 
-bindsym $win+p exec --no-startup-id "bash /home/david/dotfiles/monitor_autoswitch.sh"
+bindsym $win+p exec --no-startup-id "autorandr | rofi -dmenu | cut -d ' ' -f1 | xargs -I{} autorandr -l {}"
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -222,7 +222,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+q mode "resize"
 
 # Window rules
 #for_window [instance="crx_nckgahadagoaajjgafhacjanaoiihapd" class="Google-chrome"] floating enable
@@ -239,7 +239,7 @@ bar {
     status_command i3blocks
     modifier Mod4
     position bottom
-    font pango:Source Code Pro Powerline 8
+    font "pango:Source Code Pro for Powerline 8"
     colors {
         background #383838
         statusline #DCDCCC
