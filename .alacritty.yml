@@ -109,7 +109,7 @@ font:
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`
-  use_thin_strokes: true
+  use_thin_strokes: false
 
 # Display the time it takes to redraw each frame.
 debug.render_timer: false
@@ -124,7 +124,7 @@ colors:
     foreground: '0xd3d7cf'
 
   normal:
-    black:   '0x000000'
+    black:   '0x2e3436'
     red:     '0xc62828'
     green:   '0x558b2f'
     yellow:  '0xf9a825'

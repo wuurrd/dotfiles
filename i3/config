@@ -81,7 +81,7 @@ bindsym XF86Calculator exec --no-startup-id "gnome-calculator"
 bindsym $mod+Shift+p exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 bindsym $win+space exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 
-bindsym $win+p exec --no-startup-id "autorandr | rofi -dmenu | cut -d ' ' -f1 | xargs -I{} autorandr -l {}"
+pbindsym $win+p exec --no-startup-id "autorandr | rofi -dmenu | cut -d ' ' -f1 | xargs -I{} autorandr -l {} && python ~/.config/i3/movetoother.py"
 
 # kill focused window
 bindsym $mod+Shift+c kill

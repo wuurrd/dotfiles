@@ -222,11 +222,8 @@
     # "mod3" and "mod4" (windows-key).
     # Xev might be helpful to find names for keys.
 
-    # Close notification.
-    close = ctrl+space
-
     # Close all notifications.
-    close_all = ctrl+shift+space
+    close_all = ctrl+space
 
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left

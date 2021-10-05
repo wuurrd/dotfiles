@@ -162,6 +162,7 @@
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-copy-env "PATH")
+  (exec-path-from-shell-copy-env "PYTHONPATH")
 )
 
 (use-package zenburn-theme
@@ -498,7 +499,7 @@
   :ensure t
   :config
   (add-hook 'c-mode-hook (lambda () (smartparens-mode 1)))
-  (add-hook 'python-mode-hook (lambda () (smartparens-mode 1)))
+  ;; (add-hook 'python-mode-hook (lambda () (smartparens-mode 1)))
   (add-hook 'js2-mode-hook (lambda () (smartparens-mode 1)))
   (add-hook 'js-mode-hook (lambda () (smartparens-mode 1)))
   (add-hook 'emacs-lisp-mode-hook (lambda () (smartparens-mode 1)))
@@ -569,6 +570,7 @@
 )
 
 (use-package yasnippet
+  :ensure t
   :config
   (add-to-list 'yas-snippet-dirs "~/dotfiles/.emacs.d/yasnippet")
 )
@@ -640,13 +642,6 @@
   (setq lsp-clients-go-format-tool "gofmt")
 )
 
-(use-package company-lsp
-  :ensure t
-  :after company lsp-mode
-  :init
-  (push 'company-lsp company-backends)
-)
-
 (use-package anzu
   :ensure t
   :diminish
@@ -655,15 +650,18 @@
   )
   )
 
-(use-package pyfmt :ensure t)
-
-(use-package jedi :ensure t)
+(use-package jedi
+  :ensure t
+  :config
+  (setq jedi:server-command (list "python3" jedi:server-script))
+)
 
 (defun dbu-python-settings ()
   (setq show-trailing-whitespace t)
   (setq tab-width 4
         py-indent-offset 4
         indent-tabs-mode nil)
+  (lsp)
   (jedi-mode 1)
   ;(auto-complete-mode 1)
   (company-mode 1)
@@ -676,11 +674,18 @@
   (yas/minor-mode-on)
   (flycheck-mode 1)
   (smartparens-mode 1)
+;  (add-hook 'lsp-on-idle-hook #'flycheck-display-error-at-point t)
+  (setq-local lsp-eldoc-enable-hover nil)
+)
+
+(use-package python-pytest
+  :ensure t
+  :config
 )
 
 (use-package python-mode
   :ensure t
-  :after (company-tabnine pyfmt jedi)
+  :after (company-tabnine jedi python-pytest)
   :config
   (add-hook 'python-mode-hook 'dbu-python-settings)
   (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
@@ -689,8 +694,12 @@
   :bind (
     :map python-mode-map
     ("C-c ," . 'xref-pop-marker-stack)
-    ("C-c ." . 'jedi:goto-definition)
+    ("C-c ." . 'xref-find-definitions)
+    ("C-c u" . 'lsp-find-references)
     ("\C-m" . 'newline-and-indent)
+    ("C-x c t" . 'python-pytest-function-dwim)
+    ("C-x c f" . 'python-pytest-file-dwim)
+    ("C-x c d" . 'python-pytest-dispatch)
   )
 )
 
@@ -737,7 +746,6 @@
   (append flycheck-disabled-checkers
 	  '(json-jsonlist)))
   (setq-default flycheck-temp-prefix ".flycheck")
-  (setq-default flycheck-pylintrc "~/dotfiles/pylintrc")
 
   :config
   (flycheck-define-checker npm-groovy-lint
@@ -796,7 +804,7 @@
 
 (defun dbu-groovy-settings ()
   (setq-default groovy-indent-offset 2)
-  (setq-local company-backends '(company-tabnine company-lsp))
+  (setq-local company-backends '(company-tabnine))
   (company-mode 1)
   (flycheck-mode 1)
 )
@@ -1216,7 +1224,7 @@ spaces for the rest (the aligment)."
   (company-mode 1)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
-  (setq-local company-backends '(company-tabnine company-lsp))
+  (setq-local company-backends '(company-tabnine))
   (add-hook 'before-save-hook 'lsp-format-buffer nil t)
 )
 
@@ -1242,7 +1250,19 @@ spaces for the rest (the aligment)."
   :hook (rust-mode . lsp)
 )
 
+(use-package org-jira
+  :ensure t
+  :config
+  (setq jiralib-url "https://cognitedata.atlassian.net")
+  (setq org-jira-use-status-as-todo t)
+  :hook (org-mode . org-jira-mode)
+)
+
 (use-package jsonnet-mode
+  :ensure t
+)
+
+(use-package csv-mode
   :ensure t
 )
 

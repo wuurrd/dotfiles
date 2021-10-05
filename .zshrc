@@ -145,3 +145,10 @@ export PATH="/home/david/bin:$PATH"
 #export PATH="$PATH:$HOME/.rvm/bin"
 #source ~/.rvm/scripts/rvm
 export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+export PYTHONPATH="/home/david/src/ntropy/ntropy-server2"
+
+export PATH="$HOME/.poetry/bin:$PATH"
+eval "$(pyenv init -)"
+export PATH=$(pyenv root)/shims:$PATH
+complete -C '`which aws_completer`' aws
