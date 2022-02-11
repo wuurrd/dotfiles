@@ -62,8 +62,6 @@
       (concat "%^{" org-contacts-email-property "}p")))
 
 
-(use-package org-bullets :ensure t
-  )
 
 (defvar my/org-basic-task-template "* TODO %^{Task}
 :PROPERTIES:
@@ -75,12 +73,64 @@ Captured %<%Y-%m-%d %H:%M>
 %i
 " "Basic task data")
 
+(use-package org-present
+  :ensure t
+  :config
+  (progn)
+  :bind (
+    :map org-mode-map
+    ("C-c C-q" . 'org-agenda)
+  ))
+
+(defun efs/org-font-setup ()
+  ;; Replace list hyphen with dot
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+  ;; Set faces for heading levels
+  (dolist (face '((org-level-1 . 1.2)
+                  (org-level-2 . 1.1)
+                  (org-level-3 . 1.05)
+                  (org-level-4 . 1.0)
+                  (org-level-5 . 1.1)
+                  (org-level-6 . 1.1)
+                  (org-level-7 . 1.1)
+                  (org-level-8 . 1.1)))
+    (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+
+(defun efs/org-mode-setup ()
+  (org-indent-mode)
+  (variable-pitch-mode 1)
+  (visual-line-mode 1))
+
 (use-package org :ensure t
   :commands org-mode
   :after org-bullets
+  :commands (org-capture org-agenda)
+  :hook (org-mode . efs/org-mode-setup)
   :init
+  (setq
+       org-hide-emphasis-markers t
+       org-pretty-entities t
+       org-startup-indented t
+       org-startup-with-inline-images t
+       org-startup-with-latex-preview t
+  )
   (setq org-hide-leading-stars t)
-  (setq org-startup-indented t)
   (setq org-expiry-inactive-timestamps t)
   (setq org-clock-idle-time nil)
   (setq org-log-done 'time)
@@ -166,7 +216,6 @@ Captured %<%Y-%m-%d %H:%M>
   (require 'ox-beamer)
   (add-hook 'org-mode-hook (lambda ()
                              (auto-revert-mode 1)
-                             (org-bullets-mode 1)
                              ))
   (add-to-list 'org-latex-packages-alist '("" "minted"))
   (if (eq system-type 'darwin)
@@ -185,7 +234,33 @@ Captured %<%Y-%m-%d %H:%M>
     ("C-c c" . 'org-capture)
     ("C-c `" . 'org-agenda)
   )
-)
+  )
+
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  :ensure t
+  :custom
+  (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+;; (defun efs/org-mode-visual-fill ()
+;;   (setq visual-fill-column-width 80
+;;         visual-fill-column-center-text t)
+;;   (visual-fill-column-mode 1))
+
+;; (use-package visual-fill-column
+;;   :ensure t
+;;   :hook (org-mode . efs/org-mode-visual-fill))
+
+(use-package org-projectile
+  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
+        )
+  :config
+  (progn
+    (setq org-projectile-projects-file
+          "~/Dropbox/org/projects.org")
+    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+    (push (org-projectile-project-todo-entry) org-capture-templates))
+  :ensure t)
 
 (org-babel-load-file "~/dotfiles/.emacs.d/emacs-init.org")
 ;(load-file "~/dotfiles/.emacs.d/fullscreen.el")
@@ -248,6 +323,7 @@ Captured %<%Y-%m-%d %H:%M>
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:foreground "#DCDCCC" :background "#3F3F3F"))))
  '(company-template-field ((t (:foreground "#DFAF8F" :background "#2B2B2B"))))
  '(flymake-errline ((((class color)) (:underline "red"))) t)
  '(flymake-error ((((class color)) (:underline "red"))))

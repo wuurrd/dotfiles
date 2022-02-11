@@ -143,7 +143,7 @@
 (setq compilation-scroll-output t)
 (setq gc-cons-threshold 40000000)
 (org-babel-do-load-languages
- 'org-babel-load-languages '((emacs-lisp . t) (shell . t) (C . t)))
+ 'org-babel-load-languages '((emacs-lisp . t) (shell . t) (C . t) (python . t)))
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
@@ -169,6 +169,10 @@
   :ensure t
   :config
   (load-theme 'zenburn t)
+  ;; scale headings in org-mode
+  (setq zenburn-scale-org-headlines t)
+  ;; scale headings in outline-mode
+  (setq zenburn-scale-outline-headlines t)
 )
 
 (setq-default scroll-up-aggressively 0)
@@ -247,6 +251,15 @@
   (setq projectile-sort-order 'recently-active)
   :config
   (projectile-global-mode)
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (projectile-register-project-type 'ntropy '("pull_request_template.md")
+                                  :project-file "Makefile"
+                                  :compile "make"
+                                  :test "make test"
+                                  :install "make install"
+                                  :test-prefix "test_"
+                                  )
+
   :bind (
     :map global-map
     ("C-x C-S-p" . 'projectile-find-file-dwim)
@@ -523,6 +536,10 @@
 
 (use-package expand-region
   :ensure t
+  :config
+  (setq expand-region-subword-enabled t)
+  (setq expand-region-guess-python-mode nil)
+  (setq expand-region-preferred-python-mode 'python)
   :bind (
     :map global-map
     ("M-s-SPC" . 'er/expand-region)
@@ -630,6 +647,9 @@
     ("TAB" . (lambda () (interactive) (company-complete-selection)))
     ([tab] . (lambda () (interactive) (company-complete-selection)))
     ("C-h" . nil)
+    ("RET" . nil)
+    ("<return>" . nil)
+    ("C-<return>" . (lambda () (interactive) (company-complete-selection)))
     ;:map company-search-map
     ;([?\t] . company-complete-selection)
   )
@@ -640,6 +660,15 @@
   :diminish
   :config
   (setq lsp-clients-go-format-tool "gofmt")
+  (setq lsp-eldoc-enable-hover nil)
+  (setq lsp-enable-indentation nil)
+  (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-enable-snippet nil)
+  (setq lsp-eldoc-prefer-signature-help nil)
+  (setq lsp-enable-links nil)
+  (setq lsp-signature-auto-activate nil)
+  (setq lsp-enable-semantic-highlighting nil)
 )
 
 (use-package anzu
@@ -665,7 +694,7 @@
   (jedi-mode 1)
   ;(auto-complete-mode 1)
   (company-mode 1)
-  (subword-mode 1)
+ (subword-mode 1)
   ; do not breakline on comments
   (set (make-local-variable 'fill-nobreak-predicate)
        (lambda ()
@@ -675,16 +704,23 @@
   (flycheck-mode 1)
   (smartparens-mode 1)
 ;  (add-hook 'lsp-on-idle-hook #'flycheck-display-error-at-point t)
-  (setq-local lsp-eldoc-enable-hover nil)
 )
 
 (use-package python-pytest
   :ensure t
   :config
+  (require 'cl-lib)
+  (cl-defun python-pytest--run-as-comint (&key command)
+    (projectile-run-compilation command)
+  )
+  (defun python-pytest--switch-to-option (args name on-replacement off-replacement)
+    (if (-contains-p args name)
+        (-replace name off-replacement args)
+      (-snoc args off-replacement))
+  )
 )
 
-(use-package python-mode
-  :ensure t
+(use-package python
   :after (company-tabnine jedi python-pytest)
   :config
   (add-hook 'python-mode-hook 'dbu-python-settings)
@@ -1264,6 +1300,21 @@ spaces for the rest (the aligment)."
 
 (use-package csv-mode
   :ensure t
+)
+
+(use-package ace-window
+   :ensure t
+   :config
+   (global-set-key (kbd "C-M-o") 'ace-window)
+)
+
+(use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1)
+  (setq doom-modeline-major-mode-icon t)
+  :custom
+  ((doom-modeline-height 15))
 )
 
 

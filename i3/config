@@ -41,6 +41,7 @@ exec --no-startup-id "xinput set-int-prop \"DELL08AF:00 06CB:76AF Touchpad\" \"l
 exec --no-startup-id "xfce4-power-manager"
 exec --no-startup-id "caffeine-indicator"
 exec --no-startup-id "blueman-applet"
+exec --no-startup-id "xcompmgr -c"
 
 focus_on_window_activation focus
 focus_follows_mouse yes
@@ -57,8 +58,9 @@ bindsym $mod+Shift+XF86Tools move scratchpad
 bindsym $mod+Shift+F9 move scratchpad
 
 bindsym XF86Launch5 exec --no-startup-id bash -c "~/.config/i3/reset_keyboard.sh"
-bindsym XF86Eject exec --no-startup-id bash -c "~/.config/i3/reset_keyboard.sh"
 bindsym XF86MonBrightnessUp exec "light -A 5; notify-send 'brightness up'"
+bindsym XF86HomePage exec --no-startup-id bash -c "~/.config/i3/reset_keyboard.sh"
+bindsym XF86Eject exec --no-startup-id bash -c "~/.config/i3/reset_keyboard.sh"
 bindsym XF86MonBrightnessDown exec "light -U 5; notify-send 'brightness down'"
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 2%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 2%-
@@ -81,8 +83,9 @@ bindsym XF86Calculator exec --no-startup-id "gnome-calculator"
 bindsym $mod+Shift+p exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 bindsym $win+space exec --no-startup-id "rofi -show run -kb-cancel Escape,Control+c,Control+g"
 
-pbindsym $win+p exec --no-startup-id "autorandr | rofi -dmenu | cut -d ' ' -f1 | xargs -I{} autorandr -l {} && python ~/.config/i3/movetoother.py"
-
+bindsym $win+p exec --no-startup-id "autorandr | rofi -dmenu | cut -d ' ' -f1 | xargs -I{} autorandr -l {} && python ~/.config/i3/movetoother.py"
+bindsym $win+b exec --no-startup-id "bluetoothctl devices | rofi -dmenu | cut -d ' ' -f2 | xargs -I{} bluetoothctl connect {}"
+bindsym $win+n exec --no-startup-id "nmcli device wifi list | grep -v IN-USE | rofi -dmenu | awk '{print $2}' | xargs nmcli c up"
 # kill focused window
 bindsym $mod+Shift+c kill
 
@@ -226,6 +229,7 @@ bindsym $mod+q mode "resize"
 
 # Window rules
 #for_window [instance="crx_nckgahadagoaajjgafhacjanaoiihapd" class="Google-chrome"] floating enable
+for_window [class="zoom"] floating enable
 
 # class                 border  backgr. text    indicator
 client.focused          #7F9F7F #7F9F7F #DCDCCC #7F9F7F
