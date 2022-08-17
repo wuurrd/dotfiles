@@ -4,6 +4,7 @@ disable=
     C0114, # missing-module-docstring
     C0115, # missing-class-docstring
     C0116, # missing-function-docstring
+    C0302, # too-many-lines-in-module
     C0301, # line-too-long
     R0201, # method-could-be-a-function
     R0903, # too-few-public-methods

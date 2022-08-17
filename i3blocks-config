@@ -133,8 +133,8 @@ command=date '+%Y-%m-%d %H:%M:%S'
 interval=10
 
 
-[apt-upgrades]
-command=/home/david/.config/i3blocks/i3blocks-contrib/apt-upgrades/apt-upgrades -N -c "#FF0000"
+[aur-update]
+command=/home/david/.config/i3blocks/i3blocks-contrib/aur-update/aur-update -N -c "#FF0000"
 interval=3600
 
 # Generic media player support

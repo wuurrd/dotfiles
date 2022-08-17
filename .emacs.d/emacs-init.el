@@ -1,3 +1,10 @@
+(require 'recentf)
+(setq recentf-save-file "~/.emacs.d/.local/recentf")
+(setq recentf-max-saved-items 1000)
+(recentf-load-list)
+(defvar recentf-auto-save-timer
+  (run-with-idle-timer 300 t 'recentf-save-list))
+
 (defun other-window-backward ()
   "Select the previous window."
   (interactive)
@@ -305,6 +312,7 @@
     ("M-y" . 'helm-show-kill-ring)
     ("C-x C-f" . 'helm-find-files)
     ("C-x b" . 'helm-buffers-list)
+    ("C-x C-r" . 'helm-recentf)
     :map helm-map
     ("<tab>" . 'helm-execute-persistent-action) ; rebind tab to run persistent action
     ("C-z" . 'helm-select-action) ; list actions using C-z
@@ -456,7 +464,7 @@
   :ensure t
   :init
   (setq prettier-js-command
-        "/home/david/.nvm/versions/node/v11.10.1/lib/node_modules/prettier/bin-prettier.js"
+        "prettier"
         )
   (setq prettier-js-args '(
                            "--single-quote"
@@ -656,20 +664,27 @@
 )
 
 (use-package lsp-mode
+    :ensure t
+    :diminish
+    :config
+    (setq lsp-clients-go-format-tool "gofmt")
+    (setq lsp-eldoc-enable-hover nil)
+    (setq lsp-enable-indentation nil)
+    (setq lsp-enable-symbol-highlighting nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-enable-snippet nil)
+    (setq lsp-eldoc-prefer-signature-help nil)
+    (setq lsp-enable-links nil)
+    (setq lsp-signature-auto-activate nil)
+    (setq lsp-enable-semantic-highlighting nil)
+  )
+
+(use-package lsp-jedi
   :ensure t
-  :diminish
   :config
-  (setq lsp-clients-go-format-tool "gofmt")
-  (setq lsp-eldoc-enable-hover nil)
-  (setq lsp-enable-indentation nil)
-  (setq lsp-enable-symbol-highlighting nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-enable-snippet nil)
-  (setq lsp-eldoc-prefer-signature-help nil)
-  (setq lsp-enable-links nil)
-  (setq lsp-signature-auto-activate nil)
-  (setq lsp-enable-semantic-highlighting nil)
-)
+  (with-eval-after-load "lsp-mode"
+    (add-to-list 'lsp-disabled-clients 'pyls)
+    (add-to-list 'lsp-enabled-clients 'jedi)))
 
 (use-package anzu
   :ensure t
@@ -690,6 +705,7 @@
   (setq tab-width 4
         py-indent-offset 4
         indent-tabs-mode nil)
+  (setq lsp-diagnostic-package :none)
   (lsp)
   (jedi-mode 1)
   ;(auto-complete-mode 1)
@@ -703,6 +719,12 @@
   (yas/minor-mode-on)
   (flycheck-mode 1)
   (smartparens-mode 1)
+  (setq-local flycheck-disabled-checkers
+    (append flycheck-disabled-checkers '(lsp python-pylint)))
+  (setq-local flycheck-checker 'python-flake8)
+  (setq-default flycheck-pylintrc "~/dotfiles/pylintrc")
+  (setq-default flycheck-flake8rc "~/.config/flake8")
+  (setq-default flycheck-python-mypy-config "~/.config/mypy.ini")
 ;  (add-hook 'lsp-on-idle-hook #'flycheck-display-error-at-point t)
 )
 
@@ -793,7 +815,6 @@
     ((error line-start "  " line (one-or-more not-newline) "[39m  " (message) line-end))
     :modes groovy-mode)
   (add-to-list 'flycheck-checkers 'npm-groovy-lint)
-
 )
 
 (load-file "~/dotfiles/.emacs.d/gotests.el")
@@ -1254,6 +1275,8 @@ spaces for the rest (the aligment)."
 )
 
 (defun dbu-rust-settings ()
+  (lsp)
+  (setq-local company-backends '(company-tabnine))
   (subword-mode 1)
   (flycheck-mode 1)
   (auto-complete-mode 0)
@@ -1283,7 +1306,13 @@ spaces for the rest (the aligment)."
   :ensure t
   :config
   (add-hook 'rust-mode-hook 'dbu-rust-settings)
-  :hook (rust-mode . lsp)
+  (add-to-list 'lsp-enabled-clients 'rust-analyzer)
+  :bind (
+    :map rust-mode-map
+    ("C-c ," . 'xref-pop-marker-stack)
+    ("C-c ." . 'xref-find-definitions)
+    ("C-c u" . 'lsp-find-references)
+  )
 )
 
 (use-package org-jira
@@ -1317,7 +1346,42 @@ spaces for the rest (the aligment)."
   ((doom-modeline-height 15))
 )
 
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
+(setq browse-url-browser-function 'browse-url-chrome)
+;;     (use-package copilot
+;;       :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+;;       :ensure t)
+
+;;   (add-hook 'prog-mode-hook 'copilot-mode)
+
+;; (defun my-tab ()
+;;   (interactive)
+;;   (or (copilot-accept-completion)
+;;       (company-indent-or-complete-common nil)))
+
+;; ; modify company-mode behaviors
+;; (with-eval-after-load 'company
+;;   ;; disable inline previews
+;;   (delq 'company-preview-if-just-one-frontend company-frontends)
+
+;;   (define-key company-mode-map (kbd "<tab>") 'my-tab)
+;;   (define-key company-mode-map (kbd "TAB") 'my-tab)
+;;   (define-key company-active-map (kbd "<tab>") 'my-tab)
+;;   (define-key company-active-map (kbd "TAB") 'my-tab))
+
+    ;; you can utilize :map :hook and :config to customize copilot
 
 (let
     ((work "~/Dropbox/org/work.el"))

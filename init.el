@@ -76,6 +76,7 @@ Captured %<%Y-%m-%d %H:%M>
 (use-package org-present
   :ensure t
   :config
+  :after org
   (progn)
   :bind (
     :map org-mode-map
@@ -276,30 +277,25 @@ Captured %<%Y-%m-%d %H:%M>
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
-   (quote
-    ("e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" default)))
+   '("e6df46d5085fde0ad56a46ef69ebb388193080cc9819e2d6024c9c6e27388ba9" "f56eb33cd9f1e49c5df0080a3e8a292e83890a61a89bceeaa481a5f183e8e3ef" default))
  '(ecb-options-version "2.40")
- '(ecb-source-path (quote ("~/src")))
+ '(ecb-source-path '("~/src"))
  '(ecb-tip-of-the-day nil)
  '(ecb-windows-width 0.15)
  '(enable-local-variables :all)
  '(fci-rule-color "#383838")
- '(magit-pull-arguments (quote ("--rebase")))
+ '(magit-pull-arguments '("--rebase"))
  '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+   '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
  '(org-agenda-files
-   (quote
-    ("~/src/ntropy/roadmap.org" "~/Dropbox/org/calendar.org" "~/src/exploit/nsm2/report.org" "~/Dropbox/org/fromhome.org" "~/Dropbox/org/organizer.org")))
+   '("/home/david/Dropbox/org/organizer-work.org" "/home/david/Dropbox/org/calendar.org" "/home/david/Dropbox/org/fromhome.org" "/home/david/Dropbox/org/organizer.org"))
  '(package-selected-packages
-   (quote
-    (csv-mode python-pytest graphql-mode jsonnet-mode forge org-jira cargo flycheck-rust flycheck-rus racer racer-mode flycheck-inline rust-mode poetry syntax-subword dockerfile-mode filladapt py-isort python-black terraform-mode oauth2 org-caldav rjsx-mode gnu-elpa-keyring-update yasnippet pager)))
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(revert-without-query (quote (".*\\.pdf")))
+   '(straight lsp-jedi csv-mode python-pytest graphql-mode jsonnet-mode forge org-jira cargo flycheck-rust flycheck-rus racer racer-mode flycheck-inline rust-mode poetry syntax-subword dockerfile-mode filladapt py-isort python-black terraform-mode oauth2 org-caldav rjsx-mode gnu-elpa-keyring-update yasnippet pager))
+ '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
+ '(revert-without-query '(".*\\.pdf"))
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
+   '((20 . "#BC8383")
      (40 . "#CC9393")
      (60 . "#DFAF8F")
      (80 . "#D0BF8F")
@@ -316,7 +312,7 @@ Captured %<%Y-%m-%d %H:%M>
      (300 . "#7CB8BB")
      (320 . "#8CD0D3")
      (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
+     (360 . "#DC8CC3")))
  '(vc-annotate-very-old-color "#DC8CC3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
