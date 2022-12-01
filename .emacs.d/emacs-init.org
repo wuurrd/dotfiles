@@ -296,6 +296,7 @@
     ("C-c p" . 'projectile-command-map)
   )
 )
+
 (use-package helm-projectile
   :ensure t
   :after (helm projectile)
@@ -313,6 +314,9 @@
       ;; https://github.com/emacs-helm/helm/commit/ff7c54d39501d894fdb06e049828b291327540e6
       (remove-hook 'post-command-hook 'helm--update-header-line))
 
+    (custom-set-variables
+      '(helm-ag-base-command "rg --no-heading")
+      `(helm-ag-success-exit-status '(0 2)))
     (use-package helm
       :after (projectile)
       :init
