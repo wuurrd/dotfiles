@@ -284,6 +284,8 @@ Captured %<%Y-%m-%d %H:%M>
  '(ecb-windows-width 0.15)
  '(enable-local-variables :all)
  '(fci-rule-color "#383838")
+ '(helm-ag-base-command "rg --no-heading")
+ '(helm-ag-success-exit-status '(0 2))
  '(magit-pull-arguments '("--rebase"))
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))
