@@ -399,7 +399,7 @@
   (interactive (browse-url-interactive-arg "URL: "))
   (if (eq system-type 'darwin)
       (apply #'browse-url-default-macosx-browser url args)
-    (apply #'browse-url-chrome url args)
+    (apply #'browse-url-firefox url args)
   )
 )
 
@@ -490,6 +490,15 @@
   :after prettier-js
   :config
   (add-hook 'rjsx-mode-hook 'dbu-js-settings)
+)
+
+
+(use-package typescript-mode
+  :ensure t
+  :config
+  (setq-default typescript-indent-level 2)
+  :hook
+  (typescript-mode . company-mode)
 )
 
 (use-package js2-mode
@@ -1322,7 +1331,6 @@ spaces for the rest (the aligment)."
 (use-package org-jira
   :ensure t
   :config
-  (setq jiralib-url "https://cognitedata.atlassian.net")
   (setq org-jira-use-status-as-todo t)
   :hook (org-mode . org-jira-mode)
 )

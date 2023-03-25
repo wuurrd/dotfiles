@@ -513,44 +513,53 @@
 #+END_SRC
 ** rjsx + js2
 #+BEGIN_SRC emacs-lisp
-(defun dbu-js-settings()
-  (add-hook 'before-save-hook 'dbu-prettier)
-  (setq mode-name "JS2")
-  (smartparens-mode 1)
-  (js2-imenu-extras-mode)
-  (flycheck-mode)
-  (company-mode)
-)
-
-(use-package rjsx-mode
-  :ensure t
-  :after prettier-js
-  :config
-  (add-hook 'rjsx-mode-hook 'dbu-js-settings)
-)
-
-(use-package js2-mode
-  :ensure t
-  :after rjsx-mode
-  :init
-  (setq js2-use-font-lock-faces t
-      js2-mode-must-byte-compile nil
-      js2-idle-timer-delay 0.5 ;; could not be too big for real time syntax check
-      js2-indent-on-enter-key t
-      js2-skip-preprocessor-directives t
-      js2-auto-indent-p t
-      js2-strict-missing-semi-warning nil
-      js2-basic-offset 2
-      js2-bounce-indent-p t)
-  :config
-  (add-hook 'js2-mode-hook 'dbu-js-settings)
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-  :bind (
-    ("M-j" . nil)
-    ("C-c ." . 'ac-js2-jump-to-definition)
-    ("RET" . 'newline-and-indent)
+  (defun dbu-js-settings()
+    (add-hook 'before-save-hook 'dbu-prettier)
+    (setq mode-name "JS2")
+    (smartparens-mode 1)
+    (js2-imenu-extras-mode)
+    (flycheck-mode)
+    (company-mode)
   )
-)
+
+  (use-package rjsx-mode
+    :ensure t
+    :after prettier-js
+    :config
+    (add-hook 'rjsx-mode-hook 'dbu-js-settings)
+  )
+
+
+  (use-package typescript-mode
+    :ensure t
+    :config
+    (setq-default typescript-indent-level 2)
+    :hook
+    (typescript-mode . company-mode)
+  )
+
+  (use-package js2-mode
+    :ensure t
+    :after rjsx-mode
+    :init
+    (setq js2-use-font-lock-faces t
+        js2-mode-must-byte-compile nil
+        js2-idle-timer-delay 0.5 ;; could not be too big for real time syntax check
+        js2-indent-on-enter-key t
+        js2-skip-preprocessor-directives t
+        js2-auto-indent-p t
+        js2-strict-missing-semi-warning nil
+        js2-basic-offset 2
+        js2-bounce-indent-p t)
+    :config
+    (add-hook 'js2-mode-hook 'dbu-js-settings)
+    (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+    :bind (
+      ("M-j" . nil)
+      ("C-c ." . 'ac-js2-jump-to-definition)
+      ("RET" . 'newline-and-indent)
+    )
+  )
 #+END_SRC
 ** smartscan
 #+BEGIN_SRC emacs-lisp
@@ -1291,16 +1300,35 @@ spaces for the rest (the aligment)."
 #+END_SRC
 ** company-tabnine
 #+BEGIN_SRC emacs-lisp
-(use-package company-tabnine
-  :ensure t
-  :config
-  (setq custom-tabnine-always-trigger nil)
-  (setq company-tabnine-insert-arguments t)
-  (setq company-tabnine-log-file-path "/tmp/tabnine.log")
-  (setq company-tabnine-install-static-binary t)
-  :init
-  (push 'company-tabnine company-backends)
-)
+    (use-package company-tabnine
+      :ensure t
+      :config
+      (setq custom-tabnine-always-trigger nil)
+      (setq company-tabnine-insert-arguments t)
+      (setq company-tabnine-log-file-path "/tmp/tabnine.log")
+      (setq company-tabnine-install-static-binary t)
+      :init
+      (push 'company-tabnine company-backends)
+    )
+    ;; With use-package:
+    (use-package company-box
+      :ensure t
+      :hook (company-mode . company-box-mode))
+
+  (use-package copilot
+    :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+    :ensure t
+    :hook
+    (prog-mode-hook . copilot-mode)
+  )
+
+(with-eval-after-load 'company
+  ;; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends))
+  
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  
 #+END_SRC
 ** irony + company-irony
 #+BEGIN_SRC emacs-lisp
@@ -1448,7 +1476,6 @@ spaces for the rest (the aligment)."
 (use-package org-jira
   :ensure t
   :config
-  (setq jiralib-url "https://cognitedata.atlassian.net")
   (setq org-jira-use-status-as-todo t)
   :hook (org-mode . org-jira-mode)
 )
