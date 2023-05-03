@@ -756,7 +756,7 @@
 )
 
 (use-package python
-  :after (company-tabnine jedi python-pytest)
+  :after (jedi python-pytest)
   :config
   (add-hook 'python-mode-hook 'dbu-python-settings)
   (add-to-list 'auto-mode-alist '("\\.tac\\'" . python-mode))
@@ -848,7 +848,7 @@
 (use-package go-mode
   :init
   :ensure t
-  :after (go-guru flycheck gorepl-mode go-impl go-rename gotest company-tabnine)
+  :after (go-guru flycheck gorepl-mode go-impl go-rename gotest)
   :config
   (add-hook 'go-mode-hook 'dbu-go-settings)
   :bind (
@@ -874,21 +874,18 @@
 
 (defun dbu-groovy-settings ()
   (setq-default groovy-indent-offset 2)
-  (setq-local company-backends '(company-tabnine))
   (company-mode 1)
   (flycheck-mode 1)
 )
 
 (use-package groovy-mode
   :ensure t
-  :after (company-tabnine)
   :config
   (add-hook 'groovy-mode-hook 'dbu-groovy-settings)
   )
 
 (defun dbu-elm-settings ()
   (setq elm-format-on-save t)
-  (setq-local company-backends '(company-tabnine))
   (flycheck-mode)
   (company-mode)
   (flycheck-elm-setup)
@@ -1196,16 +1193,24 @@ spaces for the rest (the aligment)."
   )
 )
 
-(use-package company-tabnine
-  :ensure t
-  :config
-  (setq custom-tabnine-always-trigger nil)
-  (setq company-tabnine-insert-arguments t)
-  (setq company-tabnine-log-file-path "/tmp/tabnine.log")
-  (setq company-tabnine-install-static-binary t)
-  :init
-  (push 'company-tabnine company-backends)
-)
+;; (use-package company-tabnine
+    ;;   :ensure t
+    ;;   :config
+    ;;   (setq custom-tabnine-always-trigger nil)
+    ;;   (setq company-tabnine-insert-arguments t)
+    ;;   (setq company-tabnine-log-file-path "/tmp/tabnine.log")
+    ;;   (setq company-tabnine-install-static-binary t)
+    ;;   :init
+    ;;   (push 'company-tabnine company-backends)
+    ;; )
+    ;; With use-package:
+    (use-package company-box
+      :ensure t
+      :hook (company-mode . company-box-mode))
+
+(with-eval-after-load 'company
+  ;; disable inline previews
+  (delq 'company-preview-if-just-one-frontend company-frontends))
 
 (use-package irony
   :ensure t
@@ -1289,14 +1294,12 @@ spaces for the rest (the aligment)."
 
 (defun dbu-rust-settings ()
   (lsp)
-  (setq-local company-backends '(company-tabnine))
   (subword-mode 1)
   (flycheck-mode 1)
   (auto-complete-mode 0)
   (company-mode 1)
   (setq show-trailing-whitespace t)
   (set (make-local-variable 'semantic-mode) nil)
-  (setq-local company-backends '(company-tabnine))
   (add-hook 'before-save-hook 'lsp-format-buffer nil t)
 )
 
@@ -1371,7 +1374,7 @@ spaces for the rest (the aligment)."
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(setq browse-url-browser-function 'browse-url-chrome)
+;;  (setq browse-url-browser-function 'browse-url-chrome)
 ;;     (use-package copilot
 ;;       :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
 ;;       :ensure t)
@@ -1394,6 +1397,17 @@ spaces for the rest (the aligment)."
 ;;   (define-key company-active-map (kbd "TAB") 'my-tab))
 
     ;; you can utilize :map :hook and :config to customize copilot
+  (use-package copilot
+    :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+    :ensure t
+    :hook
+    (prog-mode . copilot-mode)
+    :bind (
+      :map copilot-completion-map
+      ("<tab>" . 'copilot-accept-completion)
+      ("TAB" . 'copilot-accept-completion)
+    )
+  )
 
 (let
     ((work "~/Dropbox/org/work.el"))
